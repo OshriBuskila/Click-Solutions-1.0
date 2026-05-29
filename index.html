@@ -1,0 +1,3647 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Click Solutions — המנוע הטכנולוגי לצמיחת הארגון</title>
+  <meta name="description" content="Click Solutions — הכשרות AI, אוטומציות חכמות ופיתוח ממשקים לארגונים. מעטפת טכנולוגית מותאמת אישית." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════
+       TOKENS
+    ═══════════════════════════════════════ */
+    :root {
+      --paper:   #FAFAF7;
+      --card:    #FFFFFF;
+      --ink:     #0A0A0A;
+      --ink2:    rgba(10,10,10,.62);
+      --ink3:    rgba(10,10,10,.38);
+      --ink4:    rgba(10,10,10,.10);
+      --neon:    #C4F12C;
+      --neon-h:  #A4D612;
+      --neon-glow: rgba(196,241,44,.35);
+      --fg:      #FAFAF7;
+      --fg2:     rgba(250,250,247,.65);
+      --fg3:     rgba(250,250,247,.38);
+      --fg4:     rgba(250,250,247,.12);
+      --font-he: 'Heebo','Rubik',system-ui,sans-serif;
+      --font-en: 'Space Grotesk',system-ui,sans-serif;
+      --font-mo: 'JetBrains Mono',ui-monospace,monospace;
+      --ease:    cubic-bezier(.22,1,.36,1);
+      --nav-h:   68px;
+      --max-w:   1140px;
+      --pad-x:   clamp(20px,4vw,56px);
+    }
+
+    /* ═══════════════════════════════════════
+       RESET
+    ═══════════════════════════════════════ */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:var(--font-he);
+      background:var(--paper);
+      color:var(--ink);
+      line-height:1.65;
+      -webkit-font-smoothing:antialiased;
+      cursor:auto;
+      max-width:100vw;
+    }
+    /* Skip to main content (a11y) */
+    .skip-link{
+      position:absolute;top:-100%;left:50%;transform:translateX(-50%);
+      background:var(--neon);color:var(--ink);
+      font-weight:700;padding:10px 20px;z-index:9999;
+      transition:top .2s;
+    }
+    .skip-link:focus{top:8px}
+    /* Focus-visible rings for keyboard nav */
+    :focus{outline:none}
+    :focus-visible{
+      outline:2px solid var(--neon);
+      outline-offset:3px;
+    }
+    /* cursor defaults to auto */
+    input,textarea,select,[contenteditable]{cursor:text!important}
+    @media(hover:none){body{cursor:auto}}
+    a{text-decoration:none;color:inherit}
+    ul{list-style:none}
+    img{max-width:100%;display:block}
+    button,input,textarea,select{font-family:inherit;font-size:inherit}
+
+
+    /* ═══════════════════════════════════════
+       UTILITIES
+    ═══════════════════════════════════════ */
+    .container{max-width:var(--max-w);margin:0 auto;padding:0 var(--pad-x);width:100%}
+    .tag{
+      display:inline-block;
+      font-family:var(--font-mo);
+      font-size:11px;letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--ink3);
+      margin-bottom:14px;
+    }
+    .tag--neon{color:var(--neon)}
+    .tag--light{color:var(--fg3)}
+    .neon-hl{background:var(--neon);padding:2px 12px;display:inline}
+
+    /* ═══════════════════════════════════════
+       BUTTONS
+    ═══════════════════════════════════════ */
+    @keyframes neonPulse{
+      0%,100%{box-shadow:0 0 18px rgba(196,241,44,.3),0 0 36px rgba(196,241,44,.15)}
+      50%{box-shadow:0 0 32px rgba(196,241,44,.55),0 0 64px rgba(196,241,44,.28)}
+    }
+    @keyframes btnRipple{
+      0%{transform:scale(0);opacity:.6}
+      100%{transform:scale(2.5);opacity:0}
+    }
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      font-family:var(--font-he);font-size:.95rem;font-weight:700;
+      border:none;border-radius:0;cursor:none;
+      padding:13px 26px;
+      position:relative;overflow:hidden;
+      transition:color .25s var(--ease),box-shadow .3s var(--ease),transform .25s var(--ease);
+      text-decoration:none;white-space:nowrap;
+    }
+    .btn::after{
+      content:'';
+      position:absolute;inset:0;
+      background:rgba(255,255,255,.14);
+      transform:translateX(110%) skewX(-12deg);
+      transition:transform .45s var(--ease);
+    }
+    .btn:hover::after{transform:translateX(-110%) skewX(-12deg)}
+    .btn:active{transform:scale(.97)}
+    .btn-primary{
+      background:var(--neon);color:var(--ink);
+      box-shadow:0 0 12px rgba(196,241,44,.25);
+    }
+    .btn-primary:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 28px rgba(196,241,44,.45),0 0 56px rgba(196,241,44,.2);
+      animation:neonPulse 1.8s ease-in-out infinite;
+    }
+    .btn-primary:not(:hover){animation:none}
+    .btn-ghost-light{background:transparent;color:var(--fg);border:1.5px solid rgba(250,250,247,.18)}
+    .btn-ghost-light:hover{
+      background:rgba(196,241,44,.06);
+      border-color:rgba(196,241,44,.5);
+      transform:translateY(-2px);
+      box-shadow:0 6px 20px rgba(196,241,44,.1);
+    }
+    .btn-lg{padding:17px 34px;font-size:1rem}
+    .btn-sm{padding:8px 18px;font-size:.87rem}
+
+    /* ═══════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════ */
+    .navbar{
+      position:fixed;top:0;left:0;right:0;
+      height:var(--nav-h);z-index:100;
+      background:rgba(10,10,10,.7);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(196,241,44,.08);
+      transition:background .3s,box-shadow .3s;
+    }
+    .navbar.light{
+      background:rgba(250,250,247,.9);
+      border-bottom-color:rgba(10,10,10,.08);
+    }
+    .navbar.scrolled{box-shadow:0 4px 32px rgba(0,0,0,.5)}
+    .nav-inner{display:flex;align-items:center;height:100%;gap:28px}
+    .logo{
+      display:inline-flex;align-items:baseline;
+      font-family:var(--font-en);font-weight:700;
+      font-size:18px;letter-spacing:-.05em;
+      color:var(--fg);flex-shrink:0;
+      transition:color .3s;
+      direction:ltr; /* keep cursor on right side of English text */
+    }
+    .navbar.light .logo{color:var(--ink)}
+    .logo-cursor{
+      display:inline-block;width:13px;height:7px;
+      background:var(--neon);
+      margin-left:3px;margin-bottom:2px;vertical-align:baseline;
+      animation:blink 1.1s step-start infinite;
+    }
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    .nav-links{display:flex;gap:26px;margin-right:auto}
+    .nav-links a{
+      font-size:14px;font-weight:500;color:var(--fg2);
+      transition:color .2s;
+    }
+    .navbar.light .nav-links a{color:var(--ink2)}
+    .nav-links a:hover,.nav-links a.nav-active{color:var(--neon)}
+    .navbar.light .nav-links a:hover,.navbar.light .nav-links a.nav-active{color:var(--ink)}
+    .nav-links a.nav-active{position:relative}
+    .nav-links a.nav-active::after{
+      content:'';position:absolute;bottom:-3px;left:0;right:0;height:1.5px;
+      background:var(--neon);
+    }
+    .navbar.light .nav-links a.nav-active::after{background:var(--ink)}
+    .nav-right{display:flex;align-items:center;gap:14px}
+    .nav-phone{font-family:var(--font-mo);font-size:12px;color:var(--fg3);direction:ltr;transition:color .3s}
+    .navbar.light .nav-phone{color:var(--ink3)}
+    .hamburger{display:none;margin-right:auto;background:none;border:none;color:var(--fg);font-size:22px;cursor:none;padding:4px 6px;line-height:1;transition:color .3s}
+    .navbar.light .hamburger{color:var(--ink)}
+
+    /* Mobile */
+    .mobile-drawer{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(10,10,10,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--fg4);z-index:99;padding:22px var(--pad-x) 28px}
+    .mobile-drawer.open{display:block}
+    .mobile-drawer ul{display:flex;flex-direction:column;gap:16px;margin-bottom:20px}
+    .mobile-drawer a{font-size:17px;font-weight:600;color:var(--fg2)}
+    .mobile-drawer a:hover{color:var(--neon)}
+
+    /* ═══════════════════════════════════════
+       HERO (dark, canvas)
+    ═══════════════════════════════════════ */
+    .hero{
+      min-height:100vh;padding-top:var(--nav-h);
+      position:relative;overflow:hidden;
+      background:#0A0A0A;display:flex;align-items:center;
+    }
+    /* canvas + SVG network disabled — clashes with video bg (kept for later use) */
+    #hero-canvas{display:none!important}
+    .hero-bg-net{display:none!important}
+    #hero-glow{display:none!important}
+    /* animations preserved below in case we re-enable */
+    @keyframes hubPulse{0%,100%{opacity:.55}50%{opacity:1}}
+    @keyframes hubGlow{0%,100%{opacity:.45}50%{opacity:1}}
+
+    /* ═══════════════════════════════════════
+       HERO VIDEO — centred looping background
+    ═══════════════════════════════════════ */
+    .hero-video-bg{
+      position:absolute;
+      top:50%;left:0;
+      transform:translateY(-50%);
+      /* left-anchored 16:9 panel */
+      width:82%;
+      aspect-ratio:16/9;
+      pointer-events:none;z-index:1;
+      object-fit:cover;
+      opacity:.58;
+      /* richer colours */
+      filter:saturate(1.3) brightness(1.05);
+      /* vignette: left edge slightly soft, right edge fades strongly
+         into title zone, top+bottom fade from ellipse */
+      -webkit-mask-image:radial-gradient(ellipse 108% 82% at 22% 50%,
+        black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
+              mask-image:radial-gradient(ellipse 108% 82% at 22% 50%,
+        black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
+      will-change:opacity;
+    }
+    @media(max-width:760px){
+      .hero-video-bg{width:100%;opacity:.24;filter:none}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .hero-video-bg{opacity:0}
+    }
+
+    /* ═══════════════════════════════════════
+       HERO CINEMA — 3-scene cycling background
+    ═══════════════════════════════════════ */
+    .hero-cinema{
+      display:none!important; /* stored for re-use elsewhere — not in hero for now */
+    }
+    .cine-scene{
+      position:absolute;inset:0;
+      display:flex;align-items:center;justify-content:center;
+      opacity:0;will-change:opacity,transform,filter;
+      animation-duration:27s;animation-iteration-count:infinite;
+      animation-timing-function:cubic-bezier(.4,0,.2,1);
+    }
+    /* Master 3-scene cycle — 9s per scene (8s visible + 1s crossfade) */
+    @keyframes cine1{
+      0%,3%   {opacity:1;transform:scale(1);filter:blur(0)}
+      30%     {opacity:1;transform:scale(1.05);filter:blur(0)}
+      36%,93% {opacity:0;transform:scale(1.15);filter:blur(8px)}
+      99%,100%{opacity:1;transform:scale(1);filter:blur(0)}
+    }
+    @keyframes cine2{
+      0%,30%  {opacity:0;transform:scale(.92);filter:blur(8px)}
+      36%,55% {opacity:1;transform:scale(1);filter:blur(0)}
+      63%     {opacity:1;transform:scale(1.05);filter:blur(0)}
+      69%,100%{opacity:0;transform:scale(1.15);filter:blur(8px)}
+    }
+    @keyframes cine3{
+      0%,63%  {opacity:0;transform:scale(.92);filter:blur(8px)}
+      69%,88% {opacity:1;transform:scale(1);filter:blur(0)}
+      96%,100%{opacity:0;transform:scale(1.08);filter:blur(6px)}
+    }
+    .cine-1{animation-name:cine1}
+    .cine-2{animation-name:cine2}
+    .cine-3{animation-name:cine3}
+
+    /* ── Scene 1: CODE — positioned on the LEFT side (where the terminal was), not full-width ── */
+    .cine-1{justify-content:flex-start;direction:ltr}
+    .cine-code-wrap{
+      direction:ltr;text-align:left;
+      font-family:var(--font-mo);font-size:clamp(13px,1.35vw,20px);
+      line-height:1.7;color:rgba(250,250,247,.85);
+      max-width:560px;padding:0 4% 0 6%;
+      letter-spacing:-.01em;
+    }
+    .cine-code-wrap .ln{
+      display:block;opacity:0;
+      animation:codeReveal .5s var(--ease) forwards;
+    }
+    .cine-code-wrap .kw{color:#A4D612;font-weight:600}
+    .cine-code-wrap .fn{color:#F2F49E}
+    .cine-code-wrap .attr{color:#FAFAF7;opacity:.95}
+    .cine-code-wrap .str{color:#C4F12C}
+    .cine-code-wrap .num{color:#FAFAF7}
+    .cine-code-wrap .cm{color:rgba(196,241,44,.55);font-style:italic}
+    .cine-code-wrap .ok{color:var(--neon)}
+    .cine-code-wrap .cursor-blink{
+      display:inline-block;width:.55em;height:1em;background:var(--neon);
+      vertical-align:text-bottom;animation:blink 1s steps(1) infinite;margin-left:2px;
+    }
+    @keyframes codeReveal{
+      from{opacity:0;transform:translateY(8px)}
+      to  {opacity:1;transform:translateY(0)}
+    }
+    /* Stagger each line — only within scene-1's visible window (0–9s of 27s cycle) */
+    .cine-1 .ln:nth-child(1) {animation-delay:.4s}
+    .cine-1 .ln:nth-child(2) {animation-delay:.9s}
+    .cine-1 .ln:nth-child(3) {animation-delay:1.4s}
+    .cine-1 .ln:nth-child(4) {animation-delay:1.9s}
+    .cine-1 .ln:nth-child(5) {animation-delay:2.4s}
+    .cine-1 .ln:nth-child(6) {animation-delay:2.9s}
+    .cine-1 .ln:nth-child(7) {animation-delay:3.4s}
+    .cine-1 .ln:nth-child(8) {animation-delay:4.0s}
+    .cine-1 .ln:nth-child(9) {animation-delay:4.5s}
+    .cine-1 .ln:nth-child(10){animation-delay:5.0s}
+    .cine-1 .ln:nth-child(11){animation-delay:5.5s}
+
+    /* ── Scene 2: AUTOMATION FLOW — pushed LEFT (LTR) to live in the unmasked zone ── */
+    .cine-2,.cine-3{justify-content:flex-start;direction:ltr;padding-left:2vw}
+    .cine-flow{width:100%;height:100%;max-width:520px;max-height:560px}
+    /* CSS transform would clobber the SVG translate(...) attribute, so animate opacity only */
+    @keyframes flowPulse{
+      0%,100%{opacity:.55}
+      50%    {opacity:1}
+    }
+    .cine-flow .flow-pulse-1{animation:flowPulse 2.4s ease-in-out infinite}
+    .cine-flow .flow-pulse-2{animation:flowPulse 2.4s ease-in-out .4s infinite}
+    .cine-flow .flow-pulse-3{animation:flowPulse 2.4s ease-in-out .8s infinite}
+    .cine-flow .flow-pulse-4{animation:flowPulse 2.4s ease-in-out 1.2s infinite}
+    .cine-flow .flow-pulse-5{animation:flowPulse 2.4s ease-in-out 1.6s infinite}
+
+    /* ── Scene 3: CLASSROOM (also LEFT-aligned via .cine-2,.cine-3 rule above) ── */
+    .cine-class{width:100%;height:100%;max-width:520px;max-height:560px}
+    @keyframes classLight{
+      0%,100%{opacity:.18}
+      50%    {opacity:.85}
+    }
+    .cine-class .desk-1{animation:classLight 3.2s ease-in-out infinite}
+    .cine-class .desk-2{animation:classLight 3.2s ease-in-out .3s infinite}
+    .cine-class .desk-3{animation:classLight 3.2s ease-in-out .6s infinite}
+    .cine-class .desk-4{animation:classLight 3.2s ease-in-out .9s infinite}
+    .cine-class .desk-5{animation:classLight 3.2s ease-in-out 1.2s infinite}
+    .cine-class .desk-6{animation:classLight 3.2s ease-in-out 1.5s infinite}
+    .cine-class .desk-7{animation:classLight 3.2s ease-in-out 1.8s infinite}
+    .cine-class .desk-8{animation:classLight 3.2s ease-in-out 2.1s infinite}
+    .cine-class .desk-9{animation:classLight 3.2s ease-in-out 2.4s infinite}
+    @keyframes beamFlow{
+      0%  {stroke-dashoffset:0}
+      100%{stroke-dashoffset:-30}
+    }
+    .cine-class .beam{animation:beamFlow 1.8s linear infinite}
+
+    /* Scene labels removed — kept here as anchor for future use */
+    .cine-label{display:none}
+
+    /* Performance + accessibility */
+    @media(max-width:760px){
+      .hero-cinema{opacity:.32}
+      .cine-scene{filter:none!important}
+      .cine-code-wrap{font-size:13px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .cine-scene,.cine-code-wrap .ln,.cine-flow .flow-node,.cine-class [class^="desk-"],.cine-class .beam{
+        animation:none
+      }
+      .cine-1{opacity:1}
+      .cine-2,.cine-3{display:none}
+    }
+
+    /* gradient mesh */
+    .hero-mesh{
+      position:absolute;inset:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(196,241,44,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(196,241,44,.05) 0%, transparent 60%);
+    }
+
+    /* hero terminal — hidden; the cinema layer now provides the dynamic code/automation/classroom visuals */
+    .hero-terminal{display:none!important;
+      width:420px;flex-shrink:0;
+      background:#080808;
+      border:1px solid rgba(196,241,44,.18);
+      box-shadow:0 0 60px rgba(196,241,44,.08), 0 24px 80px rgba(0,0,0,.6);
+      min-height:280px;direction:ltr;
+      opacity:0;animation:fadeUp .8s var(--ease) 1.4s forwards;
+      position:relative;overflow:hidden;
+    }
+    .hero-terminal::before{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.08) 2px,rgba(0,0,0,.08) 4px);
+    }
+    .ht-bar{
+      display:flex;align-items:center;gap:6px;
+      padding:10px 14px;border-bottom:1px solid rgba(196,241,44,.1);
+      background:rgba(196,241,44,.03);
+    }
+    .ht-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .ht-dot:nth-child(1){background:rgba(255,95,86,.5)}
+    .ht-dot:nth-child(2){background:rgba(255,189,68,.5)}
+    .ht-dot:nth-child(3){background:rgba(39,201,63,.5)}
+    .ht-fname{font-family:var(--font-mo);font-size:9px;color:rgba(196,241,44,.3);letter-spacing:.5px;margin-left:auto}
+    .ht-body{padding:16px 18px;font-family:var(--font-mo);font-size:11px;line-height:1.85}
+    .ht-prompt{color:rgba(196,241,44,.5)}
+    .ht-q{color:rgba(250,250,247,.75)}
+    .ht-line{display:flex;gap:9px;margin-bottom:3px}
+    .ht-line--ans{padding-right:16px}
+    .ht-ans{color:rgba(250,250,247,.5)}
+    .ht-ok{color:var(--neon);font-weight:700}
+    .ht-dim{color:rgba(250,250,247,.2)}
+    .ht-cursor{
+      display:inline-block;width:6px;height:11px;
+      background:var(--neon);vertical-align:middle;
+      animation:blink .9s step-end infinite;
+    }
+    /* neon-word rotate */
+    .neon-word-wrap{
+      position:relative;display:inline-block;
+      overflow:hidden;vertical-align:bottom;
+    }
+    .neon-word{
+      background:var(--neon);color:var(--ink);padding:0 10px;
+      display:inline-block;
+      transition:opacity .35s var(--ease),transform .35s var(--ease);
+    }
+    .neon-word.fade-out{opacity:0;transform:translateY(-14px)}
+    .neon-word.fade-in{opacity:0;transform:translateY(14px)}
+    /* hero 2-col layout */
+    .hero-inner{
+      position:relative;z-index:1;padding:80px 0 100px;
+      display:flex;align-items:center;
+      width:100%;
+    }
+    /* Title occupies the right portion; video/network breathe on the left.
+       margin-inline-end:auto in RTL pushes the block to the right (start edge). */
+    .hero-content{
+      flex:none;
+      width:min(580px, 55%);
+      margin-inline-end:auto; /* RTL: pushes content toward right edge */
+    }
+    @media(max-width:860px){
+      .hero-inner{flex-direction:column;align-items:flex-start;padding:64px 0 72px}
+      .hero-content{width:100%;margin-inline-end:0}
+    }
+
+    /* mouse-glow */
+    #hero-glow{
+      position:absolute;width:500px;height:500px;border-radius:50%;
+      background:radial-gradient(circle,rgba(196,241,44,.12) 0%,transparent 70%);
+      filter:blur(40px);
+      pointer-events:none;
+      transform:translate(-50%,-50%);
+      transition:none;
+      will-change:transform;
+    }
+
+    .hero-inner{z-index:5}
+    .hero-eyebrow{
+      font-family:var(--font-mo);font-size:11px;
+      letter-spacing:2.4px;text-transform:uppercase;
+      color:var(--fg3);margin-bottom:22px;
+      opacity:0;animation:fadeUp .7s var(--ease) .2s forwards;
+    }
+    .hero-h1{
+      font-family:var(--font-he);font-weight:900;
+      font-size:clamp(34px,5vw,68px);
+      line-height:1.06;letter-spacing:-.03em;
+      color:var(--fg);margin-bottom:22px;
+    }
+    @keyframes wordUp{
+      from{opacity:0;transform:translateY(40px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    .hero-word{
+      display:inline-block;
+      opacity:0;
+      animation:wordUp .7s var(--ease) forwards;
+    }
+    .hero-word:nth-of-type(1){animation-delay:.4s}
+    .hero-word:nth-of-type(2){animation-delay:.55s}
+    .hero-word:nth-of-type(3){animation-delay:.7s}
+    .hero-word:nth-of-type(4){animation-delay:.85s}
+    .hero-word:nth-of-type(5){animation-delay:1.0s}
+    .hero-word.visible{opacity:1;transform:translateY(0)}
+    .neon-word{
+      background:var(--neon);
+      color:var(--ink);
+      padding:0 10px;
+    }
+    .hero-sub{
+      font-size:clamp(16px,1.8vw,19px);
+      color:var(--fg2);line-height:1.75;max-width:600px;
+      margin-bottom:36px;
+      opacity:0;animation:fadeUp .7s var(--ease) 1.1s forwards;
+    }
+    .hero-actions{
+      display:flex;gap:14px;flex-wrap:wrap;
+      opacity:0;animation:fadeUp .7s var(--ease) 1.35s forwards;
+    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+
+    /* ═══════════════════════════════════════
+       LOGO BAR (trusted by)
+    ═══════════════════════════════════════ */
+    .logo-bar{
+      display:none;
+    }
+    .logo-bar::before,.logo-bar::after{
+      content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;
+    }
+    .logo-bar::before{left:0;background:linear-gradient(to right,#0A0A0A,transparent)}
+    .logo-bar::after{right:0;background:linear-gradient(to left,#0A0A0A,transparent)}
+    .logo-bar-inner{
+      display:flex;align-items:center;gap:0;
+      padding:0 clamp(20px,4vw,56px);
+    }
+    .logo-bar-label{
+      font-family:var(--font-mo);font-size:9px;letter-spacing:2px;
+      text-transform:uppercase;color:rgba(250,250,247,.2);
+      white-space:nowrap;padding-left:32px;flex-shrink:0;
+    }
+    .logo-bar-divider{
+      width:1px;height:28px;background:rgba(196,241,44,.1);
+      margin:0 28px;flex-shrink:0;
+    }
+    .logo-bar-list{
+      display:flex;align-items:center;gap:0;flex:1;
+      justify-content:space-between;
+    }
+    .logo-bar-item{
+      font-family:var(--font-mo);font-size:10px;letter-spacing:1.8px;
+      text-transform:uppercase;color:rgba(250,250,247,.22);
+      white-space:nowrap;padding:6px 18px;
+      transition:color .3s var(--ease);
+      cursor:default;position:relative;
+    }
+    .logo-bar-item::after{
+      content:'';position:absolute;bottom:0;left:18px;right:18px;height:1px;
+      background:var(--neon);transform:scaleX(0);transform-origin:left;
+      transition:transform .35s var(--ease);
+    }
+    .logo-bar-item:hover{color:rgba(196,241,44,.7)}
+    .logo-bar-item:hover::after{transform:scaleX(1)}
+    @media(max-width:900px){
+      .logo-bar-list{gap:0;justify-content:flex-start;overflow-x:auto;scrollbar-width:none}
+      .logo-bar-list::-webkit-scrollbar{display:none}
+      .logo-bar-item{flex-shrink:0}
+    }
+
+    /* ═══════════════════════════════════════
+       SERVICE SECTIONS (3 dedicated)
+    ═══════════════════════════════════════ */
+    /* shared section chrome */
+    .sec-header{margin-bottom:52px}
+    .section-title{
+      font-family:var(--font-he);font-weight:900;
+      font-size:clamp(30px,4vw,50px);
+      line-height:1.06;letter-spacing:-.025em;margin-bottom:14px;
+    }
+    .section-title--light{color:var(--fg)}
+    .section-sub{font-size:17px;line-height:1.75;max-width:560px;margin-bottom:0}
+    .section-sub--light{color:var(--fg2)}
+
+    /* ── shared 2-col layout ── */
+    .svc-section{padding:100px 0;position:relative;overflow:hidden}
+    .svc-section--paper{background:var(--paper);border-top:1px solid var(--ink4)}
+    .svc-section--dark{background:var(--ink);border-top:1px solid rgba(196,241,44,.08)}
+    .svc-section--deep{background:#0C0C0C;border-top:1px solid rgba(196,241,44,.06)}
+    .svc-2col{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:clamp(40px,6vw,88px);align-items:center;
+    }
+    .svc-2col--rev .svc-text{order:2}
+    .svc-2col--rev .svc-vis{order:1}
+    .svc-kicker{
+      font-family:var(--font-mo);font-size:9px;letter-spacing:2.5px;
+      text-transform:uppercase;color:var(--neon-h);margin-bottom:14px;display:block;
+    }
+    .svc-h2{
+      font-family:var(--font-he);font-weight:900;
+      font-size:clamp(26px,3.2vw,44px);
+      letter-spacing:-.025em;line-height:1.1;margin-bottom:16px;
+    }
+    .svc-section--paper .svc-h2{color:var(--ink)}
+    .svc-section--dark .svc-h2,.svc-section--deep .svc-h2{color:var(--fg)}
+    .svc-p{font-size:15px;line-height:1.78;max-width:460px;margin-bottom:24px}
+    .svc-section--paper .svc-p{color:var(--ink2)}
+    .svc-section--dark .svc-p,.svc-section--deep .svc-p{color:var(--fg2)}
+    .svc-feats{display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
+    .svc-feat{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.5}
+    .svc-section--paper .svc-feat{color:var(--ink2)}
+    .svc-section--dark .svc-feat,.svc-section--deep .svc-feat{color:var(--fg2)}
+    .svc-feat-dot{
+      width:5px;height:5px;background:var(--neon-h);border-radius:50%;
+      flex-shrink:0;margin-top:6px;
+    }
+    .svc-badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .svc-badge{
+      font-family:var(--font-mo);font-size:9.5px;letter-spacing:1.5px;
+      text-transform:uppercase;border:1px solid rgba(196,241,44,.2);
+      color:rgba(196,241,44,.55);padding:6px 12px;
+    }
+    /* Override for paper (light) sections — badges become dark */
+    .svc-section--paper .svc-badge{
+      border-color:rgba(10,10,10,.14);
+      color:rgba(10,10,10,.72);
+      background:rgba(10,10,10,.04);
+    }
+    .svc-vis{position:relative;min-height:360px;display:flex;align-items:center;justify-content:center}
+
+    /* ── Section 1: Training photo ── */
+    .train-img-wrap{
+      position:relative;
+      width:100%;
+      align-self:center;
+    }
+    .train-hero-img{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:14px;
+    }
+
+    /* ── Section 2: Automation node network ── */
+    .auto-svg{width:100%;height:340px;display:block;overflow:visible}
+    .a-edge{stroke:rgba(196,241,44,.10);stroke-width:1;fill:none;stroke-dasharray:5 4}
+    .a-edge--hi{stroke:rgba(196,241,44,.22);stroke-dasharray:6 3}
+    .a-node-outer{fill:none;stroke:rgba(196,241,44,.12);stroke-width:1;stroke-dasharray:3 3}
+    .a-node-core{fill:#0A0A0A;stroke:rgba(196,241,44,.28);stroke-width:1.5}
+    .a-node-core--hub{fill:rgba(196,241,44,.07);stroke:var(--neon-h);stroke-width:2;filter:drop-shadow(0 0 8px rgba(196,241,44,.3))}
+    .a-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;text-anchor:middle;letter-spacing:.5px;fill:rgba(250,250,247,.4)}
+    .a-label--hub{fill:rgba(196,241,44,.85);font-size:8px;letter-spacing:1px}
+    .a-sublabel{font-family:'JetBrains Mono',monospace;font-size:6px;text-anchor:middle;fill:rgba(250,250,247,.22);letter-spacing:.3px}
+    .a-dot{fill:var(--neon)}
+
+    /* ── Section 3: Development visual ── */
+    .dev-split{display:grid;grid-template-columns:1.1fr .95fr;gap:14px;width:100%;max-width:520px;direction:ltr}
+    .dev-panel{background:#080808;border:1px solid rgba(196,241,44,.12);overflow:hidden}
+    .dev-topbar{
+      height:28px;background:#050505;
+      border-bottom:1px solid rgba(196,241,44,.07);
+      display:flex;align-items:center;padding:0 10px;gap:5px;flex-shrink:0;
+    }
+    .dev-dot{width:7px;height:7px;border-radius:50%}
+    .dev-dot:nth-child(1){background:rgba(255,95,86,.4)}
+    .dev-dot:nth-child(2){background:rgba(255,189,68,.4)}
+    .dev-dot:nth-child(3){background:rgba(39,201,63,.4)}
+    .dev-fname{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:rgba(250,250,247,.2);margin-left:auto;letter-spacing:.3px}
+    .dev-code-body{padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:9.5px;line-height:1.7}
+    .d-ln{color:rgba(250,250,247,.12);user-select:none;display:inline-block;min-width:16px;text-align:right;margin-right:10px}
+    .d-kw{color:rgba(196,241,44,.8)}
+    .d-fn{color:rgba(130,200,255,.75)}
+    .d-attr{color:rgba(255,160,80,.75)}
+    .d-str{color:rgba(255,110,110,.7)}
+    .d-tx{color:rgba(250,250,247,.58)}
+    .d-cm{color:rgba(250,250,247,.2)}
+    .d-cur{display:inline-block;width:5px;height:9px;background:var(--neon);vertical-align:middle;animation:blink .9s step-end infinite}
+    /* wireframe panel */
+    .dev-wf-body{padding:8px 10px}
+    .dev-wf-nav{
+      height:20px;background:rgba(196,241,44,.03);
+      border-bottom:1px solid rgba(196,241,44,.05);
+      margin:-8px -10px 10px;padding:0 10px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .dev-nav-pill{height:5px;background:rgba(196,241,44,.12);flex:1}
+    .dev-nav-pill:first-child{background:rgba(196,241,44,.3);max-width:40px}
+    .dev-kpi-row{display:flex;gap:6px;margin-bottom:8px}
+    .dev-kpi{
+      flex:1;padding:5px 7px;
+      background:rgba(196,241,44,.03);border:1px solid rgba(196,241,44,.07);
+    }
+    .dev-kpi-val{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(196,241,44,.55);display:block}
+    .dev-kpi-lbl{font-family:'JetBrains Mono',monospace;font-size:6.5px;color:rgba(250,250,247,.18);letter-spacing:.5px}
+    .dev-table{width:100%;border-collapse:collapse;margin-bottom:8px}
+    .dev-tr{height:9px}
+    .dev-tr:nth-child(odd) td{background:rgba(250,250,247,.04)}
+    .dev-tr td{border-bottom:1px solid rgba(250,250,247,.03);font-family:'JetBrains Mono',monospace;font-size:6px;color:rgba(250,250,247,.15);padding:0 3px}
+    .dev-chart{height:36px;display:block;width:100%;overflow:visible}
+    .dev-chart-area{fill:rgba(196,241,44,.05)}
+    .dev-chart-line{fill:none;stroke:rgba(196,241,44,.4);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    @keyframes spin{from{transform-origin:center;transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+    /* ═══════════════════════════════════════
+       STACK MARQUEE
+    ═══════════════════════════════════════ */
+    .stack{
+      background:#050505;
+      padding:0;
+      overflow:hidden;
+      position:relative;
+      border-top:1px solid rgba(196,241,44,.08);
+      border-bottom:1px solid rgba(196,241,44,.08);
+    }
+    /* scanline texture overlay */
+    .stack::before{
+      content:'';
+      position:absolute;inset:0;
+      background:repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,.18) 2px,
+        rgba(0,0,0,.18) 4px
+      );
+      pointer-events:none;
+      z-index:2;
+    }
+    .stack-header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:38px clamp(20px,5vw,80px) 0;
+      position:relative;z-index:3;
+    }
+    .stack-title{
+      font-family:var(--font-en);
+      font-size:clamp(11px,1.5vw,13px);
+      font-weight:700;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(250,250,247,.18);
+    }
+    .stack-live{
+      display:flex;align-items:center;gap:7px;
+      font-family:var(--font-mo);font-size:10px;letter-spacing:.1em;
+      color:rgba(196,241,44,.55);
+    }
+    .stack-live-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:var(--neon);
+      box-shadow:0 0 8px rgba(196,241,44,.8);
+      animation:livePulse 1.6s ease-in-out infinite;
+    }
+    @keyframes livePulse{
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:.4;transform:scale(.75)}
+    }
+    .stack-count{
+      font-family:var(--font-mo);font-size:9px;
+      color:rgba(250,250,247,.16);
+      letter-spacing:.05em;
+    }
+    /* marquee wrapper */
+    .stack-marquee-wrap{
+      margin:28px 0 38px;
+      display:flex;flex-direction:column;gap:0;
+      position:relative;z-index:3;
+    }
+    .stack-row{
+      overflow:hidden;
+      padding:10px 0;
+      mask-image:linear-gradient(to right,transparent 0%,#000 10%,#000 90%,transparent 100%);
+      -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 10%,#000 90%,transparent 100%);
+    }
+    .stack-row--alt{
+      border-top:1px solid rgba(196,241,44,.05);
+      border-bottom:1px solid rgba(196,241,44,.05);
+    }
+    .stack-track{
+      display:flex;align-items:center;gap:0;
+      width:max-content;
+      will-change:transform;
+    }
+    .stack-row:not(.stack-row--rev) .stack-track{
+      animation:mqFwd 28s linear infinite;
+    }
+    .stack-row--rev .stack-track{
+      animation:mqRev 22s linear infinite;
+    }
+    @keyframes mqFwd{
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+    @keyframes mqRev{
+      from{transform:translateX(-50%)}
+      to{transform:translateX(0)}
+    }
+    /* pause on hover */
+    .stack-row:hover .stack-track{animation-play-state:paused}
+
+    .mq-item{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:0 32px;
+      font-family:var(--font-en);
+      font-size:clamp(13px,1.8vw,16px);
+      font-weight:600;
+      letter-spacing:.06em;
+      white-space:nowrap;
+      color:rgba(250,250,247,.22);
+      position:relative;
+      transition:color .25s;
+      cursor:default;
+    }
+    .mq-item::after{
+      content:'✦';
+      font-size:7px;
+      color:rgba(196,241,44,.2);
+      margin-left:32px;
+    }
+    .mq-item--hi{color:rgba(250,250,247,.72)}
+    .mq-item--neon{color:var(--neon);text-shadow:0 0 18px rgba(196,241,44,.35)}
+    .mq-item--mid{color:rgba(250,250,247,.42)}
+    .mq-item:hover{color:rgba(250,250,247,.95)}
+    /* category dot prefix */
+    .mq-dot{
+      width:5px;height:5px;border-radius:50%;
+      flex-shrink:0;
+    }
+    .mq-dot--ai{background:var(--neon);box-shadow:0 0 6px rgba(196,241,44,.6)}
+    .mq-dot--auto{background:rgba(120,180,255,.7)}
+    .mq-dot--biz{background:rgba(255,160,80,.6)}
+
+    /* ═══════════════════════════════════════
+       PROCESS
+    ═══════════════════════════════════════ */
+    .process{background:var(--paper);padding:0 0 92px;border-top:1px solid var(--ink4);position:relative}
+    /* scroll progress bar */
+    .process-progress{
+      position:sticky;top:var(--nav-h);
+      height:2px;z-index:10;overflow:hidden;
+      background:var(--ink4);
+    }
+    .process-progress-fill{
+      height:100%;width:0%;
+      background:linear-gradient(90deg,var(--neon-h),var(--neon));
+      transition:width .1s linear;
+    }
+    .process-inner{padding:72px 0 0}
+    .process-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      position:relative;gap:0;
+      border:1.5px solid var(--ink4);overflow:hidden;
+    }
+    /* animated connector line */
+    @keyframes travelDot{
+      0%{left:0;opacity:0}
+      5%{opacity:1}
+      95%{opacity:1}
+      100%{left:100%;opacity:0}
+    }
+    .process-line{
+      position:absolute;top:50%;height:2px;
+      left:33.33%;right:33.33%;
+      background:linear-gradient(90deg,transparent,var(--neon) 20%,var(--neon) 80%,transparent);
+      transform:scaleX(0) translateY(-50%);transform-origin:left;
+      transition:transform 1.2s var(--ease);
+      z-index:1;overflow:visible;
+    }
+    .process-line.visible{transform:scaleX(1) translateY(-50%)}
+    .process-line::after{
+      content:'';
+      position:absolute;top:50%;
+      width:12px;height:12px;border-radius:50%;
+      background:var(--neon);
+      box-shadow:0 0 16px var(--neon),0 0 32px rgba(196,241,44,.5);
+      transform:translateY(-50%);
+      opacity:0;
+    }
+    .process-line.visible::after{
+      animation:travelDot 2.5s var(--ease) 1.3s infinite;
+    }
+    .process-step{
+      padding:30px 26px;background:var(--paper);
+      border-left:1.5px solid var(--ink4);
+      transition:background .3s,transform .3s;
+      position:relative;
+    }
+    .process-step:first-child{border-left:none}
+    .process-step:hover{background:var(--card);transform:translateY(-4px)}
+    .step-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+    .step-desc{font-size:13.5px;color:var(--ink2);line-height:1.7}
+
+    /* ── Process card visual panels ── */
+    .step-visual{
+      margin:-30px -26px 22px;
+      height:150px;overflow:hidden;position:relative;
+      background:#0F0F0F;
+      border-bottom:1px solid rgba(10,10,10,.08);
+    }
+    .step-visual::after{
+      content:'';position:absolute;bottom:0;left:0;right:0;height:22px;
+      background:linear-gradient(to bottom,transparent,#0F0F0F);
+      pointer-events:none;
+    }
+    /* ── Step 1: radar primitives ── */
+    .radar-ring{fill:none;stroke:rgba(250,250,247,.07);stroke-width:1}
+    .radar-cross{stroke:rgba(250,250,247,.04);stroke-width:1}
+    .radar-sweep{stroke:rgba(196,241,44,.65);stroke-width:1.5}
+    .radar-glow{fill:rgba(196,241,44,.15);animation:blipPulse 4s ease-in-out infinite}
+    .radar-core{fill:rgba(196,241,44,.8);animation:blipPulse 4s ease-in-out infinite}
+    .radar-lbl{font-family:'JetBrains Mono',monospace;font-size:6.5px;fill:rgba(196,241,44,.42);letter-spacing:.8px}
+    @keyframes blipPulse{0%,100%{opacity:.2}50%{opacity:1}}
+    /* ── Step 2: build log ── */
+    .step-visual--log{
+      padding:12px 16px;display:flex;flex-direction:column;
+      justify-content:center;direction:ltr;
+      font-family:var(--font-mo);font-size:9.5px;line-height:1.85;
+    }
+    .log-ln{
+      display:flex;align-items:center;gap:8px;
+      opacity:0;animation:logIn .35s ease-out forwards;
+    }
+    .log-ln:nth-child(1){animation-delay:.2s}
+    .log-ln:nth-child(2){animation-delay:.75s}
+    .log-ln:nth-child(3){animation-delay:1.3s}
+    .log-ln:nth-child(4){animation-delay:1.85s}
+    .log-ln:nth-child(5){animation-delay:2.4s}
+    @keyframes logIn{from{opacity:0;transform:translateX(-5px)}to{opacity:1;transform:translateX(0)}}
+    .log-p{color:rgba(196,241,44,.4);flex-shrink:0;font-size:8px}
+    .log-t{color:rgba(250,250,247,.58);flex:1}
+    .log-ok{color:var(--neon)}
+    .log-run{color:rgba(255,200,70,.85);animation:blink .9s step-end infinite}
+    .log-wait{color:rgba(250,250,247,.2)}
+    /* ── Step 3: line chart ── */
+    .chart-grid-ln{stroke:rgba(250,250,247,.05);stroke-width:1;fill:none}
+    .chart-area{fill:rgba(196,241,44,.07)}
+    .chart-line{
+      stroke:var(--neon);stroke-width:2;fill:none;
+      stroke-linecap:round;stroke-linejoin:round;
+      stroke-dasharray:240;stroke-dashoffset:240;
+      animation:chartDraw 1.8s var(--ease) .4s forwards;
+    }
+    @keyframes chartDraw{to{stroke-dashoffset:0}}
+    .chart-pt{fill:#0F0F0F;stroke:var(--neon);stroke-width:1.8;opacity:0;animation:ptShow .3s ease forwards}
+    .chart-pt:nth-child(1){animation-delay:.8s}
+    .chart-pt:nth-child(2){animation-delay:1.1s}
+    .chart-pt:nth-child(3){animation-delay:1.4s}
+    .chart-pt:nth-child(4){animation-delay:1.7s}
+    .chart-pt:nth-child(5){animation-delay:2.0s}
+    @keyframes ptShow{to{opacity:1}}
+    .chart-peak{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;fill:var(--neon);text-anchor:middle;opacity:0;animation:ptShow .4s ease forwards 2.3s}
+    .chart-ax-lbl{font-family:'JetBrains Mono',monospace;font-size:7px;fill:rgba(250,250,247,.25);text-anchor:middle}
+    /* ── Step sub-elements ── */
+    .step-list{
+      margin-top:14px;border-top:1px solid rgba(10,10,10,.07);padding-top:11px;
+      display:flex;flex-direction:column;gap:6px;
+    }
+    .step-item{display:flex;align-items:center;gap:8px;font-family:var(--font-mo);font-size:9.5px;color:var(--ink2)}
+    .step-dot{width:5px;height:5px;border-radius:50%;background:var(--neon);flex-shrink:0}
+    .step-chips{
+      margin-top:14px;border-top:1px solid rgba(10,10,10,.07);padding-top:11px;
+      display:flex;flex-wrap:wrap;gap:5px;direction:ltr;
+    }
+    .step-chip{
+      font-family:var(--font-mo);font-size:9px;letter-spacing:.5px;
+      border:1px solid rgba(10,10,10,.1);padding:4px 9px;
+      color:var(--ink3);transition:border-color .25s,color .25s;
+    }
+    .process-step:hover .step-chip{border-color:rgba(196,241,44,.4);color:var(--ink2)}
+    .step-metrics{
+      margin-top:14px;border-top:1px solid rgba(10,10,10,.07);padding-top:11px;
+      display:grid;grid-template-columns:repeat(3,1fr);gap:4px;direction:ltr;
+    }
+    .step-metric{display:flex;flex-direction:column;align-items:center;gap:2px}
+    .metric-val{font-family:var(--font-mo);font-size:13px;font-weight:700;color:var(--neon-h);letter-spacing:-.5px}
+    .metric-lbl{font-family:var(--font-mo);font-size:7.5px;color:var(--ink3);letter-spacing:.5px;text-transform:uppercase;text-align:center}
+
+    /* ═══════════════════════════════════════
+       WHY US (dark + glow cards)
+    ═══════════════════════════════════════ */
+    .why-us{background:var(--paper);padding:92px 0;border-top:1px solid var(--ink4)}
+    /* ── Why Us: Editorial Feature Rows (no cards) ── */
+    .why-features{margin-top:52px}
+    .why-feat{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:clamp(28px,5vw,80px);
+      align-items:center;
+      padding:52px 0;
+      border-top:1px solid var(--ink4);
+      position:relative;
+    }
+    .why-feat:last-child{border-bottom:1px solid var(--ink4)}
+    /* row 3 full-width */
+    .why-feat--full{grid-template-columns:1fr;text-align:center}
+    .why-feat--full .wf-body{max-width:600px;margin:0 auto}
+    .why-feat--full .roi-tiles{justify-content:center;margin-top:36px}
+    .why-feat--full .roi-tile{max-width:160px}
+    /* text body */
+    .wf-kicker{font-family:var(--font-mo);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--neon-h);margin-bottom:10px;display:block}
+    .wf-title{font-size:clamp(21px,2.6vw,30px);font-weight:800;color:var(--ink);letter-spacing:-.025em;line-height:1.18;margin-bottom:12px}
+    .wf-desc{font-size:14px;color:var(--ink2);line-height:1.78}
+    /* visual panel */
+    .wf-visual{display:flex;align-items:center;justify-content:center;min-height:180px;position:relative}
+
+    /* ── Expertise: SVG bridge diagram ── */
+    .bridge-lbl-human{font-family:'JetBrains Mono',monospace;font-size:8.5px;fill:rgba(10,10,10,.5);text-anchor:middle;letter-spacing:1px}
+    .bridge-lbl-ai{font-family:'JetBrains Mono',monospace;font-size:8.5px;fill:rgba(164,214,18,.9);text-anchor:middle;letter-spacing:1px}
+    .bridge-c-lbl{font-family:'JetBrains Mono',monospace;font-size:6.5px;fill:rgba(164,214,18,.6);text-anchor:middle;letter-spacing:1.5px}
+    @keyframes bdot{0%,100%{opacity:.15}50%{opacity:1}}
+
+    /* ── Custom: Before/After visual ── */
+    .bespoke{font-family:var(--font-mo);font-size:11.5px;line-height:2.15;direction:ltr;width:100%;max-width:290px}
+    .bsp-no{color:rgba(10,10,10,.25);text-decoration:line-through;display:flex;align-items:center;gap:9px}
+    .bsp-x{color:rgba(200,50,50,.5);flex-shrink:0;text-decoration:none;font-style:normal}
+    .bsp-div{margin:12px 0;height:1px;background:linear-gradient(90deg,transparent,rgba(164,214,18,.35),transparent);position:relative}
+    .bsp-div::after{content:'VS';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:8px;letter-spacing:3px;color:rgba(164,214,18,.6);background:var(--paper);padding:0 10px;font-family:'JetBrains Mono',monospace}
+    .bsp-yes{color:rgba(100,160,0,.9);display:flex;align-items:center;gap:9px}
+    .bsp-ck{color:var(--neon);flex-shrink:0;font-weight:700}
+
+    /* ── ROI: metric tiles ── */
+    .roi-tiles{display:flex;gap:12px;direction:ltr}
+    .roi-tile{
+      border:1px solid var(--ink4);
+      padding:22px 14px;display:flex;flex-direction:column;
+      align-items:center;gap:7px;flex:1;
+      position:relative;overflow:hidden;
+      transition:border-color .3s var(--ease),background .3s;
+    }
+    .roi-tile:hover{border-color:rgba(164,214,18,.5);background:rgba(196,241,44,.04)}
+    .roi-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--neon-h),transparent);transform:scaleX(0);transition:transform .4s var(--ease)}
+    .roi-tile:hover::before{transform:scaleX(1)}
+    .roi-val{font-family:var(--font-en);font-size:24px;font-weight:700;color:var(--neon-h);letter-spacing:-.04em;line-height:1}
+    .roi-lbl{font-family:var(--font-mo);font-size:8px;color:var(--ink3);text-align:center;line-height:1.6;letter-spacing:.5px;direction:rtl}
+
+    /* ═══════════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════════ */
+    .contact{background:var(--paper);padding:92px 0;border-top:1px solid var(--ink4)}
+    .contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start}
+    .contact-h2{
+      font-family:var(--font-he);font-weight:900;
+      font-size:clamp(28px,4vw,46px);line-height:1.06;
+      letter-spacing:-.025em;margin-bottom:14px;
+    }
+    .contact-sub{font-size:16px;color:var(--ink2);line-height:1.72;margin-bottom:32px;max-width:420px}
+    .wa-block{
+      background:var(--ink);color:var(--fg);
+      padding:20px 22px;position:relative;overflow:hidden;
+    }
+    .wa-block::before{content:'';position:absolute;top:0;bottom:0;right:0;width:3px;background:var(--neon)}
+    .wa-block-inner{padding-right:16px}
+    .wa-label{font-family:var(--font-mo);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--fg3);display:block;margin-bottom:8px}
+    .wa-title{font-size:17px;font-weight:700;margin-bottom:6px}
+    .wa-sub{font-size:13px;color:var(--fg2);margin-bottom:14px}
+    .btn-wa{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#25D366;color:#fff;font-weight:700;font-size:14px;
+      padding:10px 18px;border-radius:0;cursor:none;
+      transition:filter .2s;
+    }
+    .btn-wa:hover{filter:brightness(1.1)}
+    .wa-svg{width:18px;height:18px;fill:#fff}
+
+    /* Form */
+    .contact-form{
+      background:var(--card);
+      border:1.5px solid var(--ink);
+      padding:30px 28px;
+      display:flex;flex-direction:column;gap:16px;
+      position:relative;
+    }
+    .contact-form::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,var(--neon),var(--neon-h));
+    }
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .form-group{display:flex;flex-direction:column;gap:5px;position:relative}
+    .form-group label{font-size:12px;font-weight:600;color:var(--ink2)}
+    .form-group label sup{color:var(--ink)}
+    .form-group input,
+    .form-group textarea,
+    .form-group select{
+      background:var(--paper);border:1.5px solid var(--ink4);
+      border-radius:0;padding:11px 14px;color:var(--ink);
+      font-size:14.5px;outline:none;width:100%;
+      transition:border-color .25s,box-shadow .25s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus{
+      border-color:var(--ink);
+      box-shadow:0 0 0 3px rgba(196,241,44,.15);
+    }
+    .form-group textarea{resize:vertical;min-height:96px}
+    .form-group select{cursor:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%230A0A0A' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center}
+    .checks{display:flex;flex-direction:column;gap:8px}
+    .check{display:flex;align-items:center;gap:10px;font-size:14px;cursor:none}
+    .check input[type=checkbox]{width:16px;height:16px;accent-color:var(--ink);cursor:none}
+    .form-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
+    .form-note{font-family:var(--font-mo);font-size:10px;color:var(--ink3)}
+    .form-success{display:none;color:#2EA655;font-size:14px;font-weight:600;text-align:center;padding:10px 0}
+    .form-success.visible{display:block}
+    /* Multi-step form */
+    .ms-progress{display:flex;align-items:center;gap:0;margin-bottom:28px}
+    .ms-prog-dot{
+      width:8px;height:8px;border-radius:50%;
+      border:1.5px solid var(--ink3);background:transparent;
+      flex-shrink:0;transition:background .3s,border-color .3s;
+    }
+    .ms-prog-dot.active,.ms-prog-dot.done{background:var(--neon-h);border-color:var(--neon-h)}
+    .ms-prog-line{flex:1;height:1px;background:var(--ink4);transition:background .3s}
+    .ms-prog-line.done{background:var(--neon-h)}
+    .ms-step{display:none;flex-direction:column;gap:14px;will-change:transform,opacity}
+    .ms-step.active{display:flex}
+    .ms-q{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.01em;margin-bottom:4px}
+    .ms-q-sub{font-family:var(--font-mo);font-size:10px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-top:-8px}
+    .ms-chips{display:flex;flex-wrap:wrap;gap:10px}
+    .ms-chip{
+      font-family:var(--font-he);font-size:14px;font-weight:600;
+      padding:12px 18px;border:1.5px solid var(--ink4);
+      background:transparent;color:var(--ink2);
+      cursor:none;transition:border-color .25s,color .25s,background .25s;
+      text-align:right;
+    }
+    .ms-chip:hover{border-color:var(--neon-h);color:var(--ink);background:rgba(196,241,44,.05)}
+    .ms-chip.selected{border-color:var(--neon-h);background:rgba(196,241,44,.1);color:var(--ink)}
+    .ms-chip-full{width:100%}
+    .ms-back{
+      background:none;border:none;font-family:var(--font-mo);
+      font-size:10px;letter-spacing:1px;color:var(--ink3);
+      cursor:none;padding:0;margin-top:4px;
+      transition:color .2s;text-align:right;direction:rtl;
+    }
+    .ms-back:hover{color:var(--ink)}
+    .ms-success-icon{
+      width:44px;height:44px;border-radius:50%;
+      background:rgba(196,241,44,.15);border:1.5px solid var(--neon-h);
+      display:flex;align-items:center;justify-content:center;
+      font-size:20px;
+    }
+    .ms-chip-tag{
+      display:block;
+      font-family:var(--font-mo);
+      font-size:9px;
+      letter-spacing:1.2px;
+      color:var(--ink3);
+      margin-bottom:4px;
+    }
+    .ms-chip:hover .ms-chip-tag,
+    .ms-chip.selected .ms-chip-tag{color:var(--neon-h)}
+    .ms-foot{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-top:4px;
+    }
+    .ms-success{background:transparent}
+    .ms-success-inner{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      gap:14px;
+      padding:32px 0;
+    }
+    .ms-success-title{
+      font-family:var(--font-he);
+      font-size:22px;
+      font-weight:700;
+      color:var(--ink);
+      letter-spacing:-.02em;
+    }
+    .ms-success-sub{
+      font-size:14px;
+      color:var(--ink2);
+      line-height:1.6;
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    /* ═══════════════════════════════════════
+       BACK TO TOP
+    ═══════════════════════════════════════ */
+    @keyframes bttPulse{
+      0%,100%{box-shadow:0 0 0 0 rgba(196,241,44,.4)}
+      50%{box-shadow:0 0 0 8px rgba(196,241,44,0)}
+    }
+    #back-to-top{
+      position:fixed;bottom:32px;left:32px;
+      width:48px;height:48px;
+      background:var(--neon);color:var(--ink);
+      border:none;cursor:none;
+      display:flex;align-items:center;justify-content:center;
+      font-size:20px;font-weight:900;
+      opacity:0;pointer-events:none;
+      transform:translateY(16px);
+      transition:opacity .3s var(--ease),transform .3s var(--ease);
+      z-index:200;
+    }
+    #back-to-top.visible{
+      opacity:1;pointer-events:all;transform:translateY(0);
+      animation:bttPulse 2s ease-in-out infinite;
+    }
+    #back-to-top:hover{background:var(--neon-h)}
+
+    /* ═══════════════════════════════════════
+       QUOTE CTA BAND
+    ═══════════════════════════════════════ */
+    .estimator{
+      background:var(--ink);
+      padding:100px 0;
+      border-top:1px solid rgba(196,241,44,.08);
+      overflow:hidden;
+      position:relative;
+    }
+    .estimator::before{
+      content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+      width:800px;height:800px;border-radius:50%;
+      background:radial-gradient(circle,rgba(196,241,44,.05) 0%,transparent 65%);
+      pointer-events:none;
+    }
+    .quote-inner{
+      display:grid;grid-template-columns:1fr auto;gap:clamp(32px,5vw,80px);
+      align-items:center;
+    }
+    .quote-kicker{
+      font-family:var(--font-mo);font-size:9px;letter-spacing:2.5px;
+      text-transform:uppercase;color:var(--neon-h);margin-bottom:16px;display:block;
+    }
+    .quote-title{
+      font-family:var(--font-he);font-weight:900;
+      font-size:clamp(28px,3.2vw,46px);
+      color:var(--fg);letter-spacing:-.025em;line-height:1.1;margin-bottom:14px;
+    }
+    .quote-sub{font-size:15px;color:var(--fg2);line-height:1.75;max-width:520px;margin-bottom:28px}
+    .quote-services{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:0}
+    .quote-tag{
+      font-family:var(--font-mo);font-size:9px;letter-spacing:1.5px;
+      text-transform:uppercase;border:1px solid rgba(196,241,44,.18);
+      color:rgba(196,241,44,.5);padding:6px 12px;
+    }
+    .quote-cta-col{
+      display:flex;flex-direction:column;align-items:center;
+      gap:16px;flex-shrink:0;
+    }
+    .quote-cta-note{
+      font-family:var(--font-mo);font-size:9px;letter-spacing:.5px;
+      color:var(--fg3);text-align:center;line-height:1.6;
+    }
+    @media(max-width:760px){
+      .quote-inner{grid-template-columns:1fr;gap:36px}
+      .quote-cta-col{align-items:flex-start}
+    }
+
+    .footer{background:var(--ink);color:var(--fg)}
+    .footer-main{padding:60px 0 48px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px}
+    .footer-brand p{font-size:13px;color:var(--fg2);line-height:1.65;margin-top:12px;max-width:240px}
+    .footer-cta{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--neon);color:var(--ink);padding:10px 18px;
+      font-weight:700;font-size:13px;margin-top:18px;
+      transition:background .25s,box-shadow .25s;
+    }
+    .footer-cta:hover{background:var(--neon-h);box-shadow:0 0 24px rgba(196,241,44,.35)}
+    .footer-col-title{font-family:var(--font-mo);font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--fg3);margin-bottom:14px}
+    .footer-links{display:flex;flex-direction:column;gap:8px}
+    .footer-links a{font-size:13px;color:var(--fg2);transition:color .2s}
+    .footer-links a:hover{color:var(--neon)}
+    .footer-bottom{border-top:1px solid var(--fg4);padding:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--font-mo);font-size:10px;color:var(--fg3)}
+
+    /* ═══════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════ */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════ */
+    @media(max-width:900px){
+      .nav-links,.nav-phone,.nav-cta{display:none}
+      .hamburger{display:block}
+      .process-grid{grid-template-columns:1fr}
+      .process-step{border-left:none;border-top:1px solid rgba(196,241,44,.10)}
+      .process-step:first-child{border-top:none}
+      /* service sections responsive */
+      .svc-2col{grid-template-columns:1fr;gap:40px}
+      .svc-2col--rev .svc-text{order:1}
+      .svc-2col--rev .svc-vis{order:2}
+      .svc-section{padding:72px 0}
+      .svc-vis{min-height:260px}
+      .dev-split{grid-template-columns:1fr}
+      .train-svg,.auto-svg{max-width:100%;height:260px}
+      .why-feat{grid-template-columns:1fr;gap:28px;padding:36px 0}
+      .wf-visual{min-height:auto}
+      .roi-tiles{flex-wrap:wrap}
+      .roi-tile{min-width:80px}
+      .contact-grid{grid-template-columns:1fr;gap:40px}
+      .footer-main{grid-template-columns:1fr 1fr;gap:28px}
+    }
+    @media(max-width:600px){
+      .form-row{grid-template-columns:1fr}
+      .footer-main{grid-template-columns:1fr}
+      .footer-bottom{flex-direction:column;text-align:center}
+      .form-foot{flex-direction:column;align-items:stretch}
+      .stats-grid{grid-template-columns:1fr 1fr}
+      .stat-item{border-left:none;border-top:1px solid var(--fg4)}
+      .stat-item:nth-child(odd){border-right:1px solid var(--fg4)}
+    }
+
+    /* reduced-motion */
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+      }
+      .hero-word{opacity:1;transform:none}
+      .reveal{opacity:1;transform:none}
+    }
+  </style>
+</head>
+
+<body>
+<!-- Skip to main content (a11y) -->
+<a href="#hero" class="skip-link">דלג לתוכן הראשי</a>
+
+
+<!-- ═══════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════ -->
+<header class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="#" class="logo" aria-label="Click Solutions">click<span class="logo-cursor" aria-hidden="true"></span></a>
+    <nav class="nav-links" aria-label="ניווט ראשי">
+      <a href="#services">שירותים</a>
+      <a href="#process">תהליך</a>
+      <a href="#why-us">למה אנחנו</a>
+      <a href="#contact">צרו קשר</a>
+    </nav>
+    <div class="nav-right">
+      <a href="tel:050-5724571" class="nav-phone" dir="ltr">050-5724571</a>
+      <a href="#contact" class="btn btn-primary btn-sm nav-cta">בואו נדבר</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="פתח תפריט" aria-expanded="false">&#9776;</button>
+  </div>
+</header>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <ul>
+    <li><a href="#services" class="mob-link">שירותים</a></li>
+    <li><a href="#process" class="mob-link">תהליך</a></li>
+    <li><a href="#why-us" class="mob-link">למה אנחנו</a></li>
+    <li><a href="#contact" class="mob-link">צרו קשר</a></li>
+  </ul>
+  <a href="#contact" class="btn btn-primary mob-link">בואו נדבר ←</a>
+</div>
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+  <!-- Video background: ambient looping video on left side -->
+  <video class="hero-video-bg" autoplay muted loop playsinline aria-hidden="true">
+    <source src="bg-hero.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Atmospheric background: AI agent network with recognizable system icons -->
+  <svg class="hero-bg-net" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Flow paths between AI hub and connected systems -->
+      <path id="hbn-wa-ai"   d="M165,115 Q255,150 345,200"/>     <!-- WhatsApp → AI -->
+      <path id="hbn-em-ai"   d="M575,105 Q470,140 345,200"/>     <!-- Email → AI -->
+      <path id="hbn-crm-ai"  d="M140,395 Q235,290 345,200"/>     <!-- CRM → AI -->
+      <path id="hbn-ai-db"   d="M345,200 Q520,235 695,285"/>     <!-- AI → Database -->
+      <path id="hbn-db-ag2"  d="M695,285 Q800,375 880,460"/>     <!-- DB → Agent_02 -->
+      <path id="hbn-ai-bk"   d="M345,200 Q395,360 410,520"/>     <!-- AI → Book -->
+      <path id="hbn-bk-ag2"  d="M410,520 Q645,505 880,460"/>     <!-- Book → Agent_02 -->
+      <path id="hbn-ag2-r"   d="M880,460 Q1040,415 1185,375"/>   <!-- Agent_02 → right node -->
+      <path id="hbn-em-tr"   d="M575,105 Q830,55 1085,125"/>     <!-- Email → top-right -->
+      <path id="hbn-crm-ag2" d="M140,395 Q500,560 880,460"/>     <!-- CRM → Agent_02 (long) -->
+      <path id="hbn-ai-ag2"  d="M345,200 Q615,330 880,460"/>     <!-- AI → Agent_02 (cross) -->
+    </defs>
+
+    <!-- ─── Network connection edges (dashed) ─── -->
+    <g fill="none" stroke="rgba(196,241,44,.16)" stroke-width="1" stroke-dasharray="4 5">
+      <path d="M165,115 Q255,150 345,200"/>
+      <path d="M575,105 Q470,140 345,200"/>
+      <path d="M140,395 Q235,290 345,200"/>
+      <path d="M345,200 Q520,235 695,285"/>
+      <path d="M695,285 Q800,375 880,460"/>
+      <path d="M345,200 Q395,360 410,520"/>
+      <path d="M410,520 Q645,505 880,460"/>
+      <path d="M880,460 Q1040,415 1185,375"/>
+    </g>
+    <g fill="none" stroke="rgba(196,241,44,.09)" stroke-width=".8" stroke-dasharray="3 6">
+      <path d="M575,105 Q830,55 1085,125"/>
+      <path d="M140,395 Q500,560 880,460"/>
+      <path d="M345,200 Q615,330 880,460"/>
+      <path d="M1085,125 Q1140,250 1185,375"/>
+    </g>
+    <!-- faint long diagonals for depth -->
+    <g fill="none" stroke="rgba(196,241,44,.05)" stroke-width=".6">
+      <path d="M165,115 Q580,400 1185,375"/>
+      <path d="M1085,125 Q700,450 410,520"/>
+    </g>
+
+    <!-- ═══════════════════════════════════════
+         AI HUB — central agent (largest node)
+    ═══════════════════════════════════════ -->
+    <g transform="translate(345,200)">
+      <!-- outer glow -->
+      <circle r="60" fill="rgba(196,241,44,.06)" class="hbn-hub-glow"/>
+      <!-- rotating dashed ring -->
+      <circle r="46" fill="none" stroke="rgba(196,241,44,.45)" stroke-width="1" stroke-dasharray="2 5" class="hbn-hub-ring">
+        <animate attributeName="stroke-dashoffset" from="0" to="7" dur="2.4s" repeatCount="indefinite"/>
+      </circle>
+      <!-- inner solid ring -->
+      <circle r="32" fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.35)" stroke-width="1"/>
+      <!-- hexagon (AI symbol) -->
+      <polygon points="0,-19 17,-9.5 17,9.5 0,19 -17,9.5 -17,-9.5"
+               fill="rgba(196,241,44,.08)" stroke="rgba(196,241,44,.65)" stroke-width="1.4"/>
+      <!-- AI text -->
+      <text x="0" y="5" text-anchor="middle" fill="rgba(196,241,44,.85)"
+            font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700">AI</text>
+      <!-- sparkle dots inside hex corners -->
+      <circle cx="0" cy="-14" r="1.2" fill="rgba(196,241,44,.55)"/>
+      <circle cx="12" cy="-7" r="1" fill="rgba(196,241,44,.4)"/>
+      <circle cx="12" cy="7" r="1" fill="rgba(196,241,44,.4)"/>
+      <!-- label -->
+      <text x="0" y="56" text-anchor="middle" fill="rgba(196,241,44,.55)"
+            font-family="'JetBrains Mono',monospace" font-size="8" letter-spacing="1.4" font-weight="600">// AI · AGENT</text>
+    </g>
+
+    <!-- ═══════════════════════════════════════
+         WHATSAPP node — top left
+    ═══════════════════════════════════════ -->
+    <g transform="translate(165,115)">
+      <circle r="24" fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.28)" stroke-width="1"/>
+      <!-- WhatsApp chat bubble (simplified) -->
+      <path d="M-9,-6 a9,9 0 1,1 3.5,15 L-10,11 l1.5,-5 a9,9 0 0,1 -1,-12 z"
+            fill="none" stroke="rgba(196,241,44,.7)" stroke-width="1.4"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="-3" cy=".5" r=".9" fill="rgba(196,241,44,.7)"/>
+      <circle cx="1"  cy=".5" r=".9" fill="rgba(196,241,44,.7)"/>
+      <circle cx="5"  cy=".5" r=".9" fill="rgba(196,241,44,.7)"/>
+      <text x="0" y="44" text-anchor="middle" fill="rgba(196,241,44,.5)"
+            font-family="'JetBrains Mono',monospace" font-size="7.5" letter-spacing="1.3" font-weight="600">// WHATSAPP</text>
+    </g>
+
+    <!-- ═══════════════════════════════════════
+         EMAIL node — top center
+    ═══════════════════════════════════════ -->
+    <g transform="translate(575,105)">
+      <circle r="24" fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.26)" stroke-width="1"/>
+      <!-- envelope -->
+      <rect x="-10" y="-6.5" width="20" height="13" rx=".5" fill="none" stroke="rgba(196,241,44,.65)" stroke-width="1.3"/>
+      <polyline points="-10,-6.5 0,2 10,-6.5" fill="none" stroke="rgba(196,241,44,.65)" stroke-width="1.3"
+                stroke-linejoin="round"/>
+      <text x="0" y="44" text-anchor="middle" fill="rgba(196,241,44,.5)"
+            font-family="'JetBrains Mono',monospace" font-size="7.5" letter-spacing="1.3" font-weight="600">// EMAIL</text>
+    </g>
+
+    <!-- ═══════════════════════════════════════
+         CRM / Dashboard node — mid-left
+    ═══════════════════════════════════════ -->
+    <g transform="translate(140,395)">
+      <circle r="24" fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.26)" stroke-width="1"/>
+      <!-- 2x2 dashboard grid -->
+      <rect x="-10" y="-10" width="8" height="8" rx=".5" fill="none" stroke="rgba(196,241,44,.6)" stroke-width="1.1"/>
+      <rect x="2"   y="-10" width="8" height="8" rx=".5" fill="rgba(196,241,44,.28)" stroke="rgba(196,241,44,.6)" stroke-width="1.1"/>
+      <rect x="-10" y="2"   width="8" height="8" rx=".5" fill="rgba(196,241,44,.14)" stroke="rgba(196,241,44,.6)" stroke-width="1.1"/>
+      <rect x="2"   y="2"   width="8" height="8" rx=".5" fill="none" stroke="rgba(196,241,44,.6)" stroke-width="1.1"/>
+      <text x="0" y="44" text-anchor="middle" fill="rgba(196,241,44,.5)"
+            font-family="'JetBrains Mono',monospace" font-size="7.5" letter-spacing="1.3" font-weight="600">// CRM</text>
+    </g>
+
+    <!-- ═══════════════════════════════════════
+         DATABASE / Info systems — center
+    ═══════════════════════════════════════ -->
+    <g transform="translate(695,285)">
+      <circle r="24" fill="rgba(10,10,10,.45)" stroke="rgba(196,241,44,.24)" stroke-width="1"/>
+      <!-- cylinder DB icon -->
+      <ellipse cx="0" cy="-7" rx="10" ry="3" fill="none" stroke="rgba(196,241,44,.6)" stroke-width="1.2"/>
+      <path d="M-10,-7 L-10,7 a10,3 0 0,0 20,0 L10,-7" fill="none" stroke="rgba(196,241,44,.6)" stroke-width="1.2"/>
+      <ellipse cx="0" cy="0" rx="10" ry="3" fill="none" stroke="rgba(196,241,44,.35)" stroke-width=".9"/>
+      <text x="0" y="44" text-anchor="middle" fill="rgba(196,241,44,.45)"
+            font-family="'JetBrains Mono',monospace" font-size="7.5" letter-spacing="1.3" font-weight="600">// DATABASE</text>
+    </g>
+
+    <!-- ═══════════════════════════════════════
+         BOOK / Training node — bottom-left
+    ═══════════════════════════════════════ -->
+    <g transform="translate(410,520)">
+      <circle r="24" fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.26)" stroke-width="1"/>
+      <!-- open book -->
+      <path d="M-10,-7 C-10,-7 -5,-9 0,-6 C5,-9 10,-7 10,-7 L10,7 C10,7 5,5 0,8 C-5,5 -10,7 -10,7 Z"
+            fill="rgba(196,241,44,.08)" stroke="rgba(196,241,44,.6)" stroke-width="1.2"
+            stroke-linejoin="round"/>
+      <line x1="0" y1="-6" x2="0" y2="8" stroke="rgba(196,241,44,.55)" stroke-width="1"/>
+      <line x1="-7" y1="-3" x2="-3" y2="-4" stroke="rgba(196,241,44,.4)" stroke-width=".7"/>
+      <line x1="-7" y1="0"  x2="-3" y2="-1" stroke="rgba(196,241,44,.4)" stroke-width=".7"/>
+      <line x1="3"  y1="-4" x2="7"  y2="-3" stroke="rgba(196,241,44,.4)" stroke-width=".7"/>
+      <line x1="3"  y1="-1" x2="7"  y2="0"  stroke="rgba(196,241,44,.4)" stroke-width=".7"/>
+      <text x="0" y="44" text-anchor="middle" fill="rgba(196,241,44,.5)"
+            font-family="'JetBrains Mono',monospace" font-size="7.5" letter-spacing="1.3" font-weight="600">// LEARN</text>
+    </g>
+
+    <!-- ═══════════════════════════════════════
+         AGENT_02 — secondary AI agent (mid-right)
+    ═══════════════════════════════════════ -->
+    <g transform="translate(880,460)">
+      <circle r="34" fill="none" stroke="rgba(196,241,44,.12)" stroke-width=".8" stroke-dasharray="2 4"/>
+      <circle r="22" fill="rgba(10,10,10,.4)" stroke="rgba(196,241,44,.22)" stroke-width="1"/>
+      <polygon points="0,-13 11,-6.5 11,6.5 0,13 -11,6.5 -11,-6.5"
+               fill="rgba(196,241,44,.06)" stroke="rgba(196,241,44,.5)" stroke-width="1.2"/>
+      <circle r="2" fill="rgba(196,241,44,.7)"/>
+      <text x="0" y="48" text-anchor="middle" fill="rgba(196,241,44,.42)"
+            font-family="'JetBrains Mono',monospace" font-size="7.5" letter-spacing="1.3" font-weight="600">// AGENT_02</text>
+    </g>
+
+    <!-- Top-right satellite -->
+    <g transform="translate(1085,125)">
+      <circle r="18" fill="none" stroke="rgba(196,241,44,.14)" stroke-dasharray="2 3"/>
+      <polygon points="0,-8 7,-4 7,4 0,8 -7,4 -7,-4" fill="none" stroke="rgba(196,241,44,.35)" stroke-width="1"/>
+      <circle r="1.6" fill="rgba(196,241,44,.55)"/>
+    </g>
+
+    <!-- Right satellite -->
+    <g transform="translate(1185,375)">
+      <circle r="14" fill="none" stroke="rgba(196,241,44,.12)" stroke-dasharray="2 3"/>
+      <circle r="4" fill="none" stroke="rgba(196,241,44,.3)" stroke-width="1"/>
+      <circle r="1.5" fill="rgba(196,241,44,.4)"/>
+    </g>
+
+    <!-- Scattered micro-agents -->
+    <g fill="none" stroke="rgba(196,241,44,.2)" stroke-width=".8">
+      <circle cx="280" cy="610" r="3"/>
+      <circle cx="820" cy="80"  r="3"/>
+      <circle cx="1300" cy="220" r="3"/>
+      <circle cx="55"  cy="280" r="2.5"/>
+      <circle cx="1320" cy="540" r="2.5"/>
+    </g>
+    <g fill="rgba(196,241,44,.25)">
+      <circle cx="280" cy="610" r="1"/>
+      <circle cx="820" cy="80"  r="1"/>
+      <circle cx="1300" cy="220" r="1"/>
+    </g>
+
+    <!-- ═══════════════════════════════════════
+         Animated flow particles (data flowing through the network)
+    ═══════════════════════════════════════ -->
+    <circle class="bg-flow" r="2.8" fill="rgba(196,241,44,.7)" opacity="0">
+      <animateMotion dur="4.5s" repeatCount="indefinite" begin="0s"><mpath href="#hbn-wa-ai"/></animateMotion>
+      <animate attributeName="opacity" values="0;.7;.7;0" keyTimes="0;.12;.88;1" dur="4.5s" repeatCount="indefinite" begin="0s"/>
+    </circle>
+    <circle class="bg-flow" r="2.8" fill="rgba(196,241,44,.65)" opacity="0">
+      <animateMotion dur="5s" repeatCount="indefinite" begin=".8s"><mpath href="#hbn-em-ai"/></animateMotion>
+      <animate attributeName="opacity" values="0;.65;.65;0" keyTimes="0;.12;.88;1" dur="5s" repeatCount="indefinite" begin=".8s"/>
+    </circle>
+    <circle class="bg-flow" r="2.8" fill="rgba(196,241,44,.7)" opacity="0">
+      <animateMotion dur="5.5s" repeatCount="indefinite" begin="1.6s"><mpath href="#hbn-crm-ai"/></animateMotion>
+      <animate attributeName="opacity" values="0;.7;.7;0" keyTimes="0;.12;.88;1" dur="5.5s" repeatCount="indefinite" begin="1.6s"/>
+    </circle>
+    <circle class="bg-flow" r="2.8" fill="rgba(196,241,44,.6)" opacity="0">
+      <animateMotion dur="5s" repeatCount="indefinite" begin="2.4s"><mpath href="#hbn-ai-db"/></animateMotion>
+      <animate attributeName="opacity" values="0;.6;.6;0" keyTimes="0;.12;.88;1" dur="5s" repeatCount="indefinite" begin="2.4s"/>
+    </circle>
+    <circle class="bg-flow" r="2.5" fill="rgba(196,241,44,.55)" opacity="0">
+      <animateMotion dur="4.8s" repeatCount="indefinite" begin="3.2s"><mpath href="#hbn-db-ag2"/></animateMotion>
+      <animate attributeName="opacity" values="0;.55;.55;0" keyTimes="0;.12;.88;1" dur="4.8s" repeatCount="indefinite" begin="3.2s"/>
+    </circle>
+    <circle class="bg-flow" r="2.5" fill="rgba(196,241,44,.6)" opacity="0">
+      <animateMotion dur="5.2s" repeatCount="indefinite" begin="1.2s"><mpath href="#hbn-ai-bk"/></animateMotion>
+      <animate attributeName="opacity" values="0;.6;.6;0" keyTimes="0;.12;.88;1" dur="5.2s" repeatCount="indefinite" begin="1.2s"/>
+    </circle>
+    <circle class="bg-flow" r="2.5" fill="rgba(196,241,44,.55)" opacity="0">
+      <animateMotion dur="5.5s" repeatCount="indefinite" begin="2.8s"><mpath href="#hbn-bk-ag2"/></animateMotion>
+      <animate attributeName="opacity" values="0;.55;.55;0" keyTimes="0;.12;.88;1" dur="5.5s" repeatCount="indefinite" begin="2.8s"/>
+    </circle>
+    <circle class="bg-flow" r="2.2" fill="rgba(196,241,44,.5)" opacity="0">
+      <animateMotion dur="5s" repeatCount="indefinite" begin="3.8s"><mpath href="#hbn-ag2-r"/></animateMotion>
+      <animate attributeName="opacity" values="0;.5;.5;0" keyTimes="0;.12;.88;1" dur="5s" repeatCount="indefinite" begin="3.8s"/>
+    </circle>
+    <circle class="bg-flow" r="2" fill="rgba(196,241,44,.4)" opacity="0">
+      <animateMotion dur="6.5s" repeatCount="indefinite" begin="1.8s"><mpath href="#hbn-em-tr"/></animateMotion>
+      <animate attributeName="opacity" values="0;.4;.4;0" keyTimes="0;.12;.88;1" dur="6.5s" repeatCount="indefinite" begin="1.8s"/>
+    </circle>
+    <circle class="bg-flow" r="2" fill="rgba(196,241,44,.35)" opacity="0">
+      <animateMotion dur="7s" repeatCount="indefinite" begin=".4s"><mpath href="#hbn-crm-ag2"/></animateMotion>
+      <animate attributeName="opacity" values="0;.35;.35;0" keyTimes="0;.12;.88;1" dur="7s" repeatCount="indefinite" begin=".4s"/>
+    </circle>
+    <circle class="bg-flow" r="2" fill="rgba(196,241,44,.4)" opacity="0">
+      <animateMotion dur="6s" repeatCount="indefinite" begin="4.2s"><mpath href="#hbn-ai-ag2"/></animateMotion>
+      <animate attributeName="opacity" values="0;.4;.4;0" keyTimes="0;.12;.88;1" dur="6s" repeatCount="indefinite" begin="4.2s"/>
+    </circle>
+  </svg>
+
+  <!-- ═══════════════════════════════════════
+       CINEMA: 3-scene background cycle
+       Scene 1 (0-9s)   — code being written
+       Scene 2 (9-18s)  — automation flow
+       Scene 3 (18-27s) — computer classroom
+  ═══════════════════════════════════════ -->
+  <div class="hero-cinema" aria-hidden="true">
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         SCENE 1 — CODE
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="cine-scene cine-1">
+      <div class="cine-code-wrap">
+        <span class="ln"><span class="cm">// click-ai-demo.sh</span></span>
+        <span class="ln"><span class="kw">const</span> agents = <span class="kw">await</span> ClickSolutions.<span class="fn">init</span>({</span>
+        <span class="ln">  <span class="attr">channels</span>: [<span class="str">'whatsapp'</span>, <span class="str">'email'</span>, <span class="str">'crm'</span>],</span>
+        <span class="ln">  <span class="attr">team</span>: <span class="num">200</span>,</span>
+        <span class="ln">  <span class="attr">workflows</span>: <span class="num">14</span>,</span>
+        <span class="ln">});</span>
+        <span class="ln">&nbsp;</span>
+        <span class="ln"><span class="cm">→ connecting agents...</span></span>
+        <span class="ln"><span class="cm">→ training models...</span></span>
+        <span class="ln"><span class="cm">→ deploying automation...</span></span>
+        <span class="ln"><span class="ok">✓ ready.</span><span class="cursor-blink"></span></span>
+      </div>
+      <div class="cine-label">scene 01 · code</div>
+    </div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         SCENE 2 — AUTOMATION FLOW
+         Vertical workflow with icon nodes + flowing particles
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="cine-scene cine-2">
+      <svg class="cine-flow" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <!-- vertical pipeline path -->
+          <path id="cf-pipe" d="M600,80 L600,520"/>
+          <!-- branch paths -->
+          <path id="cf-br1" d="M600,260 L380,360"/>
+          <path id="cf-br2" d="M600,260 L820,360"/>
+          <path id="cf-br3" d="M380,360 L600,480"/>
+          <path id="cf-br4" d="M820,360 L600,480"/>
+        </defs>
+
+        <!-- Main vertical pipeline (faint background spine) -->
+        <line x1="600" y1="80" x2="600" y2="520"
+              stroke="rgba(196,241,44,.18)" stroke-width="1.5" stroke-dasharray="6 6"/>
+        <line x1="600" y1="260" x2="380" y2="360"
+              stroke="rgba(196,241,44,.15)" stroke-width="1.2" stroke-dasharray="5 6"/>
+        <line x1="600" y1="260" x2="820" y2="360"
+              stroke="rgba(196,241,44,.15)" stroke-width="1.2" stroke-dasharray="5 6"/>
+        <line x1="380" y1="360" x2="600" y2="480"
+              stroke="rgba(196,241,44,.13)" stroke-width="1.2" stroke-dasharray="5 6"/>
+        <line x1="820" y1="360" x2="600" y2="480"
+              stroke="rgba(196,241,44,.13)" stroke-width="1.2" stroke-dasharray="5 6"/>
+
+        <!-- ─── NODE 1 — Trigger (top) ─── -->
+        <g class="flow-node flow-pulse-1" transform="translate(600,80)">
+          <circle r="46" fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.45)" stroke-width="1.4"/>
+          <circle r="34" fill="rgba(196,241,44,.08)"/>
+          <!-- WhatsApp bubble -->
+          <path d="M-12,-9 a12,12 0 1,1 5,20 L-14,15 l2,-7 a12,12 0 0,1 -3,-16 z"
+                fill="none" stroke="rgba(196,241,44,.85)" stroke-width="1.6"
+                stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="-5" cy="0" r="1.4" fill="rgba(196,241,44,.85)"/>
+          <circle cx="0"  cy="0" r="1.4" fill="rgba(196,241,44,.85)"/>
+          <circle cx="5"  cy="0" r="1.4" fill="rgba(196,241,44,.85)"/>
+          <text x="0" y="68" text-anchor="middle" fill="rgba(196,241,44,.7)"
+                font-family="'JetBrains Mono',monospace" font-size="11" letter-spacing="2" font-weight="700">TRIGGER</text>
+        </g>
+
+        <!-- ─── NODE 2 — AI Hub (center, largest) ─── -->
+        <g class="flow-node flow-pulse-2" transform="translate(600,260)">
+          <circle r="60" fill="none" stroke="rgba(196,241,44,.18)" stroke-dasharray="2 5"/>
+          <circle r="48" fill="rgba(10,10,10,.55)" stroke="rgba(196,241,44,.5)" stroke-width="1.4"/>
+          <polygon points="0,-26 22,-13 22,13 0,26 -22,13 -22,-13"
+                   fill="rgba(196,241,44,.1)" stroke="rgba(196,241,44,.85)" stroke-width="1.8"/>
+          <text x="0" y="6" text-anchor="middle" fill="rgba(196,241,44,.95)"
+                font-family="'JetBrains Mono',monospace" font-size="18" font-weight="700">AI</text>
+          <text x="0" y="82" text-anchor="middle" fill="rgba(196,241,44,.7)"
+                font-family="'JetBrains Mono',monospace" font-size="11" letter-spacing="2" font-weight="700">CLICK · AI</text>
+        </g>
+
+        <!-- ─── NODE 3 — CRM (left branch) ─── -->
+        <g class="flow-node flow-pulse-3" transform="translate(380,360)">
+          <circle r="38" fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.4)" stroke-width="1.3"/>
+          <!-- CRM grid -->
+          <rect x="-13" y="-13" width="11" height="11" rx="1" fill="none" stroke="rgba(196,241,44,.8)" stroke-width="1.4"/>
+          <rect x="2"   y="-13" width="11" height="11" rx="1" fill="rgba(196,241,44,.35)" stroke="rgba(196,241,44,.8)" stroke-width="1.4"/>
+          <rect x="-13" y="2"   width="11" height="11" rx="1" fill="rgba(196,241,44,.18)" stroke="rgba(196,241,44,.8)" stroke-width="1.4"/>
+          <rect x="2"   y="2"   width="11" height="11" rx="1" fill="none" stroke="rgba(196,241,44,.8)" stroke-width="1.4"/>
+          <text x="0" y="60" text-anchor="middle" fill="rgba(196,241,44,.65)"
+                font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="2" font-weight="700">CRM</text>
+        </g>
+
+        <!-- ─── NODE 4 — Email (right branch) ─── -->
+        <g class="flow-node flow-pulse-4" transform="translate(820,360)">
+          <circle r="38" fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.4)" stroke-width="1.3"/>
+          <rect x="-14" y="-9" width="28" height="18" rx=".8" fill="none" stroke="rgba(196,241,44,.8)" stroke-width="1.5"/>
+          <polyline points="-14,-9 0,3 14,-9" fill="none" stroke="rgba(196,241,44,.8)" stroke-width="1.5" stroke-linejoin="round"/>
+          <text x="0" y="60" text-anchor="middle" fill="rgba(196,241,44,.65)"
+                font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="2" font-weight="700">EMAIL</text>
+        </g>
+
+        <!-- ─── NODE 5 — Database (bottom) ─── -->
+        <g class="flow-node flow-pulse-5" transform="translate(600,480)">
+          <circle r="40" fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.4)" stroke-width="1.3"/>
+          <ellipse cx="0" cy="-10" rx="14" ry="4" fill="none" stroke="rgba(196,241,44,.85)" stroke-width="1.5"/>
+          <path d="M-14,-10 L-14,10 a14,4 0 0,0 28,0 L14,-10" fill="none" stroke="rgba(196,241,44,.85)" stroke-width="1.5"/>
+          <ellipse cx="0" cy="0" rx="14" ry="4" fill="none" stroke="rgba(196,241,44,.5)" stroke-width="1.1"/>
+          <text x="0" y="65" text-anchor="middle" fill="rgba(196,241,44,.65)"
+                font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="2" font-weight="700">DATA</text>
+        </g>
+
+        <!-- ─── Flowing particles along pipeline ─── -->
+        <circle r="4" fill="rgba(196,241,44,.95)">
+          <animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#cf-pipe"/></animateMotion>
+        </circle>
+        <circle r="3" fill="rgba(196,241,44,.7)">
+          <animateMotion dur="2.6s" repeatCount="indefinite" begin=".8s"><mpath href="#cf-pipe"/></animateMotion>
+        </circle>
+        <circle r="3" fill="rgba(196,241,44,.6)">
+          <animateMotion dur="2.6s" repeatCount="indefinite" begin="1.6s"><mpath href="#cf-pipe"/></animateMotion>
+        </circle>
+        <circle r="3.5" fill="rgba(196,241,44,.85)">
+          <animateMotion dur="2.2s" repeatCount="indefinite" begin=".4s"><mpath href="#cf-br1"/></animateMotion>
+        </circle>
+        <circle r="3.5" fill="rgba(196,241,44,.85)">
+          <animateMotion dur="2.2s" repeatCount="indefinite" begin="1.2s"><mpath href="#cf-br2"/></animateMotion>
+        </circle>
+        <circle r="3" fill="rgba(196,241,44,.7)">
+          <animateMotion dur="2s" repeatCount="indefinite" begin="1s"><mpath href="#cf-br3"/></animateMotion>
+        </circle>
+        <circle r="3" fill="rgba(196,241,44,.7)">
+          <animateMotion dur="2s" repeatCount="indefinite" begin="1.8s"><mpath href="#cf-br4"/></animateMotion>
+        </circle>
+      </svg>
+      <div class="cine-label">scene 02 · automation flow</div>
+    </div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         SCENE 3 — COMPUTER CLASSROOM
+         3×3 grid of student stations + central instructor + knowledge beams
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="cine-scene cine-3">
+      <svg class="cine-class" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet">
+
+        <!-- ─── Floor perspective lines (subtle depth) ─── -->
+        <g stroke="rgba(196,241,44,.08)" stroke-width=".6" fill="none">
+          <line x1="100" y1="540" x2="0"    y2="600"/>
+          <line x1="600" y1="540" x2="600"  y2="600"/>
+          <line x1="1100" y1="540" x2="1200" y2="600"/>
+          <line x1="0" y1="600" x2="1200" y2="600"/>
+        </g>
+
+        <!-- ─── Instructor / Teacher Hub (top center) ─── -->
+        <g transform="translate(600,90)">
+          <!-- podium glow -->
+          <ellipse cx="0" cy="56" rx="80" ry="8" fill="rgba(196,241,44,.06)"/>
+          <!-- instructor screen / lectern -->
+          <rect x="-58" y="-40" width="116" height="72" rx="2"
+                fill="rgba(10,10,10,.55)" stroke="rgba(196,241,44,.55)" stroke-width="1.4"/>
+          <!-- screen content: AI lesson -->
+          <line x1="-50" y1="-30" x2="-26" y2="-30" stroke="rgba(196,241,44,.7)" stroke-width="1.4"/>
+          <line x1="-50" y1="-22" x2="-10" y2="-22" stroke="rgba(196,241,44,.5)" stroke-width="1"/>
+          <line x1="-50" y1="-14" x2="-30" y2="-14" stroke="rgba(196,241,44,.5)" stroke-width="1"/>
+          <!-- mini AI hex -->
+          <g transform="translate(28,-12)">
+            <polygon points="0,-12 10,-6 10,6 0,12 -10,6 -10,-6"
+                     fill="rgba(196,241,44,.15)" stroke="rgba(196,241,44,.85)" stroke-width="1.3"/>
+            <text x="0" y="3" text-anchor="middle" fill="rgba(196,241,44,.95)"
+                  font-family="'JetBrains Mono',monospace" font-size="9" font-weight="700">AI</text>
+          </g>
+          <!-- bottom progress bar -->
+          <rect x="-50" y="18" width="100" height="3" fill="rgba(196,241,44,.12)"/>
+          <rect x="-50" y="18" width="64" height="3" fill="rgba(196,241,44,.7)"/>
+          <!-- label -->
+          <text x="0" y="68" text-anchor="middle" fill="rgba(196,241,44,.7)"
+                font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="2" font-weight="700">INSTRUCTOR</text>
+        </g>
+
+        <!-- ─── Knowledge beams from instructor to each desk ─── -->
+        <g stroke="rgba(196,241,44,.4)" stroke-width="1.2" fill="none" stroke-dasharray="5 4">
+          <line class="beam" x1="600" y1="158" x2="200" y2="310"/>
+          <line class="beam" x1="600" y1="158" x2="600" y2="310"/>
+          <line class="beam" x1="600" y1="158" x2="1000" y2="310"/>
+          <line class="beam" x1="600" y1="158" x2="200" y2="430"/>
+          <line class="beam" x1="600" y1="158" x2="600" y2="430"/>
+          <line class="beam" x1="600" y1="158" x2="1000" y2="430"/>
+        </g>
+
+        <!-- ─── ROW 1: 3 student desks (mid) ─── -->
+        <!-- desk template: monitor + base -->
+        <g class="desk-1" transform="translate(200,310)">
+          <rect x="-44" y="-30" width="88" height="56" rx="2"
+                fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.5)" stroke-width="1.2"/>
+          <line x1="-36" y1="-20" x2="-12" y2="-20" stroke="rgba(196,241,44,.55)" stroke-width="1"/>
+          <line x1="-36" y1="-13" x2="2" y2="-13" stroke="rgba(196,241,44,.4)" stroke-width=".9"/>
+          <line x1="-36" y1="-6"  x2="-18" y2="-6" stroke="rgba(196,241,44,.4)" stroke-width=".9"/>
+          <rect x="-36" y="4" width="32" height="14" fill="rgba(196,241,44,.18)"/>
+          <rect x="6" y="4" width="22" height="14" fill="rgba(196,241,44,.06)" stroke="rgba(196,241,44,.3)" stroke-width=".8"/>
+          <!-- desk base -->
+          <rect x="-50" y="28" width="100" height="3" fill="rgba(196,241,44,.25)"/>
+          <line x1="-40" y1="31" x2="-40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+          <line x1="40" y1="31" x2="40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+        </g>
+
+        <g class="desk-2" transform="translate(600,310)">
+          <rect x="-44" y="-30" width="88" height="56" rx="2"
+                fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.5)" stroke-width="1.2"/>
+          <!-- chart sparkline -->
+          <polyline points="-36,12 -28,4 -20,7 -12,-3 -4,-6 4,-12 12,-9 20,-14 28,-10 36,-16"
+                    fill="none" stroke="rgba(196,241,44,.7)" stroke-width="1.3"/>
+          <line x1="-36" y1="18" x2="36" y2="18" stroke="rgba(196,241,44,.2)" stroke-width=".7"/>
+          <rect x="-50" y="28" width="100" height="3" fill="rgba(196,241,44,.25)"/>
+          <line x1="-40" y1="31" x2="-40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+          <line x1="40" y1="31" x2="40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+        </g>
+
+        <g class="desk-3" transform="translate(1000,310)">
+          <rect x="-44" y="-30" width="88" height="56" rx="2"
+                fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.5)" stroke-width="1.2"/>
+          <!-- code lines -->
+          <line x1="-36" y1="-20" x2="-20" y2="-20" stroke="rgba(196,241,44,.7)" stroke-width="1"/>
+          <line x1="-15" y1="-20" x2="0" y2="-20" stroke="rgba(196,241,44,.45)" stroke-width="1"/>
+          <line x1="-30" y1="-12" x2="-10" y2="-12" stroke="rgba(196,241,44,.55)" stroke-width="1"/>
+          <line x1="-30" y1="-4" x2="10" y2="-4" stroke="rgba(196,241,44,.4)" stroke-width="1"/>
+          <line x1="-30" y1="4" x2="-8" y2="4" stroke="rgba(196,241,44,.55)" stroke-width="1"/>
+          <line x1="-30" y1="12" x2="20" y2="12" stroke="rgba(196,241,44,.35)" stroke-width="1"/>
+          <rect x="-50" y="28" width="100" height="3" fill="rgba(196,241,44,.25)"/>
+          <line x1="-40" y1="31" x2="-40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+          <line x1="40" y1="31" x2="40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+        </g>
+
+        <!-- ─── ROW 2: 3 student desks (back) ─── -->
+        <g class="desk-4" transform="translate(200,430)">
+          <rect x="-44" y="-30" width="88" height="56" rx="2"
+                fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.5)" stroke-width="1.2"/>
+          <!-- workflow nodes -->
+          <circle cx="-26" cy="-6" r="5" fill="none" stroke="rgba(196,241,44,.7)" stroke-width="1"/>
+          <circle cx="0"   cy="-6" r="5" fill="rgba(196,241,44,.3)" stroke="rgba(196,241,44,.7)" stroke-width="1"/>
+          <circle cx="26"  cy="-6" r="5" fill="none" stroke="rgba(196,241,44,.7)" stroke-width="1"/>
+          <line x1="-21" y1="-6" x2="-5" y2="-6" stroke="rgba(196,241,44,.45)" stroke-width="1"/>
+          <line x1="5"   y1="-6" x2="21" y2="-6" stroke="rgba(196,241,44,.45)" stroke-width="1"/>
+          <line x1="-30" y1="10" x2="30" y2="10" stroke="rgba(196,241,44,.2)" stroke-width=".7"/>
+          <rect x="-50" y="28" width="100" height="3" fill="rgba(196,241,44,.25)"/>
+          <line x1="-40" y1="31" x2="-40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+          <line x1="40" y1="31" x2="40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+        </g>
+
+        <g class="desk-5" transform="translate(600,430)">
+          <rect x="-44" y="-30" width="88" height="56" rx="2"
+                fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.5)" stroke-width="1.2"/>
+          <!-- mini KPI cards -->
+          <rect x="-36" y="-20" width="20" height="14" fill="rgba(196,241,44,.18)" stroke="rgba(196,241,44,.5)" stroke-width=".8"/>
+          <rect x="-12" y="-20" width="20" height="14" fill="rgba(196,241,44,.08)" stroke="rgba(196,241,44,.5)" stroke-width=".8"/>
+          <rect x="12"  y="-20" width="20" height="14" fill="rgba(196,241,44,.12)" stroke="rgba(196,241,44,.5)" stroke-width=".8"/>
+          <line x1="-36" y1="-2" x2="32" y2="-2" stroke="rgba(196,241,44,.2)" stroke-width=".7"/>
+          <line x1="-36" y1="6" x2="20" y2="6" stroke="rgba(196,241,44,.4)" stroke-width=".9"/>
+          <line x1="-36" y1="14" x2="10" y2="14" stroke="rgba(196,241,44,.3)" stroke-width=".9"/>
+          <rect x="-50" y="28" width="100" height="3" fill="rgba(196,241,44,.25)"/>
+          <line x1="-40" y1="31" x2="-40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+          <line x1="40" y1="31" x2="40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+        </g>
+
+        <g class="desk-6" transform="translate(1000,430)">
+          <rect x="-44" y="-30" width="88" height="56" rx="2"
+                fill="rgba(10,10,10,.5)" stroke="rgba(196,241,44,.5)" stroke-width="1.2"/>
+          <!-- terminal prompt -->
+          <text x="-34" y="-14" fill="rgba(196,241,44,.7)" font-family="'JetBrains Mono',monospace" font-size="9">&gt;_</text>
+          <line x1="-22" y1="-15" x2="0" y2="-15" stroke="rgba(196,241,44,.55)" stroke-width=".9"/>
+          <line x1="-34" y1="-4" x2="8" y2="-4" stroke="rgba(196,241,44,.4)" stroke-width=".9"/>
+          <line x1="-34" y1="4" x2="22" y2="4" stroke="rgba(196,241,44,.55)" stroke-width=".9"/>
+          <line x1="-34" y1="12" x2="-6" y2="12" stroke="rgba(196,241,44,.4)" stroke-width=".9"/>
+          <rect x="-50" y="28" width="100" height="3" fill="rgba(196,241,44,.25)"/>
+          <line x1="-40" y1="31" x2="-40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+          <line x1="40" y1="31" x2="40" y2="50" stroke="rgba(196,241,44,.18)" stroke-width="1"/>
+        </g>
+
+        <!-- Small chair indicators between rows -->
+        <g fill="none" stroke="rgba(196,241,44,.12)" stroke-width="1">
+          <line x1="200" y1="370" x2="200" y2="380"/>
+          <line x1="600" y1="370" x2="600" y2="380"/>
+          <line x1="1000" y1="370" x2="1000" y2="380"/>
+        </g>
+      </svg>
+      <div class="cine-label">scene 03 · learn · classroom</div>
+    </div>
+
+  </div>
+
+  <div class="hero-mesh" aria-hidden="true"></div>
+  <div id="hero-glow" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="hero-inner">
+
+      <!-- text content — right column in RTL -->
+      <div class="hero-content">
+        <p class="hero-eyebrow">// AI &middot; הדרכות &middot; אוטומציות &middot; פיתוח מערכות</p>
+
+        <h1 class="hero-h1" id="hero-h1">
+          <span class="hero-word" data-delay="0.4">המנוע</span>&#32;
+          <span class="hero-word" data-delay="0.55">הטכנולוגי</span><br/>
+          <span class="hero-word" data-delay="0.7">מאחורי</span>&#32;
+          <span class="hero-word" data-delay="0.85"><span class="neon-word" id="neon-rotate">הצמיחה</span></span><br/>
+          <span class="hero-word" data-delay="1.0">של הארגון שלכם.</span>
+        </h1>
+
+        <p class="hero-sub">
+          החל מהכשרת הצוותים, דרך פיתוח אוטומציות חכמות ועד לבניית ממשקי ניהול מתקדמים.
+          מעטפת טכנולוגית מותאמת אישית שחוסכת משאבים ומייעלת את סביבת העבודה מהיום הראשון.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary btn-lg" style="padding:19px 38px;font-size:1.05rem;box-shadow:0 0 32px rgba(196,241,44,.35)">לתיאום פגישת אפיון ←</a>
+          <a href="#services" class="btn btn-ghost-light btn-lg" style="opacity:.7">הפתרונות שלנו</a>
+        </div>
+      </div>
+
+      <!-- live terminal — left column in RTL -->
+      <div class="hero-terminal" id="hero-terminal" dir="ltr" aria-label="AI demo terminal" aria-hidden="true">
+        <div class="ht-bar">
+          <span class="ht-dot"></span>
+          <span class="ht-dot"></span>
+          <span class="ht-dot"></span>
+          <span class="ht-fname">click-ai-demo.sh</span>
+        </div>
+        <div class="ht-body" id="ht-body">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════
+     LOGO BAR
+═══════════════════════════════════════ -->
+<div class="logo-bar" aria-label="חלק מהארגונים שעבדנו איתם">
+  <div class="logo-bar-inner">
+    <span class="logo-bar-label">Trusted by</span>
+    <div class="logo-bar-divider" aria-hidden="true"></div>
+    <div class="logo-bar-list">
+      <span class="logo-bar-item">Fortune 500 Retailer</span>
+      <span class="logo-bar-item">Series B FinTech</span>
+      <span class="logo-bar-item">Israeli Bank</span>
+      <span class="logo-bar-item">Tech Unicorn</span>
+      <span class="logo-bar-item">Healthcare Co.</span>
+      <span class="logo-bar-item">EdTech Leader</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SERVICE 1 — TRAINING
+═══════════════════════════════════════ -->
+<section class="svc-section svc-section--paper" id="services" aria-labelledby="svc1-title">
+  <div class="container">
+    <div class="svc-2col">
+
+      <!-- Text (right col in RTL) -->
+      <div class="svc-text reveal">
+        <span class="svc-kicker">// 01 &nbsp;·&nbsp; AI Training &amp; Advisory</span>
+        <h2 class="svc-h2" id="svc1-title">הדרכות, סדנאות<br/>וייעוץ AI</h2>
+        <p class="svc-p">
+          אנחנו מגיעים אליכם. סדנאות מעשיות, הכשרות מנהלים וסילבוסים הנתפרים
+          לתהליכי העבודה האמיתיים של הארגון — לא שקופיות גנריות.
+        </p>
+        <ul class="svc-feats" role="list">
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>ורקשופים חיים עם ChatGPT, Claude &amp; Gemini</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>סילבוס מותאם לכל מחלקה — שיווק, כספים, מכירות, R&amp;D</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>ליווי מנהלים: אסטרטגיית AI לארגון</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>מדידת פרודוקטיביות לפני ואחרי</li>
+        </ul>
+        <div class="svc-badge-row">
+          <span class="svc-badge">AI Strategy</span>
+          <span class="svc-badge">Live Workshops</span>
+          <span class="svc-badge">Hands-on</span>
+        </div>
+        <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">קבעו סדנה →</a>
+      </div>
+
+      <!-- Visual (left col in RTL) -->
+      <div class="svc-vis train-img-wrap reveal" style="transition-delay:.15s">
+        <!-- placeholder svg tag removed — replaced by photo below -->
+        <svg style="display:none" viewBox="0 0 1 1">
+          <defs>
+            <!-- Subtle dot grid pattern -->
+            <pattern id="tDots" width="18" height="18" patternUnits="userSpaceOnUse">
+              <circle cx="9" cy="9" r=".9" fill="rgba(10,10,10,.07)"/>
+            </pattern>
+            <!-- Particle drop paths (model cards → skills bar) -->
+            <path id="td1" d="M101,124 Q101,142 101,158"/>
+            <path id="td2" d="M240,124 Q240,142 240,158"/>
+            <path id="td3" d="M379,124 Q379,142 379,158"/>
+            <!-- Soft inner glow for panel -->
+            <linearGradient id="tPGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="rgba(196,241,44,.04)"/>
+              <stop offset="100%" stop-color="rgba(196,241,44,0)"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Dot-grid canvas background -->
+          <rect width="480" height="340" fill="url(#tDots)"/>
+
+          <!-- ═══ MAIN DARK PANEL ═══ -->
+          <rect x="22" y="8" width="436" height="220" rx="10"
+                fill="rgba(10,10,10,.92)"
+                style="filter:drop-shadow(0 14px 36px rgba(0,0,0,.22))"/>
+          <!-- panel inner gradient -->
+          <rect x="22" y="8" width="436" height="220" rx="10" fill="url(#tPGlow)"/>
+          <!-- panel border -->
+          <rect x="22" y="8" width="436" height="220" rx="10" fill="none"
+                stroke="rgba(196,241,44,.14)" stroke-width="1"/>
+
+          <!-- Panel header bar -->
+          <rect x="22" y="8" width="436" height="30" rx="10" fill="rgba(255,255,255,.025)"/>
+          <rect x="22" y="30" width="436" height="8" fill="rgba(0,0,0,.25)"/>
+          <!-- macOS-style window dots -->
+          <circle cx="42"  cy="23" r="4.5" fill="rgba(255,80,80,.6)"/>
+          <circle cx="56"  cy="23" r="4.5" fill="rgba(255,185,0,.6)"/>
+          <circle cx="70"  cy="23" r="4.5" fill="rgba(65,200,65,.45)"/>
+          <!-- Header label -->
+          <text x="240" y="26.5" text-anchor="middle"
+                font-family="'JetBrains Mono',monospace" font-size="7.5"
+                fill="rgba(196,241,44,.5)" letter-spacing="2.5">AI WORKSHOP CONSOLE</text>
+          <!-- Live dot -->
+          <circle cx="434" cy="23" r="4"
+                  fill="#C4F12C" style="animation:tvisPulse 1.6s ease-in-out infinite"/>
+          <text x="428" y="26.5" text-anchor="end"
+                font-family="'JetBrains Mono',monospace" font-size="7"
+                fill="rgba(196,241,44,.55)" letter-spacing="1">LIVE</text>
+
+          <!-- ═══ 3 AI MODEL CARDS ═══ -->
+
+          <!-- ── Card: Claude ── -->
+          <rect x="34" y="48" width="126" height="72" rx="6"
+                fill="rgba(196,241,44,.045)" stroke="rgba(196,241,44,.22)" stroke-width="1"/>
+          <!-- Claude icon -->
+          <circle cx="64" cy="70" r="13" fill="rgba(196,241,44,.1)"
+                  stroke="rgba(196,241,44,.35)" stroke-width="1.2"/>
+          <text x="64" y="75" text-anchor="middle"
+                font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700"
+                fill="rgba(196,241,44,.95)">C</text>
+          <!-- Claude name + status -->
+          <text x="85" y="67"
+                font-family="'JetBrains Mono',monospace" font-size="9.5" font-weight="700"
+                fill="rgba(250,250,247,.92)">Claude</text>
+          <circle cx="85" cy="75" r="3"
+                  fill="#C4F12C" style="animation:tvisPulse 2s ease-in-out infinite;animation-delay:.15s"/>
+          <text x="91" y="78"
+                font-family="'JetBrains Mono',monospace" font-size="6.5"
+                fill="rgba(250,250,247,.35)" letter-spacing=".5">ACTIVE</text>
+          <!-- Claude EKG line -->
+          <polyline points="36,103 50,103 55,95 61,111 66,99 71,107 76,102 82,103 88,96 94,103 100,103 114,103 126,103 152,103"
+                    fill="none" stroke="rgba(196,241,44,.45)" stroke-width="1.2"
+                    stroke-dasharray="116" stroke-dashoffset="116">
+            <animate attributeName="stroke-dashoffset" from="116" to="-116"
+                     dur="2.6s" repeatCount="indefinite"/>
+          </polyline>
+          <!-- Claude context chip -->
+          <text x="34" y="115"
+                font-family="'JetBrains Mono',monospace" font-size="6"
+                fill="rgba(250,250,247,.22)" letter-spacing="1">200K CTX · REASON</text>
+
+          <!-- ── Card: GPT-4o ── -->
+          <rect x="177" y="48" width="126" height="72" rx="6"
+                fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+          <circle cx="207" cy="70" r="13" fill="rgba(255,255,255,.06)"
+                  stroke="rgba(255,255,255,.15)" stroke-width="1.2"/>
+          <text x="207" y="75" text-anchor="middle"
+                font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700"
+                fill="rgba(250,250,247,.8)">G</text>
+          <text x="228" y="67"
+                font-family="'JetBrains Mono',monospace" font-size="9.5" font-weight="700"
+                fill="rgba(250,250,247,.92)">GPT-4o</text>
+          <circle cx="228" cy="75" r="3"
+                  fill="rgba(196,241,44,.6)" style="animation:tvisPulse 2.2s ease-in-out infinite;animation-delay:.7s"/>
+          <text x="234" y="78"
+                font-family="'JetBrains Mono',monospace" font-size="6.5"
+                fill="rgba(250,250,247,.35)" letter-spacing=".5">READY</text>
+          <polyline points="179,103 190,103 196,96 202,110 207,98 213,106 218,101 224,103 230,96 236,103 242,103 253,103 265,103 295,103"
+                    fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.2"
+                    stroke-dasharray="116" stroke-dashoffset="116">
+            <animate attributeName="stroke-dashoffset" from="116" to="-116"
+                     dur="3.1s" repeatCount="indefinite" begin=".9s"/>
+          </polyline>
+          <text x="177" y="115"
+                font-family="'JetBrains Mono',monospace" font-size="6"
+                fill="rgba(250,250,247,.22)" letter-spacing="1">128K CTX · VISION</text>
+
+          <!-- ── Card: Gemini ── -->
+          <rect x="320" y="48" width="126" height="72" rx="6"
+                fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+          <circle cx="350" cy="70" r="13" fill="rgba(255,255,255,.06)"
+                  stroke="rgba(255,255,255,.15)" stroke-width="1.2"/>
+          <text x="350" y="75" text-anchor="middle"
+                font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700"
+                fill="rgba(250,250,247,.8)">Gm</text>
+          <text x="371" y="67"
+                font-family="'JetBrains Mono',monospace" font-size="9.5" font-weight="700"
+                fill="rgba(250,250,247,.92)">Gemini</text>
+          <circle cx="371" cy="75" r="3"
+                  fill="rgba(196,241,44,.45)" style="animation:tvisPulse 2s ease-in-out infinite;animation-delay:1.3s"/>
+          <text x="377" y="78"
+                font-family="'JetBrains Mono',monospace" font-size="6.5"
+                fill="rgba(250,250,247,.35)" letter-spacing=".5">ACTIVE</text>
+          <polyline points="322,103 332,103 338,96 344,109 350,97 355,105 361,101 367,103 373,96 379,103 385,103 396,103 410,103 440,103"
+                    fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.2"
+                    stroke-dasharray="118" stroke-dashoffset="118">
+            <animate attributeName="stroke-dashoffset" from="118" to="-118"
+                     dur="2.8s" repeatCount="indefinite" begin="1.5s"/>
+          </polyline>
+          <text x="320" y="115"
+                font-family="'JetBrains Mono',monospace" font-size="6"
+                fill="rgba(250,250,247,.22)" letter-spacing="1">1M CTX · MULTIMODAL</text>
+
+          <!-- Divider + section label -->
+          <line x1="34" y1="133" x2="446" y2="133"
+                stroke="rgba(196,241,44,.09)" stroke-width="1"/>
+
+          <!-- Animated vertical data-drop pipes -->
+          <line x1="97" y1="122" x2="97" y2="152"
+                stroke="rgba(196,241,44,.18)" stroke-width="1"
+                stroke-dasharray="3 4">
+            <animate attributeName="stroke-dashoffset" from="0" to="-14"
+                     dur="1s" repeatCount="indefinite"/>
+          </line>
+          <line x1="240" y1="122" x2="240" y2="152"
+                stroke="rgba(196,241,44,.18)" stroke-width="1"
+                stroke-dasharray="3 4">
+            <animate attributeName="stroke-dashoffset" from="0" to="-14"
+                     dur="1.2s" repeatCount="indefinite"/>
+          </line>
+          <line x1="383" y1="122" x2="383" y2="152"
+                stroke="rgba(196,241,44,.18)" stroke-width="1"
+                stroke-dasharray="3 4">
+            <animate attributeName="stroke-dashoffset" from="0" to="-14"
+                     dur=".9s" repeatCount="indefinite"/>
+          </line>
+
+          <!-- Neon particle dots flowing down the pipes -->
+          <circle r="2.2" fill="#C4F12C" opacity="0">
+            <animateMotion dur="1.3s" repeatCount="indefinite" begin="0s"><mpath href="#td1"/></animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.1;.88;1"
+                     dur="1.3s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="2.2" fill="#C4F12C" opacity="0">
+            <animateMotion dur="1.5s" repeatCount="indefinite" begin=".5s"><mpath href="#td2"/></animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.1;.88;1"
+                     dur="1.5s" repeatCount="indefinite" begin=".5s"/>
+          </circle>
+          <circle r="2.2" fill="#C4F12C" opacity="0">
+            <animateMotion dur="1.2s" repeatCount="indefinite" begin="1s"><mpath href="#td3"/></animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.1;.88;1"
+                     dur="1.2s" repeatCount="indefinite" begin="1s"/>
+          </circle>
+
+          <!-- ═══ SKILL ACQUISITION BAR ═══ -->
+          <text x="34" y="164"
+                font-family="'JetBrains Mono',monospace" font-size="7"
+                fill="rgba(250,250,247,.28)" letter-spacing="2.5">SKILL ACQUISITION</text>
+          <text x="446" y="164" text-anchor="end"
+                font-family="'JetBrains Mono',monospace" font-size="7"
+                fill="rgba(196,241,44,.45)" letter-spacing="1">PROGRESS</text>
+
+          <!-- Bar 1: Prompt Design -->
+          <text x="34" y="181"
+                font-family="'JetBrains Mono',monospace" font-size="7"
+                fill="rgba(250,250,247,.42)" letter-spacing="1">PROMPT DESIGN</text>
+          <text x="446" y="181" text-anchor="end"
+                font-family="'JetBrains Mono',monospace" font-size="7"
+                fill="rgba(196,241,44,.8)">88%</text>
+          <rect x="34" y="184" width="320" height="4" rx="2"
+                fill="rgba(255,255,255,.07)"/>
+          <rect x="34" y="184" height="4" rx="2"
+                fill="rgba(196,241,44,.72)" width="0">
+            <animate attributeName="width" from="0" to="282" dur="1.4s" begin="0.3s" fill="freeze"/>
+          </rect>
+
+          <!-- Bar 2: AI Strategy -->
+          <text x="34" y="201"
+                font-family="'JetBrains Mono',monospace" font-size="7"
+                fill="rgba(250,250,247,.42)" letter-spacing="1">AI STRATEGY</text>
+          <text x="446" y="201" text-anchor="end"
+                font-family="'JetBrains Mono',monospace" font-size="7"
+                fill="rgba(196,241,44,.8)">74%</text>
+          <rect x="34" y="204" width="320" height="4" rx="2"
+                fill="rgba(255,255,255,.07)"/>
+          <rect x="34" y="204" height="4" rx="2"
+                fill="rgba(196,241,44,.52)" width="0">
+            <animate attributeName="width" from="0" to="237" dur="1.4s" begin="0.55s" fill="freeze"/>
+          </rect>
+
+          <!-- Bar 3: Automation -->
+          <text x="34" y="221"
+                font-family="'JetBrains Mono',monospace" font-size="7"
+                fill="rgba(250,250,247,.42)" letter-spacing="1">WORKFLOW AUTO.</text>
+          <text x="446" y="221" text-anchor="end"
+                font-family="'JetBrains Mono',monospace" font-size="7"
+                fill="rgba(196,241,44,.8)">82%</text>
+          <rect x="34" y="224" width="320" height="4" rx="2"
+                fill="rgba(255,255,255,.07)"/>
+          <rect x="34" y="224" height="4" rx="2"
+                fill="rgba(196,241,44,.62)" width="0">
+            <animate attributeName="width" from="0" to="262" dur="1.4s" begin="0.8s" fill="freeze"/>
+          </rect>
+
+          <!-- ═══ FLOATING OUTCOME CHIPS (below panel) ═══ -->
+          <!-- Chip 1 -->
+          <g style="animation:tvisFloat 4.2s ease-in-out infinite">
+            <rect x="22" y="242" width="134" height="32" rx="5"
+                  fill="white" stroke="rgba(10,10,10,.08)" stroke-width="1"
+                  style="filter:drop-shadow(0 3px 10px rgba(0,0,0,.07))"/>
+            <circle cx="45" cy="258" r="9" fill="rgba(196,241,44,.1)"/>
+            <text x="45" y="262" text-anchor="middle"
+                  font-family="'JetBrains Mono',monospace" font-size="9"
+                  fill="rgba(10,10,10,.55)">✓</text>
+            <text x="60" y="254"
+                  font-family="'JetBrains Mono',monospace" font-size="7.5"
+                  fill="rgba(10,10,10,.72)" letter-spacing=".5">LIVE WORKSHOPS</text>
+            <text x="60" y="265"
+                  font-family="'JetBrains Mono',monospace" font-size="6.5"
+                  fill="rgba(10,10,10,.32)">Per Dept.</text>
+          </g>
+
+          <!-- Chip 2 -->
+          <g style="animation:tvisFloat 4.8s ease-in-out infinite;animation-delay:1.4s">
+            <rect x="173" y="242" width="134" height="32" rx="5"
+                  fill="white" stroke="rgba(10,10,10,.08)" stroke-width="1"
+                  style="filter:drop-shadow(0 3px 10px rgba(0,0,0,.07))"/>
+            <circle cx="196" cy="258" r="9" fill="rgba(196,241,44,.1)"/>
+            <text x="196" y="262" text-anchor="middle"
+                  font-family="'JetBrains Mono',monospace" font-size="9"
+                  fill="rgba(10,10,10,.55)">↑</text>
+            <text x="211" y="254"
+                  font-family="'JetBrains Mono',monospace" font-size="7.5"
+                  fill="rgba(10,10,10,.72)" letter-spacing=".5">40% EFFICIENCY</text>
+            <text x="211" y="265"
+                  font-family="'JetBrains Mono',monospace" font-size="6.5"
+                  fill="rgba(10,10,10,.32)">Avg. improvement</text>
+          </g>
+
+          <!-- Chip 3 -->
+          <g style="animation:tvisFloat 5.2s ease-in-out infinite;animation-delay:2.8s">
+            <rect x="324" y="242" width="134" height="32" rx="5"
+                  fill="white" stroke="rgba(10,10,10,.08)" stroke-width="1"
+                  style="filter:drop-shadow(0 3px 10px rgba(0,0,0,.07))"/>
+            <circle cx="347" cy="258" r="9" fill="rgba(196,241,44,.1)"/>
+            <text x="347" y="262" text-anchor="middle"
+                  font-family="'JetBrains Mono',monospace" font-size="9"
+                  fill="rgba(10,10,10,.55)">✦</text>
+            <text x="362" y="254"
+                  font-family="'JetBrains Mono',monospace" font-size="7.5"
+                  fill="rgba(10,10,10,.72)" letter-spacing=".5">AI STRATEGY</text>
+            <text x="362" y="265"
+                  font-family="'JetBrains Mono',monospace" font-size="6.5"
+                  fill="rgba(10,10,10,.32)">C-Level advisory</text>
+          </g>
+
+          <!-- ═══ BOTTOM TOOL ROW ═══ -->
+          <rect x="22" y="288" width="436" height="44" rx="6"
+                fill="rgba(10,10,10,.04)" stroke="rgba(10,10,10,.06)" stroke-width="1"/>
+          <text x="240" y="302" text-anchor="middle"
+                font-family="'JetBrains Mono',monospace" font-size="6.5"
+                fill="rgba(10,10,10,.28)" letter-spacing="2.5">INTEGRATED TOOLS</text>
+          <!-- Tool name chips -->
+          <rect x="36"  y="308" width="52" height="16" rx="3" fill="rgba(10,10,10,.05)" stroke="rgba(10,10,10,.08)" stroke-width=".8"/>
+          <text x="62"  y="319" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" fill="rgba(10,10,10,.55)">n8n</text>
+          <rect x="96"  y="308" width="52" height="16" rx="3" fill="rgba(10,10,10,.05)" stroke="rgba(10,10,10,.08)" stroke-width=".8"/>
+          <text x="122" y="319" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" fill="rgba(10,10,10,.55)">Zapier</text>
+          <rect x="156" y="308" width="68" height="16" rx="3" fill="rgba(10,10,10,.05)" stroke="rgba(10,10,10,.08)" stroke-width=".8"/>
+          <text x="190" y="319" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" fill="rgba(10,10,10,.55)">HubSpot</text>
+          <rect x="232" y="308" width="72" height="16" rx="3" fill="rgba(10,10,10,.05)" stroke="rgba(10,10,10,.08)" stroke-width=".8"/>
+          <text x="268" y="319" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" fill="rgba(10,10,10,.55)">Perplexity</text>
+          <rect x="312" y="308" width="68" height="16" rx="3" fill="rgba(10,10,10,.05)" stroke="rgba(10,10,10,.08)" stroke-width=".8"/>
+          <text x="346" y="319" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" fill="rgba(10,10,10,.55)">Make.com</text>
+          <rect x="388" y="308" width="60" height="16" rx="3" fill="rgba(196,241,44,.08)" stroke="rgba(196,241,44,.2)" stroke-width=".8"/>
+        </svg><!-- /hidden placeholder -->
+
+        <video
+          class="train-hero-img"
+          autoplay muted loop playsinline
+          aria-label="AI Workshop — instructor presenting an AI model diagram to a live audience"
+        >
+          <source src="training-hero.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SERVICE 2 — AUTOMATION
+═══════════════════════════════════════ -->
+<section class="svc-section svc-section--dark" id="svc-automation" aria-labelledby="svc2-title">
+  <div class="container">
+    <div class="svc-2col svc-2col--rev">
+
+      <!-- Text (left col in RTL via --rev) -->
+      <div class="svc-text reveal">
+        <span class="svc-kicker">// 02 &nbsp;·&nbsp; Process Automation</span>
+        <h2 class="svc-h2" id="svc2-title">אוטומציות<br/>שמשחררות אתכם</h2>
+        <p class="svc-p">
+          כל משימה שחוזרת על עצמה — יכולה לרוץ לבד. אנחנו מחברים את המערכות שלכם
+          כך שמידע זורם אוטומטית, בלי טעויות, בלי שכחות, בלי צורך בהתעסקות.
+        </p>
+        <ul class="svc-feats" role="list">
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>חיבור CRM, דוא"ל, WhatsApp, גיליונות</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>סנכרון נתונים אוטומטי בין מערכות</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>צ'אטבוטים חכמים עם AI פנים-ארגוני</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>דוחות ועדכונים שמגיעים אליכם, לא להפך</li>
+        </ul>
+        <div class="svc-badge-row">
+          <span class="svc-badge">n8n / Make</span>
+          <span class="svc-badge">Zapier</span>
+          <span class="svc-badge">AI Agents</span>
+          <span class="svc-badge">API Integrations</span>
+        </div>
+        <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">רוצה לחסוך שעות →</a>
+      </div>
+
+      <!-- Visual: animated node network -->
+      <div class="svc-vis reveal" style="transition-delay:.15s" aria-hidden="true">
+        <svg class="auto-svg" viewBox="0 0 480 340" role="img" aria-label="רשת אוטומציות מחוברת">
+          <defs>
+            <!-- paths from hub (240,170) to each satellite node -->
+            <path id="ae1" d="M240,170 Q300,135 360,100"/>
+            <path id="ae2" d="M240,170 Q320,170 390,170"/>
+            <path id="ae3" d="M240,170 Q300,205 360,240"/>
+            <path id="ae4" d="M240,170 Q240,240 240,310"/>
+            <path id="ae5" d="M240,170 Q180,205 120,240"/>
+            <path id="ae6" d="M240,170 Q160,170 90,170"/>
+            <path id="ae7" d="M240,170 Q180,135 120,100"/>
+            <path id="ae8" d="M240,170 Q240,100 240,30"/>
+            <!-- cross connections -->
+            <path id="ac1" d="M360,100 Q375,135 390,170"/>
+            <path id="ac2" d="M360,240 Q375,205 390,170"/>
+            <path id="ac3" d="M120,100 Q105,135 90,170"/>
+            <path id="ac4" d="M120,240 Q105,205 90,170"/>
+            <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(196,241,44,.25)"/>
+              <stop offset="100%" stop-color="rgba(196,241,44,0)"/>
+            </radialGradient>
+          </defs>
+
+          <!-- ambient hub glow -->
+          <circle cx="240" cy="170" r="70" fill="url(#hubGlow)"/>
+
+          <!-- edges hub → satellites -->
+          <path d="M240,170 Q300,135 360,100" class="a-edge a-edge--hi"/>
+          <path d="M240,170 Q320,170 390,170" class="a-edge a-edge--hi"/>
+          <path d="M240,170 Q300,205 360,240" class="a-edge"/>
+          <path d="M240,170 Q240,240 240,310" class="a-edge"/>
+          <path d="M240,170 Q180,205 120,240" class="a-edge"/>
+          <path d="M240,170 Q160,170 90,170" class="a-edge a-edge--hi"/>
+          <path d="M240,170 Q180,135 120,100" class="a-edge"/>
+          <path d="M240,170 Q240,100 240,30" class="a-edge a-edge--hi"/>
+          <!-- cross edges -->
+          <path d="M360,100 Q375,135 390,170" class="a-edge" style="opacity:.5"/>
+          <path d="M360,240 Q375,205 390,170" class="a-edge" style="opacity:.5"/>
+          <path d="M120,100 Q105,135 90,170" class="a-edge" style="opacity:.5"/>
+          <path d="M120,240 Q105,205 90,170" class="a-edge" style="opacity:.5"/>
+
+          <!-- satellite nodes -->
+          <!-- 1: CRM top-right (360,100) -->
+          <circle cx="360" cy="100" r="30" class="a-node-outer"/>
+          <circle cx="360" cy="100" r="22" class="a-node-core"/>
+          <text x="360" y="97" class="a-label">CRM</text>
+          <text x="360" y="107" class="a-sublabel">Salesforce</text>
+
+          <!-- 2: n8n/API right (390,170) -->
+          <circle cx="390" cy="170" r="26" class="a-node-outer"/>
+          <circle cx="390" cy="170" r="19" class="a-node-core"/>
+          <text x="390" y="167" class="a-label">n8n</text>
+          <text x="390" y="177" class="a-sublabel">Automation</text>
+
+          <!-- 3: WhatsApp bot-right (360,240) -->
+          <circle cx="360" cy="240" r="28" class="a-node-outer"/>
+          <circle cx="360" cy="240" r="20" class="a-node-core"/>
+          <text x="360" y="237" class="a-label">WA</text>
+          <text x="360" y="247" class="a-sublabel">WhatsApp</text>
+
+          <!-- 4: Sheets bottom (240,310) -->
+          <circle cx="240" cy="310" r="26" class="a-node-outer"/>
+          <circle cx="240" cy="310" r="19" class="a-node-core"/>
+          <text x="240" y="307" class="a-label">Sheets</text>
+          <text x="240" y="317" class="a-sublabel">Google</text>
+
+          <!-- 5: Slack bot-left (120,240) -->
+          <circle cx="120" cy="240" r="28" class="a-node-outer"/>
+          <circle cx="120" cy="240" r="20" class="a-node-core"/>
+          <text x="120" y="237" class="a-label">Slack</text>
+          <text x="120" y="247" class="a-sublabel">Messaging</text>
+
+          <!-- 6: Gmail left (90,170) -->
+          <circle cx="90" cy="170" r="26" class="a-node-outer"/>
+          <circle cx="90" cy="170" r="19" class="a-node-core"/>
+          <text x="90" y="167" class="a-label">Gmail</text>
+          <text x="90" y="177" class="a-sublabel">Email</text>
+
+          <!-- 7: Notion top-left (120,100) -->
+          <circle cx="120" cy="100" r="28" class="a-node-outer"/>
+          <circle cx="120" cy="100" r="20" class="a-node-core"/>
+          <text x="120" y="97" class="a-label">Notion</text>
+          <text x="120" y="107" class="a-sublabel">Docs</text>
+
+          <!-- 8: Calendar top (240,30) -->
+          <circle cx="240" cy="30" r="26" class="a-node-outer"/>
+          <circle cx="240" cy="30" r="19" class="a-node-core"/>
+          <text x="240" y="27" class="a-label">Cal</text>
+          <text x="240" y="37" class="a-sublabel">Calendar</text>
+
+          <!-- HUB: CLICK AI center -->
+          <circle cx="240" cy="170" r="44" class="a-node-outer" style="stroke-dasharray:2 2;animation:spin 18s linear infinite"/>
+          <circle cx="240" cy="170" r="34" class="a-node-core--hub"/>
+          <text x="240" y="166" class="a-label--hub" style="font-size:9px">CLICK</text>
+          <text x="240" y="178" class="a-label--hub" style="font-size:7px;fill:rgba(196,241,44,.5)">AI ENGINE</text>
+
+          <!-- Animated flowing dots — hub to satellites -->
+          <circle r="2.8" class="a-dot" opacity="0">
+            <animateMotion dur="2.2s" repeatCount="indefinite" begin="0s"><mpath href="#ae1"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="2.8" class="a-dot" opacity="0">
+            <animateMotion dur="2s" repeatCount="indefinite" begin=".3s"><mpath href="#ae2"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2s" repeatCount="indefinite" begin=".3s"/>
+          </circle>
+          <circle r="2.4" class="a-dot" opacity="0">
+            <animateMotion dur="2.4s" repeatCount="indefinite" begin=".7s"><mpath href="#ae3"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.4s" repeatCount="indefinite" begin=".7s"/>
+          </circle>
+          <circle r="2.4" class="a-dot" opacity="0">
+            <animateMotion dur="2.6s" repeatCount="indefinite" begin="1.1s"><mpath href="#ae4"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.6s" repeatCount="indefinite" begin="1.1s"/>
+          </circle>
+          <circle r="2.4" class="a-dot" opacity="0">
+            <animateMotion dur="2.3s" repeatCount="indefinite" begin="1.4s"><mpath href="#ae5"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.3s" repeatCount="indefinite" begin="1.4s"/>
+          </circle>
+          <circle r="2.8" class="a-dot" opacity="0">
+            <animateMotion dur="2.1s" repeatCount="indefinite" begin="1.8s"><mpath href="#ae6"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.1s" repeatCount="indefinite" begin="1.8s"/>
+          </circle>
+          <circle r="2.4" class="a-dot" opacity="0">
+            <animateMotion dur="2.5s" repeatCount="indefinite" begin="2.1s"><mpath href="#ae7"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.5s" repeatCount="indefinite" begin="2.1s"/>
+          </circle>
+          <circle r="2.8" class="a-dot" opacity="0">
+            <animateMotion dur="1.9s" repeatCount="indefinite" begin="2.5s"><mpath href="#ae8"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="1.9s" repeatCount="indefinite" begin="2.5s"/>
+          </circle>
+          <!-- return dots satellites → hub -->
+          <circle r="2" fill="rgba(164,214,18,.5)" opacity="0">
+            <animateMotion dur="2.2s" repeatCount="indefinite" begin="1s" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#ae2"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;.6;.6;0" keyTimes="0;.05;.15;.85;1" dur="2.2s" repeatCount="indefinite" begin="1s"/>
+          </circle>
+          <circle r="2" fill="rgba(164,214,18,.5)" opacity="0">
+            <animateMotion dur="2.5s" repeatCount="indefinite" begin="2s" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#ae6"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;.6;.6;0" keyTimes="0;.05;.15;.85;1" dur="2.5s" repeatCount="indefinite" begin="2s"/>
+          </circle>
+          <circle r="2" fill="rgba(164,214,18,.5)" opacity="0">
+            <animateMotion dur="2.8s" repeatCount="indefinite" begin="1.5s" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#ae8"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;.6;.6;0" keyTimes="0;.05;.15;.85;1" dur="2.8s" repeatCount="indefinite" begin="1.5s"/>
+          </circle>
+
+        </svg>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SERVICE 3 — DEVELOPMENT
+═══════════════════════════════════════ -->
+<section class="svc-section svc-section--deep" id="svc-dev" aria-labelledby="svc3-title">
+  <div class="container">
+    <div class="svc-2col">
+
+      <!-- Text (right col in RTL) -->
+      <div class="svc-text reveal">
+        <span class="svc-kicker">// 03 &nbsp;·&nbsp; Interface &amp; Systems Dev</span>
+        <h2 class="svc-h2" id="svc3-title">פיתוח ממשקים<br/>ומערכות מותאמות</h2>
+        <p class="svc-p">
+          אתרים, דפי נחיתה, CRM פנים-ארגוני ואפליקציות שנבנות מאפס עם AI.
+          כל מסך, כל כפתור, כל תהליך — מדויקים לאיך שהעסק שלכם עובד.
+        </p>
+        <ul class="svc-feats" role="list">
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>אתרי תדמית ודפי נחיתה ממירים</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>מערכות CRM ו-Dashboard פנים-ארגוניות</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>אינטגרציות API עם מערכות קיימות</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>ממשקי AI — צ'אטבוטים ועוזרים דיגיטליים</li>
+        </ul>
+        <div class="svc-badge-row">
+          <span class="svc-badge">React / Next.js</span>
+          <span class="svc-badge">AI UX</span>
+          <span class="svc-badge">CRM Dev</span>
+          <span class="svc-badge">API First</span>
+        </div>
+        <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">שוחחו על הפרויקט →</a>
+      </div>
+
+      <!-- Visual: code + wireframe split -->
+      <div class="svc-vis reveal" style="transition-delay:.15s" aria-hidden="true">
+        <div class="dev-split">
+
+          <!-- Code panel -->
+          <div class="dev-panel">
+            <div class="dev-topbar">
+              <span class="dev-dot"></span>
+              <span class="dev-dot"></span>
+              <span class="dev-dot"></span>
+              <span class="dev-fname">CrmDashboard.tsx</span>
+            </div>
+            <div class="dev-code-body">
+              <div><span class="d-ln">1</span><span class="d-kw">import</span><span class="d-tx"> { </span><span class="d-fn">CRM</span><span class="d-tx"> }</span></div>
+              <div><span class="d-ln">2</span><span class="d-cm">// AI-powered interface</span></div>
+              <div><span class="d-ln">3</span><span class="d-kw">const</span><span class="d-tx"> </span><span class="d-fn">Dashboard</span><span class="d-tx"> = () =&gt;</span></div>
+              <div><span class="d-ln">4</span><span class="d-tx">  &lt;</span><span class="d-fn">CRM</span></div>
+              <div><span class="d-ln">5</span><span class="d-tx">    </span><span class="d-attr">ai</span><span class="d-tx">=</span><span class="d-str">true</span></div>
+              <div><span class="d-ln">6</span><span class="d-tx">    </span><span class="d-attr">lang</span><span class="d-tx">=</span><span class="d-str">"he"</span></div>
+              <div><span class="d-ln">7</span><span class="d-tx">    </span><span class="d-attr">data</span><span class="d-tx">={</span><span class="d-fn">live</span><span class="d-tx">}</span></div>
+              <div><span class="d-ln">8</span><span class="d-tx">  /&gt;</span><span class="d-cur"></span></div>
+            </div>
+          </div>
+
+          <!-- Wireframe/CRM panel -->
+          <div class="dev-panel">
+            <div class="dev-topbar">
+              <div class="dev-wf-nav" style="margin:0;flex:1;height:100%;background:transparent;border:none;padding:0">
+                <div class="dev-nav-pill"></div>
+                <div class="dev-nav-pill"></div>
+                <div class="dev-nav-pill"></div>
+                <div class="dev-nav-pill"></div>
+              </div>
+            </div>
+            <div class="dev-wf-body">
+              <div class="dev-kpi-row">
+                <div class="dev-kpi">
+                  <span class="dev-kpi-val">247</span>
+                  <span class="dev-kpi-lbl">LEADS</span>
+                </div>
+                <div class="dev-kpi">
+                  <span class="dev-kpi-val">94%</span>
+                  <span class="dev-kpi-lbl">CONV.</span>
+                </div>
+              </div>
+              <table class="dev-table">
+                <tbody>
+                  <tr class="dev-tr"><td>ישראל ישראלי</td><td style="color:rgba(196,241,44,.4)">●</td></tr>
+                  <tr class="dev-tr"><td>Sarah Cohen</td><td style="color:rgba(196,241,44,.3)">●</td></tr>
+                  <tr class="dev-tr"><td>רוני לוי</td><td style="color:rgba(196,241,44,.4)">●</td></tr>
+                  <tr class="dev-tr"><td>Eyal Peretz</td><td style="color:rgba(196,241,44,.2)">○</td></tr>
+                  <tr class="dev-tr"><td>מיה כהן</td><td style="color:rgba(196,241,44,.4)">●</td></tr>
+                </tbody>
+              </table>
+              <svg class="dev-chart" viewBox="0 0 180 36">
+                <defs>
+                  <linearGradient id="devGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="rgba(196,241,44,.15)"/>
+                    <stop offset="100%" stop-color="rgba(196,241,44,0)"/>
+                  </linearGradient>
+                </defs>
+                <polyline points="0,30 20,26 40,22 60,24 80,18 100,14 120,16 140,10 160,8 180,4" class="dev-chart-area" style="fill:none"/>
+                <path d="M0,30 L20,26 L40,22 L60,24 L80,18 L100,14 L120,16 L140,10 L160,8 L180,4 L180,36 L0,36 Z" class="dev-chart-area"/>
+                <polyline points="0,30 20,26 40,22 60,24 80,18 100,14 120,16 140,10 160,8 180,4" class="dev-chart-line"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     STACK MARQUEE
+═══════════════════════════════════════ -->
+<section class="stack" id="stack" aria-label="הכלים שאנחנו עובדים איתם">
+
+  <div class="stack-header">
+    <span class="stack-title">THE STACK &nbsp;/&nbsp; כלים שאנחנו עובדים איתם</span>
+    <div style="display:flex;align-items:center;gap:18px">
+      <span class="stack-count">24+ TOOLS</span>
+      <span class="stack-live">
+        <span class="stack-live-dot"></span>
+        LIVE
+      </span>
+    </div>
+  </div>
+
+  <div class="stack-marquee-wrap">
+
+    <!-- ROW 1: forward scroll — AI models & automation -->
+    <div class="stack-row">
+      <div class="stack-track">
+        <!-- set A -->
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>ChatGPT</span>
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Claude</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>n8n</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--auto"></span>Make.com</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>HubSpot</span>
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Gemini</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Zapier</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>Salesforce</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Perplexity</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--auto"></span>Airtable</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--biz"></span>Notion</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Midjourney</span>
+        <!-- set B (duplicate for seamless loop) -->
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>ChatGPT</span>
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Claude</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>n8n</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--auto"></span>Make.com</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>HubSpot</span>
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Gemini</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Zapier</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>Salesforce</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Perplexity</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--auto"></span>Airtable</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--biz"></span>Notion</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Midjourney</span>
+      </div>
+    </div>
+
+    <!-- ROW 2: reverse scroll — creative, biz & dev tools -->
+    <div class="stack-row stack-row--alt stack-row--rev">
+      <div class="stack-track">
+        <!-- set A -->
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>ElevenLabs</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--biz"></span>Monday.com</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Slack</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>ActiveCampaign</span>
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Runway</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Typeform</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--biz"></span>Webflow</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--ai"></span>Anthropic API</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--biz"></span>Intercom</span>
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Grok</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--auto"></span>Gong</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Cohere</span>
+        <!-- set B (duplicate) -->
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>ElevenLabs</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--biz"></span>Monday.com</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Slack</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>ActiveCampaign</span>
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Runway</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Typeform</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--biz"></span>Webflow</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--ai"></span>Anthropic API</span>
+        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--biz"></span>Intercom</span>
+        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Grok</span>
+        <span class="mq-item"><span class="mq-dot mq-dot--auto"></span>Gong</span>
+        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Cohere</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- legend -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:28px;padding:0 0 26px;position:relative;z-index:3">
+    <span style="display:flex;align-items:center;gap:7px;font-family:var(--font-mo);font-size:9px;color:rgba(250,250,247,.22);letter-spacing:.06em">
+      <span style="width:5px;height:5px;border-radius:50%;background:var(--neon);box-shadow:0 0 6px rgba(196,241,44,.6);display:inline-block"></span>AI &amp; LLM
+    </span>
+    <span style="display:flex;align-items:center;gap:7px;font-family:var(--font-mo);font-size:9px;color:rgba(250,250,247,.22);letter-spacing:.06em">
+      <span style="width:5px;height:5px;border-radius:50%;background:rgba(120,180,255,.7);display:inline-block"></span>AUTOMATION
+    </span>
+    <span style="display:flex;align-items:center;gap:7px;font-family:var(--font-mo);font-size:9px;color:rgba(250,250,247,.22);letter-spacing:.06em">
+      <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,160,80,.6);display:inline-block"></span>BUSINESS
+    </span>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════
+     PROCESS
+═══════════════════════════════════════ -->
+<section class="process" id="process">
+  <!-- sticky scroll progress bar -->
+  <div class="process-progress" id="processProgress" aria-hidden="true">
+    <div class="process-progress-fill" id="processProgressFill"></div>
+  </div>
+
+  <div class="process-inner">
+  <div class="container">
+    <div class="sec-header reveal">
+      <span class="tag">// process &middot; 3 steps</span>
+      <h2 class="section-title">הדרך לארגון חכם יותר:<br/>שלושה שלבים ממוקדים.</h2>
+      <p class="section-sub">תהליך שיטתי ומקצועי שלוקח אתכם משלב זיהוי הבעיה ועד לתוצאות בשטח.</p>
+    </div>
+
+    <div class="process-grid" id="processGrid">
+
+      <!-- ── Step 1: Radar / Diagnosis ── -->
+      <div class="process-step reveal">
+        <div class="step-visual" aria-hidden="true">
+          <svg viewBox="0 0 200 150" style="width:100%;height:100%;display:block">
+            <!-- concentric rings -->
+            <circle cx="100" cy="75" r="58" class="radar-ring"/>
+            <circle cx="100" cy="75" r="38" class="radar-ring"/>
+            <circle cx="100" cy="75" r="19" class="radar-ring"/>
+            <!-- crosshairs -->
+            <line x1="100" y1="17" x2="100" y2="133" class="radar-cross"/>
+            <line x1="42"  y1="75" x2="158" y2="75"  class="radar-cross"/>
+            <!-- rotating sweep arm -->
+            <line x1="100" y1="75" x2="157" y2="75" class="radar-sweep">
+              <animateTransform attributeName="transform" type="rotate" from="0 100 75" to="360 100 75" dur="4s" repeatCount="indefinite"/>
+            </line>
+            <!-- blips: glow + core + label -->
+            <circle cx="133" cy="47" r="9"   class="radar-glow" style="animation-delay:0s"/>
+            <circle cx="133" cy="47" r="3"   class="radar-core" style="animation-delay:0s"/>
+            <text   x="143"  y="44"           class="radar-lbl">CRM</text>
+            <circle cx="67"  cy="54" r="8"   class="radar-glow" style="animation-delay:.8s"/>
+            <circle cx="67"  cy="54" r="2.5" class="radar-core" style="animation-delay:.8s"/>
+            <text   x="50"   y="51"           class="radar-lbl">HR</text>
+            <circle cx="148" cy="98" r="8"   class="radar-glow" style="animation-delay:1.6s"/>
+            <circle cx="148" cy="98" r="3"   class="radar-core" style="animation-delay:1.6s"/>
+            <text   x="157"  y="95"           class="radar-lbl">OPS</text>
+            <circle cx="70"  cy="106" r="7"  class="radar-glow" style="animation-delay:2.4s"/>
+            <circle cx="70"  cy="106" r="2.5" class="radar-core" style="animation-delay:2.4s"/>
+            <text   x="52"   y="103"          class="radar-lbl">MKT</text>
+            <circle cx="120" cy="116" r="7"  class="radar-glow" style="animation-delay:3.2s"/>
+            <circle cx="120" cy="116" r="2.5" class="radar-core" style="animation-delay:3.2s"/>
+            <text   x="128"  y="113"          class="radar-lbl">FIN</text>
+          </svg>
+        </div>
+        <h3 class="step-title">אבחון, מיפוי ותכנון אסטרטגי</h3>
+        <p class="step-desc">
+          פגישת התנעה מקצועית להבנת "צווארי הבקבוק" של העסק. נגדיר יחד אילו מחלקות דורשות
+          הדרכה, היכן נדרשת אוטומציה, ואילו ממשקים יוכלו לשרת אתכם בצורה מיטבית.
+        </p>
+        <div class="step-list">
+          <div class="step-item"><span class="step-dot"></span>מיפוי צווארי בקבוק בתהליכים</div>
+          <div class="step-item"><span class="step-dot"></span>הגדרת יעדים ומדדי הצלחה</div>
+          <div class="step-item"><span class="step-dot"></span>בניית תוכנית עבודה מפורטת</div>
+        </div>
+      </div>
+
+      <!-- ── Step 2: Build Log / Implementation ── -->
+      <div class="process-step reveal" style="transition-delay:.12s">
+        <div class="step-visual step-visual--log" aria-hidden="true">
+          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Initializing workspace</span><span class="log-ok">✓</span></div>
+          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Connecting APIs &amp; CRM</span><span class="log-ok">✓</span></div>
+          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Deploying automations</span><span class="log-ok">✓</span></div>
+          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Training team modules</span><span class="log-run">▶</span></div>
+          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Going live...</span><span class="log-wait">·</span></div>
+        </div>
+        <h3 class="step-title">בנייה, פיתוח והטמעה</h3>
+        <p class="step-desc">
+          מעבר לביצוע בשטח. אנו מפתחים מערכות, מחברים אוטומציות, ומעבירים הכשרות לצוותים.
+          הכל מבוצע בצורה חלקה ומקצועית, תוך שמירה על רציפות תפקודית מלאה.
+        </p>
+        <div class="step-chips">
+          <span class="step-chip">n8n</span>
+          <span class="step-chip">Make</span>
+          <span class="step-chip">GPT-4o</span>
+          <span class="step-chip">Zapier</span>
+          <span class="step-chip">React</span>
+          <span class="step-chip">Node.js</span>
+        </div>
+      </div>
+
+      <!-- ── Step 3: Line Chart / Measurement ── -->
+      <div class="process-step reveal" style="transition-delay:.24s">
+        <div class="step-visual" aria-hidden="true">
+          <svg viewBox="0 0 200 150" style="width:100%;height:100%;display:block">
+            <!-- grid lines -->
+            <line x1="22" y1="22"  x2="22"  y2="118" class="chart-grid-ln"/>
+            <line x1="22" y1="118" x2="185" y2="118" class="chart-grid-ln"/>
+            <line x1="22" y1="88"  x2="185" y2="88"  class="chart-grid-ln" style="stroke-dasharray:4 4"/>
+            <line x1="22" y1="62"  x2="185" y2="62"  class="chart-grid-ln" style="stroke-dasharray:4 4"/>
+            <line x1="22" y1="36"  x2="185" y2="36"  class="chart-grid-ln" style="stroke-dasharray:4 4"/>
+            <!-- area under curve -->
+            <path d="M26,105 L66,87 L106,66 L146,44 L183,30 L183,118 L26,118 Z" class="chart-area"/>
+            <!-- main line -->
+            <path d="M26,105 L66,87 L106,66 L146,44 L183,30" class="chart-line"/>
+            <!-- data points -->
+            <circle cx="26"  cy="105" r="4" class="chart-pt"/>
+            <circle cx="66"  cy="87"  r="4" class="chart-pt"/>
+            <circle cx="106" cy="66"  r="4" class="chart-pt"/>
+            <circle cx="146" cy="44"  r="4" class="chart-pt"/>
+            <circle cx="183" cy="30"  r="4" class="chart-pt"/>
+            <!-- peak label -->
+            <text x="183" y="22" class="chart-peak">+3×</text>
+            <!-- month labels -->
+            <text x="26"  y="128" class="chart-ax-lbl">M1</text>
+            <text x="66"  y="128" class="chart-ax-lbl">M2</text>
+            <text x="106" y="128" class="chart-ax-lbl">M3</text>
+            <text x="146" y="128" class="chart-ax-lbl">M4</text>
+            <text x="183" y="128" class="chart-ax-lbl">M5</text>
+          </svg>
+        </div>
+        <h3 class="step-title">ליווי, מדידה ושותפות</h3>
+        <p class="step-desc">
+          לא מספקים מוצר ונעלמים. נקודת קשר מקצועית שמוודאת שהצוותים מיישמים,
+          האוטומציות מתפקדות, ומתאימה את המערכות לצמיחה העתידית של הארגון.
+        </p>
+        <div class="step-metrics">
+          <div class="step-metric"><span class="metric-val">12×</span><span class="metric-lbl">monthly<br/>reports</span></div>
+          <div class="step-metric"><span class="metric-val">24/7</span><span class="metric-lbl">live<br/>monitoring</span></div>
+          <div class="step-metric"><span class="metric-val">∞</span><span class="metric-lbl">endless<br/>iterations</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div><!-- /process-inner -->
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     WHY US
+═══════════════════════════════════════ -->
+<section class="why-us" id="why-us">
+  <div class="container">
+    <div class="sec-header reveal">
+      <span class="tag">// why us</span>
+      <h2 class="section-title">
+        טכנולוגיה קיימת בכל מקום.<br/>שותפים אסטרטגיים קשה יותר למצוא.
+      </h2>
+      <p class="section-sub">
+        מחויבות לשקיפות ולתוצאות — זאת ההבטחה שלנו לכל ארגון.
+      </p>
+    </div>
+
+    <div class="why-features">
+
+      <!-- ── Row 1: Expertise — Human ↔ AI Bridge ── -->
+      <div class="why-feat reveal">
+        <div class="wf-body">
+          <span class="wf-kicker">// expertise &amp; leadership</span>
+          <h3 class="wf-title">מומחיות והובלה</h3>
+          <p class="wf-desc">
+            ניסיון עשיר כמרצים ומומחים מובילים בהנגשת AI. מגשרים על הפער שבין
+            הטכנולוגיה המורכבת למשתמש הקצה — סילבוסים ברורים, מקצועיים ומעוררי השראה.
+          </p>
+        </div>
+        <div class="wf-visual" aria-hidden="true">
+          <svg viewBox="0 0 300 160" style="width:100%;max-width:340px;height:auto;display:block">
+            <!-- Human side -->
+            <circle cx="58"  cy="80" r="42" fill="none" stroke="rgba(10,10,10,.12)" stroke-width="1.5"/>
+            <circle cx="58"  cy="80" r="26" fill="none" stroke="rgba(10,10,10,.06)" stroke-width="1"/>
+            <text x="58" y="75" class="bridge-lbl-human">HUMAN</text>
+            <text x="58" y="89" class="bridge-lbl-human">EXPERTISE</text>
+            <!-- AI side -->
+            <circle cx="242" cy="80" r="42" fill="none" stroke="rgba(164,214,18,.5)" stroke-width="1.5"/>
+            <circle cx="242" cy="80" r="26" fill="none" stroke="rgba(164,214,18,.22)" stroke-width="1"/>
+            <text x="242" y="75" class="bridge-lbl-ai">AI</text>
+            <text x="242" y="89" class="bridge-lbl-ai">TOOLS</text>
+            <!-- Connection line -->
+            <line x1="100" y1="80" x2="200" y2="80" stroke="rgba(164,214,18,.3)" stroke-width="1" stroke-dasharray="5 3"/>
+            <!-- Animated bridge dots -->
+            <circle cx="125" cy="80" r="3" fill="var(--neon-h)" style="animation:bdot 2.2s ease-in-out infinite;animation-delay:0s;opacity:.3"/>
+            <circle cx="150" cy="80" r="4" fill="var(--neon-h)" style="animation:bdot 2.2s ease-in-out infinite;animation-delay:.5s;opacity:.3"/>
+            <circle cx="175" cy="80" r="3" fill="var(--neon-h)" style="animation:bdot 2.2s ease-in-out infinite;animation-delay:1s;opacity:.3"/>
+            <!-- Bridge label -->
+            <text x="150" y="67" class="bridge-c-lbl">CLICK SOLUTIONS</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ── Row 2: Custom — Generic vs Tailored (zigzag: visual-right / text-left) ── -->
+      <div class="why-feat reveal" style="transition-delay:.1s">
+        <!-- visual first → goes to right column in RTL grid -->
+        <div class="wf-visual" aria-hidden="true">
+          <div class="bespoke">
+            <div class="bsp-no"><span class="bsp-x">✗</span> Generic off-the-shelf</div>
+            <div class="bsp-no"><span class="bsp-x">✗</span> One-size-fits-all</div>
+            <div class="bsp-no"><span class="bsp-x">✗</span> Template-driven SaaS</div>
+            <div class="bsp-div"></div>
+            <div class="bsp-yes"><span class="bsp-ck">✓</span> Built for your workflows</div>
+            <div class="bsp-yes"><span class="bsp-ck">✓</span> Your processes. Your goals.</div>
+          </div>
+        </div>
+        <!-- body second → goes to left column in RTL grid -->
+        <div class="wf-body">
+          <span class="wf-kicker">// tailored to you</span>
+          <h3 class="wf-title">חליפה תפורה למידותיכם</h3>
+          <p class="wf-desc">
+            אין פתרונות מדף גנריים. כל מערכת מידע, תהליך אוטומציה או סדנה נתפרים
+            באופן ייעודי לתהליכים הייחודיים ולמטרות של הארגון שלכם.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Row 3: ROI — full-width centered ── -->
+      <div class="why-feat why-feat--full reveal" style="transition-delay:.2s">
+        <div class="wf-body">
+          <span class="wf-kicker">// measurable results</span>
+          <h3 class="wf-title" style="font-size:clamp(26px,3.5vw,42px)">שורה תחתונה מדידה.<br/>ROI שניתן למדוד.</h3>
+          <p class="wf-desc">
+            מעבר לטכנולוגיה מתקדמת חייב לייצר תוצאות אמיתיות. מתמקדים בפתרונות שמייצרים
+            חיסכון מדיד בשעות אדם, שיפור השירות ללקוח הקצה ועלייה בתפוקה.
+          </p>
+        </div>
+        <div class="roi-tiles" style="margin-top:36px;justify-content:center;flex-wrap:wrap">
+          <div class="roi-tile" style="min-width:140px">
+            <span class="roi-val" style="font-size:42px">300h</span>
+            <span class="roi-lbl">חיסכון<br/>לחודש</span>
+          </div>
+          <div class="roi-tile" style="min-width:140px">
+            <span class="roi-val" style="font-size:42px">+40%</span>
+            <span class="roi-lbl">עלייה<br/>בתפוקה</span>
+          </div>
+          <div class="roi-tile" style="min-width:140px">
+            <span class="roi-val" style="font-size:42px">×3</span>
+            <span class="roi-lbl">ROI<br/>מוכח</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     QUOTE CTA
+═══════════════════════════════════════ -->
+<section class="estimator" id="estimator" aria-label="הצעת מחיר">
+  <div class="container">
+    <div class="quote-inner reveal">
+
+      <!-- Left: copy -->
+      <div>
+        <span class="quote-kicker">// מה זה עולה?</span>
+        <h2 class="quote-title">כל פרויקט הוא עולם בפני עצמו.</h2>
+        <p class="quote-sub">
+          לא מאמינים במחירוני "מדף". הצעת המחיר שלנו נבנית בהתאם לגודל הארגון,
+          המורכבות, ולמה שבאמת ייצור ערך — לא לפי טבלה גנרית.
+        </p>
+        <div class="quote-services">
+          <span class="quote-tag">הדרכות AI</span>
+          <span class="quote-tag">אוטומציות</span>
+          <span class="quote-tag">פיתוח מערכות</span>
+        </div>
+      </div>
+
+      <!-- Right: CTA -->
+      <div class="quote-cta-col">
+        <a href="#contact" class="btn btn-primary" style="font-size:15px;padding:16px 32px;white-space:nowrap">
+          קבלו הצעת מחיר ←
+        </a>
+        <p class="quote-cta-note">
+          ייעוץ ראשוני ללא עלות<br/>אין התחייבות · מענה תוך 24 שעות
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     CONTACT
+═══════════════════════════════════════ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <span class="tag reveal">// contact</span>
+        <h2 class="contact-h2 reveal">הגיע הזמן לקדם<br/>את הארגון לשלב הבא.</h2>
+        <p class="contact-sub reveal">
+          השאירו פרטים לתיאום פגישת היכרות וייעוץ אסטרטגי. נבחן יחד, ללא התחייבות,
+          את האפיקים בהם נוכל לייעל ולשפר את הפעילות העסקית שלכם.
+        </p>
+        <div class="wa-block reveal">
+          <div class="wa-block-inner">
+            <span class="wa-label">// preferred channel</span>
+            <p class="wa-title">מעדיפים ליצור קשר ישירות?</p>
+            <p class="wa-sub">מחלקת הייעוץ שלנו זמינה עבורכם. מענה תוך שעה.</p>
+            <a href="https://wa.me/972505724571?text=שלום%2C%20אני%20מעוניין%20לתאם%20פגישת%20אפיון"
+               target="_blank" rel="noopener noreferrer" class="btn-wa">
+              <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              פנייה ישירה דרך WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal" id="contactForm" role="form" aria-label="טופס יצירת קשר">
+
+        <!-- Progress indicator -->
+        <div class="ms-progress" id="msProgress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1">
+          <div class="ms-prog-dot active" data-step="1" aria-label="שלב 1"></div>
+          <div class="ms-prog-line"></div>
+          <div class="ms-prog-dot" data-step="2" aria-label="שלב 2"></div>
+          <div class="ms-prog-line"></div>
+          <div class="ms-prog-dot" data-step="3" aria-label="שלב 3"></div>
+        </div>
+
+        <!-- Step 1: Service type -->
+        <div class="ms-step active" data-step="1">
+          <p class="ms-q">מה הכאב הכי דחוף שלכם?</p>
+          <div class="ms-chips" role="group" aria-label="סוג שירות">
+            <button type="button" class="ms-chip" data-value="training" aria-pressed="false">
+              <span class="ms-chip-tag">// 01</span>
+              הדרכות ו-AI
+            </button>
+            <button type="button" class="ms-chip" data-value="automation" aria-pressed="false">
+              <span class="ms-chip-tag">// 02</span>
+              אוטומציות
+            </button>
+            <button type="button" class="ms-chip" data-value="interfaces" aria-pressed="false">
+              <span class="ms-chip-tag">// 03</span>
+              פיתוח ממשקים
+            </button>
+          </div>
+          <button type="button" class="btn btn-primary ms-next" id="msNext1" disabled aria-label="המשך לשלב הבא">המשך →</button>
+        </div>
+
+        <!-- Step 2: Team size -->
+        <div class="ms-step" data-step="2">
+          <p class="ms-q">כמה אנשים בצוות?</p>
+          <div class="ms-chips" role="group" aria-label="גודל צוות">
+            <button type="button" class="ms-chip" data-value="1-20" aria-pressed="false">
+              <span class="ms-chip-tag">// XS</span>
+              1 – 20
+            </button>
+            <button type="button" class="ms-chip" data-value="20-100" aria-pressed="false">
+              <span class="ms-chip-tag">// S</span>
+              20 – 100
+            </button>
+            <button type="button" class="ms-chip" data-value="100-500" aria-pressed="false">
+              <span class="ms-chip-tag">// M</span>
+              100 – 500
+            </button>
+            <button type="button" class="ms-chip" data-value="500+" aria-pressed="false">
+              <span class="ms-chip-tag">// L</span>
+              500+
+            </button>
+          </div>
+          <div class="ms-foot">
+            <button type="button" class="ms-back" id="msBack2" aria-label="חזור לשלב הקודם">← חזור</button>
+            <button type="button" class="btn btn-primary ms-next" id="msNext2" disabled aria-label="המשך לשלב הבא">המשך →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Contact details -->
+        <div class="ms-step" data-step="3">
+          <p class="ms-q">ואיך ניצור איתכם קשר?</p>
+          <div class="form-group">
+            <label for="fullName">שם מלא <sup>*</sup></label>
+            <input type="text" id="fullName" name="fullName" placeholder="ישראל ישראלי" required autocomplete="name" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">דוא"ל <sup>*</sup></label>
+              <input type="email" id="email" name="email" placeholder="israel@example.co.il" required autocomplete="email" />
+            </div>
+            <div class="form-group">
+              <label for="phone">טלפון</label>
+              <input type="tel" id="phone" name="phone" placeholder="054-123-4567" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="msg">ספרו לנו בקצרה על האתגר</label>
+            <textarea id="msg" name="msg" placeholder="מה מעכב אתכם כרגע?"></textarea>
+          </div>
+          <div class="ms-foot">
+            <button type="button" class="ms-back" id="msBack3" aria-label="חזור לשלב הקודם">← חזור</button>
+            <button type="button" class="btn btn-primary btn-lg" id="msSubmit" aria-label="שליחת פרטים">שליחה לתיאום פגישה ←</button>
+          </div>
+          <p class="form-note" style="margin-top:12px">// הפרטים שלכם נשארים אצלנו · בלי דיוור · בלי שיתופים</p>
+        </div>
+
+        <!-- Step 4: Success -->
+        <div class="ms-step ms-success" data-step="4">
+          <div class="ms-success-inner">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <circle cx="20" cy="20" r="19" stroke="var(--neon-h)" stroke-width="1.5"/>
+              <polyline points="12,20 18,26 28,14" stroke="var(--neon)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p class="ms-success-title">הפרטים התקבלו ✓</p>
+            <p class="ms-success-sub">נחזור אליכם תוך 24 שעות. נשמח לשמוע עוד!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="#" class="logo" style="color:var(--fg)" aria-label="Click Solutions">click<span class="logo-cursor" aria-hidden="true"></span></a>
+        <p>בונים מעטפות טכנולוגיות לארגונים שמסרבים להישאר מאחור.</p>
+        <a href="#contact" class="footer-cta">בואו נדבר →</a>
+      </div>
+      <div>
+        <p class="footer-col-title">// שירותים</p>
+        <ul class="footer-links">
+          <li><a href="#services">הדרכות ו-AI</a></li>
+          <li><a href="#services">אוטומציות</a></li>
+          <li><a href="#services">פיתוח ממשקים</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">// תהליך</p>
+        <ul class="footer-links">
+          <li><a href="#process">אבחון ומיפוי</a></li>
+          <li><a href="#process">בנייה והטמעה</a></li>
+          <li><a href="#process">ליווי שוטף</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">// יצירת קשר</p>
+        <ul class="footer-links">
+          <li><a href="#contact">תיאום פגישה</a></li>
+          <li><a href="https://wa.me/972505724571" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:hello@clicksolutions.co.il">hello@clicksolutions.co.il</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>// &copy; 2024–2026 Click Solutions. כל הזכויות שמורות.</span>
+      <span dir="ltr">hello@clicksolutions.co.il &middot; 054-000-0000</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════ -->
+<script>
+/* ─── Scroll Reveal (global, runs before IIFE) ─── */
+function revealCheck(){
+  var vH = window.innerHeight || document.documentElement.clientHeight;
+  var els = document.querySelectorAll('.reveal:not(.visible)');
+  for(var i=0;i<els.length;i++){
+    var r = els[i].getBoundingClientRect();
+    if(r.top < vH * 0.94 && r.bottom > 0) els[i].classList.add('visible');
+  }
+}
+window.addEventListener('scroll', revealCheck, {passive:true});
+window.addEventListener('resize', revealCheck, {passive:true});
+// Run once DOM is ready
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', revealCheck);
+} else {
+  revealCheck();
+}
+
+(function(){
+  'use strict';
+
+
+  /* ─── Hero Canvas Particles ─── */
+  const canvas = document.getElementById('hero-canvas');
+  const ctx    = canvas.getContext('2d');
+  const heroEl = document.getElementById('hero');
+  let W,H,particles=[],mouse={x:-9999,y:-9999};
+  const PARTICLE_N = window.innerWidth < 700 ? 45 : 85;
+  const NEON = '#C4F12C';
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function resize(){
+    W=canvas.width=heroEl.offsetWidth;
+    H=canvas.height=heroEl.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor(){this.reset(true)}
+    reset(init){
+      this.x  = Math.random()*W;
+      this.y  = init ? Math.random()*H : -10;
+      this.vx = (Math.random()-.5)*.45;
+      this.vy = (Math.random()-.5)*.45;
+      this.r  = Math.random()*1.8+.5;
+      this.a  = Math.random()*.55+.15;
+    }
+    update(){
+      if(prefersReduced)return;
+      const dx=mouse.x-this.x, dy=mouse.y-this.y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<160){
+        const f=(160-d)/160*.22;
+        this.vx-=(dx/d)*f;
+        this.vy-=(dy/d)*f;
+      }
+      // dampen
+      this.vx*=.992; this.vy*=.992;
+      this.x+=this.vx; this.y+=this.vy;
+      if(this.x<0||this.x>W) this.vx*=-1;
+      if(this.y<0||this.y>H) this.vy*=-1;
+    }
+    draw(){
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(196,241,44,${this.a})`;
+      ctx.fill();
+    }
+  }
+
+  for(let i=0;i<PARTICLE_N;i++) particles.push(new Particle());
+
+  function drawConnections(){
+    const MAX=110;
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x;
+        const dy=particles[i].y-particles[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<MAX){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle=`rgba(196,241,44,${.12*(1-d/MAX)})`;
+          ctx.lineWidth=.6;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  let raf;
+  function animate(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{p.update();p.draw()});
+    if(!prefersReduced) drawConnections();
+    raf=requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Pause when hero is out of view
+  const heroObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) animate();
+      else cancelAnimationFrame(raf);
+    });
+  },{threshold:0});
+  heroObs.observe(heroEl);
+
+  // Mouse → canvas (for particle repulsion)
+  document.addEventListener('mousemove',e=>{
+    const r=canvas.getBoundingClientRect();
+    mouse.x=e.clientX-r.left;
+    mouse.y=e.clientY-r.top;
+  });
+  document.addEventListener('mouseleave',()=>{ mouse.x=-9999; mouse.y=-9999; });
+
+  // Hero glow follows mouse
+  const glowEl=document.getElementById('hero-glow');
+  document.addEventListener('mousemove',e=>{
+    const r=heroEl.getBoundingClientRect();
+    if(e.clientY>r.top && e.clientY<r.bottom){
+      glowEl.style.left=(e.clientX)+'px';
+      glowEl.style.top=(e.clientY)+'px';
+    }
+  });
+
+  /* ─── Navbar state (light when over light sections) ─── */
+  const navbar = document.getElementById('navbar');
+  const lightSections = ['services','process','why-us','contact'];
+  // Actually simplify: change based on scroll position
+  const heroBoundary = ()=> heroEl.offsetHeight;
+  function updateNav(){
+    const y=window.scrollY;
+    navbar.classList.toggle('scrolled', y>12);
+    // switch to light after hero
+    navbar.classList.toggle('light', y > heroBoundary()-80);
+  }
+  window.addEventListener('scroll', updateNav, {passive:true});
+  updateNav();
+
+  /* ─── Mobile menu ─── */
+  const hamburger = document.getElementById('hamburger');
+  const drawer    = document.getElementById('mobileDrawer');
+  hamburger.addEventListener('click',()=>{
+    const open=drawer.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded',open);
+    hamburger.innerHTML=open?'&#x2715;':'&#9776;';
+  });
+  document.querySelectorAll('.mob-link').forEach(a=>{
+    a.addEventListener('click',()=>{
+      drawer.classList.remove('open');
+      hamburger.setAttribute('aria-expanded','false');
+      hamburger.innerHTML='&#9776;';
+    });
+  });
+  document.addEventListener('click',e=>{
+    if(!drawer.contains(e.target)&&!hamburger.contains(e.target)){
+      drawer.classList.remove('open');
+      hamburger.setAttribute('aria-expanded','false');
+      hamburger.innerHTML='&#9776;';
+    }
+  });
+
+  /* ─── Scroll Reveal (IO enhancement only — scroll listener is global) ─── */
+  if('IntersectionObserver' in window){
+    const revObs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('visible'); revObs.unobserve(e.target); }
+      });
+    },{threshold:.08, rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+  }
+  revealCheck(); // run global function immediately too
+
+
+  /* ─── Process connector line ─── */
+  const pLine=document.getElementById('processLine');
+  const pGrid=document.getElementById('processGrid');
+  if(pLine && pGrid){
+    function checkProcessLine(){
+      const r=pGrid.getBoundingClientRect();
+      const vh=window.innerHeight||document.documentElement.clientHeight;
+      if(r.top < vh * 0.8){ pLine.classList.add('visible'); window.removeEventListener('scroll',checkProcessLine); }
+    }
+    window.addEventListener('scroll', checkProcessLine, {passive:true});
+    if('IntersectionObserver' in window){
+      const pObs=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ pLine.classList.add('visible'); pObs.unobserve(e.target); } });
+      },{threshold:.25});
+      pObs.observe(pGrid);
+    }
+    checkProcessLine();
+  }
+
+  /* ─── Process scroll progress bar ─── */
+  const procSection=document.getElementById('process');
+  const procFill=document.getElementById('processProgressFill');
+  if(procSection && procFill && !prefersReduced){
+    window.addEventListener('scroll',()=>{
+      const r=procSection.getBoundingClientRect();
+      const sectionH=procSection.offsetHeight;
+      const vh=window.innerHeight;
+      // how far we've scrolled INTO the section
+      const scrolled = -r.top;
+      const total = sectionH - vh;
+      if(total <= 0) return;
+      const pct = Math.min(Math.max(scrolled/total*100,0),100);
+      procFill.style.width = pct+'%';
+    },{passive:true});
+  }
+
+  /* ─── Multi-Step Contact Form ─── */
+  (function(){
+    const LS_KEY = 'cs_form_state';
+    const formWrap = document.getElementById('contactForm');
+    if(!formWrap) return;
+
+    /* State */
+    const state = { step: 1, svc: null, size: null };
+
+    /* Helpers */
+    const getStep  = n => formWrap.querySelector(`.ms-step[data-step="${n}"]`);
+    const getDots  = () => formWrap.querySelectorAll('.ms-prog-dot');
+    const getLines = () => formWrap.querySelectorAll('.ms-prog-line');
+
+    function showStep(n, dir){
+      const prev = getStep(state.step);
+      const next = getStep(n);
+      if(!next) return;
+
+      /* Animate out */
+      if(prev){
+        prev.style.transform = dir>0 ? 'translateX(-32px)' : 'translateX(32px)';
+        prev.style.opacity = '0';
+        setTimeout(()=>{ prev.classList.remove('active'); prev.style.transform=''; prev.style.opacity=''; },260);
+      }
+
+      /* Animate in */
+      setTimeout(()=>{
+        next.style.transform = dir>0 ? 'translateX(32px)' : 'translateX(-32px)';
+        next.style.opacity   = '0';
+        next.classList.add('active');
+        requestAnimationFrame(()=>{
+          requestAnimationFrame(()=>{
+            next.style.transition = 'transform .28s var(--ease), opacity .28s var(--ease)';
+            next.style.transform  = 'translateX(0)';
+            next.style.opacity    = '1';
+          });
+        });
+        /* Focus first interactive el */
+        const first = next.querySelector('button.ms-chip, input, textarea');
+        if(first) first.focus();
+      },prev ? 180 : 0);
+
+      state.step = n;
+      updateProgress();
+
+      /* Persist */
+      try{ localStorage.setItem(LS_KEY, JSON.stringify({svc:state.svc,size:state.size})); }catch(e){}
+    }
+
+    function updateProgress(){
+      const dots  = getDots();
+      const lines = getLines();
+      const prog  = formWrap.querySelector('#msProgress');
+      if(prog) prog.setAttribute('aria-valuenow', Math.min(state.step,3));
+
+      dots.forEach((d,i)=>{
+        const s = i+1;
+        d.classList.toggle('active', s === state.step);
+        d.classList.toggle('done',   s <  state.step);
+      });
+      lines.forEach((l,i)=>{
+        l.classList.toggle('done', state.step > i+1);
+      });
+    }
+
+    /* Chip selection */
+    formWrap.querySelectorAll('.ms-chips').forEach(group=>{
+      group.addEventListener('click', e=>{
+        const chip = e.target.closest('.ms-chip');
+        if(!chip) return;
+        group.querySelectorAll('.ms-chip').forEach(c=>{ c.classList.remove('selected'); c.setAttribute('aria-pressed','false'); });
+        chip.classList.add('selected');
+        chip.setAttribute('aria-pressed','true');
+
+        const stepEl = chip.closest('.ms-step');
+        const stepN  = parseInt(stepEl.dataset.step);
+        if(stepN===1){ state.svc  = chip.dataset.value; formWrap.querySelector('#msNext1').disabled=false; }
+        if(stepN===2){ state.size = chip.dataset.value; formWrap.querySelector('#msNext2').disabled=false; }
+      });
+    });
+
+    /* Navigation */
+    const next1 = formWrap.querySelector('#msNext1');
+    const next2 = formWrap.querySelector('#msNext2');
+    const back2 = formWrap.querySelector('#msBack2');
+    const back3 = formWrap.querySelector('#msBack3');
+    const sub   = formWrap.querySelector('#msSubmit');
+
+    if(next1) next1.addEventListener('click',()=>showStep(2,1));
+    if(next2) next2.addEventListener('click',()=>showStep(3,1));
+    if(back2) back2.addEventListener('click',()=>showStep(1,-1));
+    if(back3) back3.addEventListener('click',()=>showStep(2,-1));
+
+    /* Submit */
+    if(sub) sub.addEventListener('click',()=>{
+      const nameEl  = formWrap.querySelector('#fullName');
+      const emailEl = formWrap.querySelector('#email');
+      if(!nameEl.value.trim()){ nameEl.focus(); nameEl.style.borderColor='rgba(196,241,44,.7)'; return; }
+      if(!emailEl.value.trim()||!emailEl.value.includes('@')){ emailEl.focus(); emailEl.style.borderColor='rgba(196,241,44,.7)'; return; }
+
+      sub.textContent = 'שולח…';
+      sub.disabled    = true;
+
+      setTimeout(()=>{
+        /* Hide progress bar */
+        const prog = formWrap.querySelector('#msProgress');
+        if(prog){ prog.style.opacity='0'; prog.style.pointerEvents='none'; }
+        showStep(4,1);
+        try{ localStorage.removeItem(LS_KEY); }catch(e){}
+      },1200);
+    });
+
+    /* Input border reset */
+    formWrap.querySelectorAll('input,textarea').forEach(el=>{
+      el.addEventListener('input',()=>{ el.style.borderColor=''; });
+    });
+
+    /* Restore from localStorage */
+    try{
+      const saved = JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+      if(saved.svc){
+        const chip = formWrap.querySelector(`.ms-step[data-step="1"] .ms-chip[data-value="${saved.svc}"]`);
+        if(chip){ chip.click(); }
+      }
+    }catch(e){}
+  })();
+
+  /* ─── Hero Terminal Typewriter ─── */
+  (function(){
+    const htBody = document.getElementById('ht-body');
+    if(!htBody||prefersReduced) return;
+
+    const scenarios = [
+      {
+        q: '> How can AI save me 30 hours/week?',
+        lines: [
+          {t:'Scanning your workflows...', ok:false},
+          {t:'Email triage agent deployed', ok:true},
+          {t:'CRM auto-sync scheduled', ok:true},
+          {t:'Report generation automated', ok:true},
+          {t:'Estimated savings: 34 hrs/week', ok:'neon'},
+        ]
+      },
+      {
+        q: '> Can you train our team on AI tools?',
+        lines: [
+          {t:'Assessing team skill level...', ok:false},
+          {t:'Custom syllabus built for 60 staff', ok:true},
+          {t:'ChatGPT · Claude · Gemini modules ready', ok:true},
+          {t:'Live Q&A sessions included', ok:true},
+          {t:'Productivity gain: +40% avg.', ok:'neon'},
+        ]
+      },
+      {
+        q: '> What does implementation take?',
+        lines: [
+          {t:'Running scope analysis...', ok:false},
+          {t:'Week 1–2: strategy & mapping', ok:true},
+          {t:'Week 3–6: build & integrations', ok:true},
+          {t:'Week 7+: training & handoff', ok:true},
+          {t:'First ROI visible within 30 days', ok:'neon'},
+        ]
+      }
+    ];
+
+    let scenarioIdx = 0;
+    let cancelled = false;
+
+    function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+    async function typeLine(text, el){
+      for(let i=0;i<text.length;i++){
+        if(cancelled) return;
+        el.textContent = text.slice(0,i+1);
+        await delay(28 + Math.random()*18);
+      }
+    }
+
+    async function runScenario(){
+      if(cancelled) return;
+      const s = scenarios[scenarioIdx % scenarios.length];
+      htBody.innerHTML = '';
+
+      // prompt line
+      const promptRow = document.createElement('div');
+      promptRow.className = 'ht-line';
+      const promptSpan = document.createElement('span');
+      promptSpan.className = 'ht-q';
+      promptRow.appendChild(promptSpan);
+      htBody.appendChild(promptRow);
+
+      await typeLine(s.q, promptSpan);
+      await delay(300);
+
+      // response lines
+      for(let i=0; i<s.lines.length; i++){
+        if(cancelled) return;
+        await delay(i===0 ? 200 : 120);
+        const row = document.createElement('div');
+        row.className = 'ht-line ht-line--ans';
+        const prefix = document.createElement('span');
+        prefix.className = 'ht-dim';
+        prefix.textContent = '  ';
+        const txt = document.createElement('span');
+
+        if(s.lines[i].ok === 'neon'){
+          txt.className = 'ht-ok';
+        } else if(s.lines[i].ok){
+          txt.className = 'ht-ans';
+        } else {
+          txt.className = 'ht-dim';
+        }
+
+        row.appendChild(prefix);
+        row.appendChild(txt);
+        htBody.appendChild(row);
+
+        if(s.lines[i].ok === false){
+          txt.textContent = s.lines[i].t;
+          // add blink cursor
+          const cur = document.createElement('span');
+          cur.className = 'ht-cursor';
+          row.appendChild(cur);
+          await delay(900);
+          row.removeChild(cur);
+          if(s.lines[i].ok === false && i === 0){
+            // replace with ok after "scanning"
+          }
+        } else {
+          await typeLine(s.lines[i].t, txt);
+        }
+      }
+
+      // cursor at end
+      const curFinal = document.createElement('span');
+      curFinal.className = 'ht-cursor';
+      htBody.appendChild(curFinal);
+
+      await delay(3800);
+      if(cancelled) return;
+
+      // fade out
+      htBody.style.transition = 'opacity .4s';
+      htBody.style.opacity = '0';
+      await delay(420);
+      if(cancelled) return;
+      htBody.style.opacity = '1';
+      scenarioIdx++;
+      runScenario();
+    }
+
+    // start after hero animation settles
+    setTimeout(runScenario, 1800);
+  })();
+
+  /* ─── Rotating neon word in hero ─── */
+  (function(){
+    const el = document.getElementById('neon-rotate');
+    if(!el||prefersReduced) return;
+    const words = ['הצמיחה','החדשנות','האוטומציה','ה-AI'];
+    let idx = 0;
+    setInterval(()=>{
+      el.classList.add('fade-out');
+      setTimeout(()=>{
+        idx = (idx+1) % words.length;
+        el.textContent = words[idx];
+        el.classList.remove('fade-out');
+        el.classList.add('fade-in');
+        requestAnimationFrame(()=>{
+          el.classList.remove('fade-in');
+        });
+      }, 360);
+    }, 3200);
+  })();
+
+  /* ─── Back to Top ─── */
+  const btt = document.getElementById('back-to-top');
+  if(btt){
+    window.addEventListener('scroll',()=>{
+      btt.classList.toggle('visible', window.scrollY > 600);
+    },{passive:true});
+    btt.addEventListener('click',()=>{
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  }
+
+  /* ─── Nav active section highlight ─── */
+  const navSections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  if(navLinks.length){
+    const secObs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          navLinks.forEach(l=>l.classList.remove('nav-active'));
+          const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+          if(active) active.classList.add('nav-active');
+        }
+      });
+    },{threshold:.35,rootMargin:'-60px 0px -35% 0px'});
+    navSections.forEach(s=>secObs.observe(s));
+  }
+
+})();
+</script>
+
+<!-- Back to top -->
+<button id="back-to-top" aria-label="חזרה לראש הדף" title="חזרה לראש הדף">↑</button>
+
+</body>
+</html>
