@@ -203,7 +203,7 @@
        HERO (dark, canvas)
     ═══════════════════════════════════════ */
     .hero{
-      min-height:100vh;padding-top:var(--nav-h);
+      min-height:100vh;height:100vh;padding-top:var(--nav-h);
       position:relative;overflow:hidden;
       background:#0A0A0A;display:flex;align-items:center;
     }
@@ -220,28 +220,29 @@
     ═══════════════════════════════════════ */
     .hero-video-bg{
       position:absolute;
-      top:0;left:0;
-      width:58%;
-      height:100%;
-      pointer-events:none;z-index:1;
+      /* full-bleed: a box wider than 16:9 crops top/bottom (no zoom-in)
+         and shows the whole width of the clip */
+      top:0;right:0;bottom:0;left:0;
+      width:auto;height:auto;
+      pointer-events:none;z-index:2;
       object-fit:cover;
-      object-position:center center;
-      opacity:.72;
-      filter:saturate(1.3) brightness(1.05);
-      /* fade toward right where the text lives */
+      object-position:left center;
+      opacity:1;
+      filter:saturate(1.35) brightness(1.55) contrast(1.05);
+      /* fade out toward the right where the text lives */
       -webkit-mask-image:linear-gradient(to right,
-        black 0%, black 45%, rgba(0,0,0,.5) 68%, transparent 90%);
+        black 0%, black 38%, rgba(0,0,0,.4) 62%, transparent 82%);
               mask-image:linear-gradient(to right,
-        black 0%, black 45%, rgba(0,0,0,.5) 68%, transparent 90%);
+        black 0%, black 38%, rgba(0,0,0,.4) 62%, transparent 82%);
     }
     @media(max-width:760px){
-      .hero-video-bg{width:100%;opacity:.28;filter:none;
-        -webkit-mask-image:linear-gradient(to bottom,black 60%,transparent 100%);
-                mask-image:linear-gradient(to bottom,black 60%,transparent 100%);
+      .hero-video-bg{right:0;opacity:.6;filter:brightness(1.6);
+        -webkit-mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
+                mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
       }
     }
     @media(prefers-reduced-motion:reduce){
-      .hero-video-bg{opacity:0}
+      /* video remains visible — paused via JS instead of hidden */
     }
 
     /* ═══════════════════════════════════════
@@ -3229,6 +3230,11 @@ if(document.readyState === 'loading'){
   const PARTICLE_N = window.innerWidth < 700 ? 45 : 85;
   const NEON = '#C4F12C';
   const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* Keep the decorative hero video playing regardless of reduced-motion.
+     Users who need motion reduced can hide it entirely via the a11y mode toggle. */
+  const heroVideo = document.querySelector('.hero-video-bg');
+  if(heroVideo){ heroVideo.play().catch(()=>{}); }
 
   function resize(){
     W=canvas.width=heroEl.offsetWidth;
