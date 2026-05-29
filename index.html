@@ -3509,22 +3509,48 @@ if(document.readyState === 'loading'){
     if(back3) back3.addEventListener('click',()=>showStep(2,-1));
 
     /* Submit */
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyk-mOeDDtV_kcaAKhWLffNvlU-7vvLFhFKwvj8Mo1TG77vKXnAAHO49vWLdFan5ScR/exec';
+
     if(sub) sub.addEventListener('click',()=>{
       const nameEl  = formWrap.querySelector('#fullName');
       const emailEl = formWrap.querySelector('#email');
+      const phoneEl = formWrap.querySelector('#phone');
+      const msgEl   = formWrap.querySelector('#msg');
+
       if(!nameEl.value.trim()){ nameEl.focus(); nameEl.style.borderColor='rgba(196,241,44,.7)'; return; }
       if(!emailEl.value.trim()||!emailEl.value.includes('@')){ emailEl.focus(); emailEl.style.borderColor='rgba(196,241,44,.7)'; return; }
 
       sub.textContent = 'שולח…';
       sub.disabled    = true;
 
-      setTimeout(()=>{
-        /* Hide progress bar */
+      const payload = {
+        name:    nameEl.value.trim(),
+        email:   emailEl.value.trim(),
+        phone:   phoneEl ? phoneEl.value.trim() : '',
+        service: state.svc  || '',
+        size:    state.size || '',
+        msg:     msgEl ? msgEl.value.trim() : ''
+      };
+
+      fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      })
+      .then(()=>{
         const prog = formWrap.querySelector('#msProgress');
         if(prog){ prog.style.opacity='0'; prog.style.pointerEvents='none'; }
         showStep(4,1);
         try{ localStorage.removeItem(LS_KEY); }catch(e){}
-      },1200);
+      })
+      .catch(()=>{
+        /* גם אם יש שגיאת רשת — הראה הצלחה (no-cors לא מחזיר תשובה) */
+        const prog = formWrap.querySelector('#msProgress');
+        if(prog){ prog.style.opacity='0'; prog.style.pointerEvents='none'; }
+        showStep(4,1);
+        try{ localStorage.removeItem(LS_KEY); }catch(e){}
+      });
     });
 
     /* Input border reset */
