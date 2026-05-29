@@ -220,9 +220,9 @@
     ═══════════════════════════════════════ */
     .hero-video-bg{
       position:absolute;
-      top:50%;left:0;
+      top:50%;right:0;
       transform:translateY(-50%);
-      /* left-anchored 16:9 panel */
+      /* right-anchored 16:9 panel */
       width:82%;
       aspect-ratio:16/9;
       pointer-events:none;z-index:1;
@@ -230,11 +230,11 @@
       opacity:.58;
       /* richer colours */
       filter:saturate(1.3) brightness(1.05);
-      /* vignette: left edge slightly soft, right edge fades strongly
+      /* vignette: right edge slightly soft, left edge fades strongly
          into title zone, top+bottom fade from ellipse */
-      -webkit-mask-image:radial-gradient(ellipse 108% 82% at 22% 50%,
+      -webkit-mask-image:radial-gradient(ellipse 108% 82% at 78% 50%,
         black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
-              mask-image:radial-gradient(ellipse 108% 82% at 22% 50%,
+              mask-image:radial-gradient(ellipse 108% 82% at 78% 50%,
         black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
       will-change:opacity;
     }
@@ -436,16 +436,15 @@
       display:flex;align-items:center;
       width:100%;
     }
-    /* Title occupies the right portion; video/network breathe on the left.
-       margin-inline-end:auto in RTL pushes the block to the right (start edge). */
+    /* Title occupies the left portion; video breathes on the right. */
     .hero-content{
       flex:none;
       width:min(580px, 55%);
-      margin-inline-end:auto; /* RTL: pushes content toward right edge */
+      margin-inline-start:auto; /* RTL: pushes content toward left edge */
     }
     @media(max-width:860px){
       .hero-inner{flex-direction:column;align-items:flex-start;padding:64px 0 72px}
-      .hero-content{width:100%;margin-inline-end:0}
+      .hero-content{width:100%;margin-inline-start:0}
     }
 
     /* mouse-glow */
