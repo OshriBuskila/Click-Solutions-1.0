@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>הצהרת נגישות — Click Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #FAFAF7;
+      --ink:   #0A0A0A;
+      --ink2:  rgba(10,10,10,.65);
+      --ink4:  rgba(10,10,10,.10);
+      --neon:  #A4D612;
+      --max-w: 760px;
+      --font-he: 'Heebo', system-ui, sans-serif;
+      --font-mo: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-he);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: #3D7A00; text-decoration: underline; }
+    a:hover { color: var(--ink); }
+    :focus-visible { outline: 2px solid #3D7A00; outline-offset: 3px; }
+
+    /* Nav */
+    .topbar {
+      height: 60px;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      padding: 0 clamp(20px, 4vw, 56px);
+      gap: 24px;
+    }
+    .topbar-logo {
+      font-family: var(--font-mo);
+      font-size: 16px;
+      font-weight: 700;
+      color: #FAFAF7;
+      text-decoration: none;
+      letter-spacing: -.04em;
+    }
+    .topbar-logo span { color: var(--neon); }
+    .topbar-back {
+      font-family: var(--font-mo);
+      font-size: 11px;
+      color: rgba(250,250,247,.5);
+      text-decoration: none;
+      letter-spacing: .05em;
+      margin-right: auto;
+      transition: color .2s;
+    }
+    .topbar-back:hover { color: #FAFAF7; }
+
+    /* Layout */
+    .page { max-width: var(--max-w); margin: 0 auto; padding: 56px clamp(20px, 4vw, 40px) 96px; }
+
+    /* Header */
+    .page-label {
+      font-family: var(--font-mo);
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #3D7A00;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .page-title {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900;
+      letter-spacing: -.025em;
+      line-height: 1.08;
+      margin-bottom: 10px;
+    }
+    .page-meta {
+      font-family: var(--font-mo);
+      font-size: 11px;
+      color: var(--ink2);
+      margin-bottom: 48px;
+      padding-bottom: 28px;
+      border-bottom: 1.5px solid var(--ink4);
+    }
+
+    /* Sections */
+    .a11y-section { margin-bottom: 44px; }
+    .a11y-section h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -.015em;
+    }
+    .a11y-section p { font-size: 15.5px; color: var(--ink2); margin-bottom: 10px; }
+    .a11y-section ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .a11y-section ul li {
+      font-size: 15px;
+      color: var(--ink2);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .a11y-section ul li::before {
+      content: '✓';
+      color: #3D7A00;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Contact box */
+    .contact-box {
+      background: var(--ink);
+      color: #FAFAF7;
+      padding: 28px 30px;
+      margin-top: 48px;
+      border-right: 4px solid var(--neon);
+    }
+    .contact-box h2 { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+    .contact-box p { font-size: 14px; color: rgba(250,250,247,.72); margin-bottom: 8px; }
+    .contact-box a { color: var(--neon); }
+    .contact-box a:hover { color: #fff; }
+
+    /* Badge */
+    .wcag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1.5px solid #3D7A00;
+      padding: 10px 18px;
+      margin-top: 16px;
+      font-family: var(--font-mo);
+      font-size: 11px;
+      color: #3D7A00;
+      letter-spacing: .06em;
+    }
+    .wcag-badge::before {
+      content: '♿';
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="topbar" aria-label="ניווט עליון">
+  <a href="index.html" class="topbar-logo">click<span>_</span></a>
+  <a href="index.html" class="topbar-back">← חזרה לאתר</a>
+</nav>
+
+<main class="page" id="main-content">
+
+  <span class="page-label">// נגישות</span>
+  <h1 class="page-title">הצהרת נגישות</h1>
+  <p class="page-meta">עודכן לאחרונה: מאי 2026 &nbsp;|&nbsp; גרסה 1.0</p>
+
+  <div class="a11y-section">
+    <h2>מחויבות לנגישות</h2>
+    <p>
+      Click Solutions מחויבת להנגיש את שירותיה לכלל האוכלוסייה, לרבות אנשים עם מוגבלות.
+      אנו פועלים בהתאם לחוק שוויון זכויות לאנשים עם מוגבלות (1998) ותקנות הנגישות לשירות (2013),
+      ושואפים לעמוד בדרישות תקן ישראלי SI 5568 (המבוסס על WCAG 2.0 רמה AA).
+    </p>
+  </div>
+
+  <div class="a11y-section">
+    <h2>רמת הנגישות</h2>
+    <p>האתר עומד ברמת תאימות חלקית ל-WCAG 2.0 AA. ההתאמות שבוצעו כוללות:</p>
+    <ul>
+      <li>תמיכה בניווט מקלדת מלא (Tab, Enter, Space)</li>
+      <li>תגיות ARIA לאלמנטים אינטראקטיביים</li>
+      <li>קישור "דלג לתוכן הראשי" בראש הדף</li>
+      <li>מצב נגישות ייעודי (לחצן ♿ בפינה השמאלית-תחתונה) הכולל:
+        <ul style="margin-top:8px;padding-right:20px">
+          <li>ניגודיות צבעים גבוהה</li>
+          <li>הגדלת גודל הטקסט</li>
+          <li>ביטול אנימציות</li>
+          <li>הסרת רקעי וידאו</li>
+        </ul>
+      </li>
+      <li>תמיכה מלאה בעברית ו-RTL</li>
+      <li>תכנון רספונסיבי למובייל וטאבלט</li>
+      <li>טקסטים חלופיים (alt) לתמונות</li>
+    </ul>
+    <div class="wcag-badge">WCAG 2.0 AA — SI 5568</div>
+  </div>
+
+  <div class="a11y-section">
+    <h2>מגבלות ידועות</h2>
+    <p>אנו עובדים לשפר את הנגישות באופן מתמיד. מגבלות ידועות כרגע:</p>
+    <ul>
+      <li>סרטוני הרקע אינם מלווים בכתוביות (הסרטונים דקורטיביים ואינם מעבירים מידע)</li>
+      <li>חלק מהמוקדים החזותיים עשויים להיות בניגודיות נמוכה במצב הרגיל</li>
+    </ul>
+  </div>
+
+  <div class="a11y-section">
+    <h2>טכנולוגיות נגישות נתמכות</h2>
+    <ul>
+      <li>קוראי מסך: NVDA, JAWS, VoiceOver</li>
+      <li>דפדפנים: Chrome, Firefox, Edge, Safari (גרסאות עדכניות)</li>
+      <li>מכשירי מובייל: iOS + VoiceOver, Android + TalkBack</li>
+    </ul>
+  </div>
+
+  <div class="contact-box" role="complementary" aria-label="פנייה בנושא נגישות">
+    <h2>פנייה בנושא נגישות</h2>
+    <p>
+      נתקלתם בבעיית נגישות באתר? נשמח לשמוע ולטפל בהקדם.
+      ניתן לפנות לרכז/ת הנגישות:
+    </p>
+    <p><strong>דוא"ל:</strong> <a href="mailto:hello@clicksolutions.co.il">hello@clicksolutions.co.il</a></p>
+    <p><strong>טלפון:</strong> <a href="tel:054-000-0000">054-000-0000</a></p>
+    <p style="margin-top:12px;font-size:13px;color:rgba(250,250,247,.5)">
+      נשתדל להגיב לפניות נגישות תוך 5 ימי עסקים.
+    </p>
+  </div>
+
+</main>
+
+</body>
+</html>
