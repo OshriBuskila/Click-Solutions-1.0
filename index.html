@@ -220,22 +220,21 @@
     ═══════════════════════════════════════ */
     .hero-video-bg{
       position:absolute;
-      top:50%;right:0;
+      top:50%;left:0;
       transform:translateY(-50%);
-      /* right-anchored 16:9 panel */
+      /* left-anchored 16:9 panel */
       width:82%;
       aspect-ratio:16/9;
       pointer-events:none;z-index:1;
       object-fit:cover;
-      opacity:.58;
+      opacity:.75;
       /* richer colours */
       filter:saturate(1.3) brightness(1.05);
-      /* vignette: right edge slightly soft, left edge fades strongly
-         into title zone, top+bottom fade from ellipse */
-      -webkit-mask-image:radial-gradient(ellipse 108% 82% at 78% 50%,
-        black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
-              mask-image:radial-gradient(ellipse 108% 82% at 78% 50%,
-        black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
+      /* vignette: fades toward right where text lives */
+      -webkit-mask-image:linear-gradient(to right,
+        black 0%, black 30%, rgba(0,0,0,.7) 55%, transparent 80%);
+              mask-image:linear-gradient(to right,
+        black 0%, black 30%, rgba(0,0,0,.7) 55%, transparent 80%);
       will-change:opacity;
     }
     @media(max-width:760px){
@@ -436,15 +435,15 @@
       display:flex;align-items:center;
       width:100%;
     }
-    /* Title occupies the left portion; video breathes on the right. */
+    /* Title occupies the right portion; video breathes on the left. */
     .hero-content{
       flex:none;
       width:min(580px, 55%);
-      margin-inline-start:auto; /* RTL: pushes content toward left edge */
+      margin-inline-end:auto; /* RTL: pushes content toward right edge */
     }
     @media(max-width:860px){
       .hero-inner{flex-direction:column;align-items:flex-start;padding:64px 0 72px}
-      .hero-content{width:100%;margin-inline-start:0}
+      .hero-content{width:100%;margin-inline-end:0}
     }
 
     /* mouse-glow */
