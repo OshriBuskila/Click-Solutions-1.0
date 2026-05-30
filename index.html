@@ -627,6 +627,7 @@
     }
 
     /* ── Section 2: Automation node network ── */
+    /* automation node-network SVG (still used in the automation section) */
     .auto-svg{width:100%;height:340px;display:block;overflow:visible}
     .a-edge{stroke:rgba(196,241,44,.10);stroke-width:1;fill:none;stroke-dasharray:5 4}
     .a-edge--hi{stroke:rgba(196,241,44,.22);stroke-dasharray:6 3}
@@ -637,6 +638,15 @@
     .a-label--hub{fill:rgba(196,241,44,.85);font-size:8px;letter-spacing:1px}
     .a-sublabel{font-family:'JetBrains Mono',monospace;font-size:6px;text-anchor:middle;fill:rgba(250,250,247,.22);letter-spacing:.3px}
     .a-dot{fill:var(--neon)}
+
+    /* shared dark-section video style (cfir: dev/CRM video) */
+    .auto-video-wrap,.crm-video-wrap{position:relative;width:100%;align-self:center}
+    .auto-video,.crm-video{
+      width:100%;height:auto;display:block;
+      border-radius:14px;
+      border:1px solid rgba(196,241,44,.18);
+      box-shadow:0 0 32px rgba(196,241,44,.10), 0 8px 32px rgba(0,0,0,.45);
+    }
 
     /* ── Section 3: Development visual ── */
     .dev-split{display:grid;grid-template-columns:1.1fr .95fr;gap:14px;width:100%;max-width:520px;direction:ltr}
@@ -2571,75 +2581,15 @@
         <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">שוחחו על הפרויקט →</a>
       </div>
 
-      <!-- Visual: code + wireframe split -->
-      <div class="svc-vis reveal" style="transition-delay:.15s" aria-hidden="true">
-        <div class="dev-split">
-
-          <!-- Code panel -->
-          <div class="dev-panel">
-            <div class="dev-topbar">
-              <span class="dev-dot"></span>
-              <span class="dev-dot"></span>
-              <span class="dev-dot"></span>
-              <span class="dev-fname">CrmDashboard.tsx</span>
-            </div>
-            <div class="dev-code-body">
-              <div><span class="d-ln">1</span><span class="d-kw">import</span><span class="d-tx"> { </span><span class="d-fn">CRM</span><span class="d-tx"> }</span></div>
-              <div><span class="d-ln">2</span><span class="d-cm">// AI-powered interface</span></div>
-              <div><span class="d-ln">3</span><span class="d-kw">const</span><span class="d-tx"> </span><span class="d-fn">Dashboard</span><span class="d-tx"> = () =&gt;</span></div>
-              <div><span class="d-ln">4</span><span class="d-tx">  &lt;</span><span class="d-fn">CRM</span></div>
-              <div><span class="d-ln">5</span><span class="d-tx">    </span><span class="d-attr">ai</span><span class="d-tx">=</span><span class="d-str">true</span></div>
-              <div><span class="d-ln">6</span><span class="d-tx">    </span><span class="d-attr">lang</span><span class="d-tx">=</span><span class="d-str">"he"</span></div>
-              <div><span class="d-ln">7</span><span class="d-tx">    </span><span class="d-attr">data</span><span class="d-tx">={</span><span class="d-fn">live</span><span class="d-tx">}</span></div>
-              <div><span class="d-ln">8</span><span class="d-tx">  /&gt;</span><span class="d-cur"></span></div>
-            </div>
-          </div>
-
-          <!-- Wireframe/CRM panel -->
-          <div class="dev-panel">
-            <div class="dev-topbar">
-              <div class="dev-wf-nav" style="margin:0;flex:1;height:100%;background:transparent;border:none;padding:0">
-                <div class="dev-nav-pill"></div>
-                <div class="dev-nav-pill"></div>
-                <div class="dev-nav-pill"></div>
-                <div class="dev-nav-pill"></div>
-              </div>
-            </div>
-            <div class="dev-wf-body">
-              <div class="dev-kpi-row">
-                <div class="dev-kpi">
-                  <span class="dev-kpi-val">247</span>
-                  <span class="dev-kpi-lbl">LEADS</span>
-                </div>
-                <div class="dev-kpi">
-                  <span class="dev-kpi-val">94%</span>
-                  <span class="dev-kpi-lbl">CONV.</span>
-                </div>
-              </div>
-              <table class="dev-table">
-                <tbody>
-                  <tr class="dev-tr"><td>ישראל ישראלי</td><td style="color:rgba(196,241,44,.4)">●</td></tr>
-                  <tr class="dev-tr"><td>Sarah Cohen</td><td style="color:rgba(196,241,44,.3)">●</td></tr>
-                  <tr class="dev-tr"><td>רוני לוי</td><td style="color:rgba(196,241,44,.4)">●</td></tr>
-                  <tr class="dev-tr"><td>Eyal Peretz</td><td style="color:rgba(196,241,44,.2)">○</td></tr>
-                  <tr class="dev-tr"><td>מיה כהן</td><td style="color:rgba(196,241,44,.4)">●</td></tr>
-                </tbody>
-              </table>
-              <svg class="dev-chart" viewBox="0 0 180 36">
-                <defs>
-                  <linearGradient id="devGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="rgba(196,241,44,.15)"/>
-                    <stop offset="100%" stop-color="rgba(196,241,44,0)"/>
-                  </linearGradient>
-                </defs>
-                <polyline points="0,30 20,26 40,22 60,24 80,18 100,14 120,16 140,10 160,8 180,4" class="dev-chart-area" style="fill:none"/>
-                <path d="M0,30 L20,26 L40,22 L60,24 L80,18 L100,14 L120,16 L140,10 L160,8 L180,4 L180,36 L0,36 Z" class="dev-chart-area"/>
-                <polyline points="0,30 20,26 40,22 60,24 80,18 100,14 120,16 140,10 160,8 180,4" class="dev-chart-line"/>
-              </svg>
-            </div>
-          </div>
-
-        </div>
+      <!-- Visual: CRM animation video (looping) -->
+      <div class="svc-vis crm-video-wrap reveal" style="transition-delay:.15s" aria-hidden="true">
+        <video
+          class="crm-video"
+          autoplay muted loop playsinline
+          aria-label="אנימציית CRM — ממשק ניהול לקוחות חי"
+        >
+          <source src="crm-hero.mp4" type="video/mp4" />
+        </video>
       </div>
 
     </div>
@@ -2909,26 +2859,11 @@
           </p>
         </div>
         <div class="wf-visual" aria-hidden="true">
-          <svg viewBox="0 0 300 160" style="width:100%;max-width:340px;height:auto;display:block">
-            <!-- Human side -->
-            <circle cx="58"  cy="80" r="42" fill="none" stroke="rgba(10,10,10,.12)" stroke-width="1.5"/>
-            <circle cx="58"  cy="80" r="26" fill="none" stroke="rgba(10,10,10,.06)" stroke-width="1"/>
-            <text x="58" y="75" class="bridge-lbl-human">HUMAN</text>
-            <text x="58" y="89" class="bridge-lbl-human">EXPERTISE</text>
-            <!-- AI side -->
-            <circle cx="242" cy="80" r="42" fill="none" stroke="rgba(164,214,18,.5)" stroke-width="1.5"/>
-            <circle cx="242" cy="80" r="26" fill="none" stroke="rgba(164,214,18,.22)" stroke-width="1"/>
-            <text x="242" y="75" class="bridge-lbl-ai">AI</text>
-            <text x="242" y="89" class="bridge-lbl-ai">TOOLS</text>
-            <!-- Connection line -->
-            <line x1="100" y1="80" x2="200" y2="80" stroke="rgba(164,214,18,.3)" stroke-width="1" stroke-dasharray="5 3"/>
-            <!-- Animated bridge dots -->
-            <circle cx="125" cy="80" r="3" fill="var(--neon-h)" style="animation:bdot 2.2s ease-in-out infinite;animation-delay:0s;opacity:.3"/>
-            <circle cx="150" cy="80" r="4" fill="var(--neon-h)" style="animation:bdot 2.2s ease-in-out infinite;animation-delay:.5s;opacity:.3"/>
-            <circle cx="175" cy="80" r="3" fill="var(--neon-h)" style="animation:bdot 2.2s ease-in-out infinite;animation-delay:1s;opacity:.3"/>
-            <!-- Bridge label -->
-            <text x="150" y="67" class="bridge-c-lbl">CLICK SOLUTIONS</text>
-          </svg>
+          <img
+            src="cfir-portrait.png"
+            alt="צוות Click Solutions — מומחיות והובלה"
+            style="width:100%;max-width:320px;height:auto;display:block;border-radius:14px;box-shadow:0 8px 32px rgba(10,10,10,.12)"
+          />
         </div>
       </div>
 
@@ -2936,14 +2871,11 @@
       <div class="why-feat reveal" style="transition-delay:.1s">
         <!-- visual first → goes to right column in RTL grid -->
         <div class="wf-visual" aria-hidden="true">
-          <div class="bespoke">
-            <div class="bsp-no"><span class="bsp-x">✗</span> Generic off-the-shelf</div>
-            <div class="bsp-no"><span class="bsp-x">✗</span> One-size-fits-all</div>
-            <div class="bsp-no"><span class="bsp-x">✗</span> Template-driven SaaS</div>
-            <div class="bsp-div"></div>
-            <div class="bsp-yes"><span class="bsp-ck">✓</span> Built for your workflows</div>
-            <div class="bsp-yes"><span class="bsp-ck">✓</span> Your processes. Your goals.</div>
-          </div>
+          <img
+            src="oshri-portrait.png"
+            alt="צוות Click Solutions — פתרונות מותאמים אישית"
+            style="width:100%;max-width:320px;height:auto;display:block;border-radius:14px;box-shadow:0 8px 32px rgba(10,10,10,.12)"
+          />
         </div>
         <!-- body second → goes to left column in RTL grid -->
         <div class="wf-body">
@@ -2957,7 +2889,7 @@
       </div>
 
       <!-- ── Row 3: ROI — full-width centered ── -->
-      <div class="why-feat why-feat--full reveal" style="transition-delay:.2s">
+      <div class="why-feat reveal" style="transition-delay:.2s">
         <div class="wf-body">
           <span class="wf-kicker">// measurable results</span>
           <h3 class="wf-title" style="font-size:clamp(26px,3.5vw,42px)">שורה תחתונה מדידה.<br/>ROI שניתן למדוד.</h3>
@@ -2966,19 +2898,12 @@
             חיסכון מדיד בשעות אדם, שיפור השירות ללקוח הקצה ועלייה בתפוקה.
           </p>
         </div>
-        <div class="roi-tiles" style="margin-top:36px;justify-content:center;flex-wrap:wrap">
-          <div class="roi-tile" style="min-width:140px">
-            <span class="roi-val" style="font-size:42px">300h</span>
-            <span class="roi-lbl">חיסכון<br/>לחודש</span>
-          </div>
-          <div class="roi-tile" style="min-width:140px">
-            <span class="roi-val" style="font-size:42px">+40%</span>
-            <span class="roi-lbl">עלייה<br/>בתפוקה</span>
-          </div>
-          <div class="roi-tile" style="min-width:140px">
-            <span class="roi-val" style="font-size:42px">×3</span>
-            <span class="roi-lbl">ROI<br/>מוכח</span>
-          </div>
+        <div class="wf-visual" aria-hidden="true">
+          <img
+            src="barel-portrait.png"
+            alt="צוות Click Solutions — תוצאות מדידות"
+            style="width:100%;max-width:320px;height:auto;display:block;border-radius:14px;box-shadow:0 8px 32px rgba(10,10,10,.12)"
+          />
         </div>
       </div>
 
