@@ -630,7 +630,12 @@
     /* ── Section 2: Automation node network ── */
     /* automation section — video replaces SVG orbit animation */
     .auto-video-wrap{position:relative;width:100%;align-self:center}
-    .auto-video{width:100%;height:auto;display:block;border-radius:12px;object-fit:cover}
+    .auto-video{
+      width:100%;height:auto;display:block;
+      border-radius:14px;
+      border:1px solid rgba(196,241,44,.18);
+      box-shadow:0 0 32px rgba(196,241,44,.10), 0 8px 32px rgba(0,0,0,.45);
+    }
 
     /* ── Section 3: Development visual ── */
     .dev-split{display:grid;grid-template-columns:1.1fr .95fr;gap:14px;width:100%;max-width:520px;direction:ltr}
