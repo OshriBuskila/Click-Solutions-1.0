@@ -628,9 +628,9 @@
     }
 
     /* ── Section 2: Automation node network ── */
-    /* automation section — video replaces SVG orbit animation */
-    .auto-video-wrap{position:relative;width:100%;align-self:center}
-    .auto-video{
+    /* shared dark-section video style (automation + dev/CRM) */
+    .auto-video-wrap,.crm-video-wrap{position:relative;width:100%;align-self:center}
+    .auto-video,.crm-video{
       width:100%;height:auto;display:block;
       border-radius:14px;
       border:1px solid rgba(196,241,44,.18);
@@ -2358,75 +2358,15 @@
         <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">שוחחו על הפרויקט →</a>
       </div>
 
-      <!-- Visual: code + wireframe split -->
-      <div class="svc-vis reveal" style="transition-delay:.15s" aria-hidden="true">
-        <div class="dev-split">
-
-          <!-- Code panel -->
-          <div class="dev-panel">
-            <div class="dev-topbar">
-              <span class="dev-dot"></span>
-              <span class="dev-dot"></span>
-              <span class="dev-dot"></span>
-              <span class="dev-fname">CrmDashboard.tsx</span>
-            </div>
-            <div class="dev-code-body">
-              <div><span class="d-ln">1</span><span class="d-kw">import</span><span class="d-tx"> { </span><span class="d-fn">CRM</span><span class="d-tx"> }</span></div>
-              <div><span class="d-ln">2</span><span class="d-cm">// AI-powered interface</span></div>
-              <div><span class="d-ln">3</span><span class="d-kw">const</span><span class="d-tx"> </span><span class="d-fn">Dashboard</span><span class="d-tx"> = () =&gt;</span></div>
-              <div><span class="d-ln">4</span><span class="d-tx">  &lt;</span><span class="d-fn">CRM</span></div>
-              <div><span class="d-ln">5</span><span class="d-tx">    </span><span class="d-attr">ai</span><span class="d-tx">=</span><span class="d-str">true</span></div>
-              <div><span class="d-ln">6</span><span class="d-tx">    </span><span class="d-attr">lang</span><span class="d-tx">=</span><span class="d-str">"he"</span></div>
-              <div><span class="d-ln">7</span><span class="d-tx">    </span><span class="d-attr">data</span><span class="d-tx">={</span><span class="d-fn">live</span><span class="d-tx">}</span></div>
-              <div><span class="d-ln">8</span><span class="d-tx">  /&gt;</span><span class="d-cur"></span></div>
-            </div>
-          </div>
-
-          <!-- Wireframe/CRM panel -->
-          <div class="dev-panel">
-            <div class="dev-topbar">
-              <div class="dev-wf-nav" style="margin:0;flex:1;height:100%;background:transparent;border:none;padding:0">
-                <div class="dev-nav-pill"></div>
-                <div class="dev-nav-pill"></div>
-                <div class="dev-nav-pill"></div>
-                <div class="dev-nav-pill"></div>
-              </div>
-            </div>
-            <div class="dev-wf-body">
-              <div class="dev-kpi-row">
-                <div class="dev-kpi">
-                  <span class="dev-kpi-val">247</span>
-                  <span class="dev-kpi-lbl">LEADS</span>
-                </div>
-                <div class="dev-kpi">
-                  <span class="dev-kpi-val">94%</span>
-                  <span class="dev-kpi-lbl">CONV.</span>
-                </div>
-              </div>
-              <table class="dev-table">
-                <tbody>
-                  <tr class="dev-tr"><td>ישראל ישראלי</td><td style="color:rgba(196,241,44,.4)">●</td></tr>
-                  <tr class="dev-tr"><td>Sarah Cohen</td><td style="color:rgba(196,241,44,.3)">●</td></tr>
-                  <tr class="dev-tr"><td>רוני לוי</td><td style="color:rgba(196,241,44,.4)">●</td></tr>
-                  <tr class="dev-tr"><td>Eyal Peretz</td><td style="color:rgba(196,241,44,.2)">○</td></tr>
-                  <tr class="dev-tr"><td>מיה כהן</td><td style="color:rgba(196,241,44,.4)">●</td></tr>
-                </tbody>
-              </table>
-              <svg class="dev-chart" viewBox="0 0 180 36">
-                <defs>
-                  <linearGradient id="devGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="rgba(196,241,44,.15)"/>
-                    <stop offset="100%" stop-color="rgba(196,241,44,0)"/>
-                  </linearGradient>
-                </defs>
-                <polyline points="0,30 20,26 40,22 60,24 80,18 100,14 120,16 140,10 160,8 180,4" class="dev-chart-area" style="fill:none"/>
-                <path d="M0,30 L20,26 L40,22 L60,24 L80,18 L100,14 L120,16 L140,10 L160,8 L180,4 L180,36 L0,36 Z" class="dev-chart-area"/>
-                <polyline points="0,30 20,26 40,22 60,24 80,18 100,14 120,16 140,10 160,8 180,4" class="dev-chart-line"/>
-              </svg>
-            </div>
-          </div>
-
-        </div>
+      <!-- Visual: CRM animation video (looping) -->
+      <div class="svc-vis crm-video-wrap reveal" style="transition-delay:.15s" aria-hidden="true">
+        <video
+          class="crm-video"
+          autoplay muted loop playsinline
+          aria-label="אנימציית CRM — ממשק ניהול לקוחות חי"
+        >
+          <source src="crm-hero.mp4" type="video/mp4" />
+        </video>
       </div>
 
     </div>
