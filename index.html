@@ -203,7 +203,7 @@
        HERO (dark, canvas)
     ═══════════════════════════════════════ */
     .hero{
-      min-height:100vh;height:100vh;padding-top:var(--nav-h);
+      min-height:100vh;padding-top:var(--nav-h);
       position:relative;overflow:hidden;
       background:#0A0A0A;display:flex;align-items:center;
     }
@@ -220,29 +220,29 @@
     ═══════════════════════════════════════ */
     .hero-video-bg{
       position:absolute;
-      /* full-bleed: a box wider than 16:9 crops top/bottom (no zoom-in)
-         and shows the whole width of the clip */
-      top:0;right:0;bottom:0;left:0;
-      width:auto;height:auto;
-      pointer-events:none;z-index:2;
+      top:50%;left:0;
+      transform:translateY(-50%);
+      /* left-anchored 16:9 panel */
+      width:82%;
+      aspect-ratio:16/9;
+      pointer-events:none;z-index:1;
       object-fit:cover;
-      object-position:left center;
-      opacity:1;
-      filter:saturate(1.35) brightness(1.55) contrast(1.05);
-      /* fade out toward the right where the text lives */
-      -webkit-mask-image:linear-gradient(to right,
-        black 0%, black 38%, rgba(0,0,0,.4) 62%, transparent 82%);
-              mask-image:linear-gradient(to right,
-        black 0%, black 38%, rgba(0,0,0,.4) 62%, transparent 82%);
+      opacity:.58;
+      /* richer colours */
+      filter:saturate(1.3) brightness(1.05);
+      /* vignette: left edge slightly soft, right edge fades strongly
+         into title zone, top+bottom fade from ellipse */
+      -webkit-mask-image:radial-gradient(ellipse 108% 82% at 22% 50%,
+        black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
+              mask-image:radial-gradient(ellipse 108% 82% at 22% 50%,
+        black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
+      will-change:opacity;
     }
     @media(max-width:760px){
-      .hero-video-bg{right:0;opacity:.6;filter:brightness(1.6);
-        -webkit-mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
-                mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
-      }
+      .hero-video-bg{width:100%;opacity:.24;filter:none}
     }
     @media(prefers-reduced-motion:reduce){
-      /* video remains visible — paused via JS instead of hidden */
+      .hero-video-bg{opacity:0}
     }
 
     /* ═══════════════════════════════════════
@@ -436,7 +436,8 @@
       display:flex;align-items:center;
       width:100%;
     }
-    /* Title occupies the right portion; video breathes on the left. */
+    /* Title occupies the right portion; video/network breathe on the left.
+       margin-inline-end:auto in RTL pushes the block to the right (start edge). */
     .hero-content{
       flex:none;
       width:min(580px, 55%);
@@ -627,16 +628,14 @@
     }
 
     /* ── Section 2: Automation node network ── */
-    .auto-svg{width:100%;height:340px;display:block;overflow:visible}
-    .a-edge{stroke:rgba(196,241,44,.10);stroke-width:1;fill:none;stroke-dasharray:5 4}
-    .a-edge--hi{stroke:rgba(196,241,44,.22);stroke-dasharray:6 3}
-    .a-node-outer{fill:none;stroke:rgba(196,241,44,.12);stroke-width:1;stroke-dasharray:3 3}
-    .a-node-core{fill:#0A0A0A;stroke:rgba(196,241,44,.28);stroke-width:1.5}
-    .a-node-core--hub{fill:rgba(196,241,44,.07);stroke:var(--neon-h);stroke-width:2;filter:drop-shadow(0 0 8px rgba(196,241,44,.3))}
-    .a-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;text-anchor:middle;letter-spacing:.5px;fill:rgba(250,250,247,.4)}
-    .a-label--hub{fill:rgba(196,241,44,.85);font-size:8px;letter-spacing:1px}
-    .a-sublabel{font-family:'JetBrains Mono',monospace;font-size:6px;text-anchor:middle;fill:rgba(250,250,247,.22);letter-spacing:.3px}
-    .a-dot{fill:var(--neon)}
+    /* automation section — video replaces SVG orbit animation */
+    .auto-video-wrap{position:relative;width:100%;align-self:center}
+    .auto-video{
+      width:100%;height:auto;display:block;
+      border-radius:14px;
+      border:1px solid rgba(196,241,44,.18);
+      box-shadow:0 0 32px rgba(196,241,44,.10), 0 8px 32px rgba(0,0,0,.45);
+    }
 
     /* ── Section 3: Development visual ── */
     .dev-split{display:grid;grid-template-columns:1.1fr .95fr;gap:14px;width:100%;max-width:520px;direction:ltr}
@@ -1305,85 +1304,6 @@
       .hero-word{opacity:1;transform:none}
       .reveal{opacity:1;transform:none}
     }
-
-    /* ═══════════════════════════════════════
-       ACCESSIBILITY MODE
-    ═══════════════════════════════════════ */
-    html.a11y-mode {
-      --paper:   #FFFFFF;
-      --card:    #FFFFFF;
-      --ink:     #000000;
-      --ink2:    rgba(0,0,0,.87);
-      --ink3:    rgba(0,0,0,.62);
-      --ink4:    rgba(0,0,0,.15);
-      --neon:    #3D7A00;
-      --neon-h:  #2A5500;
-      --neon-glow: rgba(61,122,0,.2);
-      font-size: 18px;
-    }
-    html.a11y-mode *,
-    html.a11y-mode *::before,
-    html.a11y-mode *::after {
-      animation-duration: .01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: .01ms !important;
-    }
-    html.a11y-mode .hero-word { opacity:1; transform:none; }
-    html.a11y-mode .reveal    { opacity:1; transform:none; }
-    html.a11y-mode .hero-video-bg,
-    html.a11y-mode .hero-cinema { display:none !important; }
-    html.a11y-mode :focus-visible {
-      outline: 3px solid #000000 !important;
-      outline-offset: 4px !important;
-    }
-    html.a11y-mode p,
-    html.a11y-mode li,
-    html.a11y-mode label { line-height:1.9; letter-spacing:.012em; }
-    html.a11y-mode .hero { background:#000 !important; }
-    html.a11y-mode .hero-h1,
-    html.a11y-mode .hero-eyebrow,
-    html.a11y-mode .hero-sub { color:#fff !important; opacity:1; }
-    html.a11y-mode .navbar {
-      background:rgba(0,0,0,.97) !important;
-      border-bottom-color:rgba(61,122,0,.4) !important;
-    }
-    html.a11y-mode .btn { cursor:pointer !important; }
-    html.a11y-mode .hamburger,
-    html.a11y-mode .ms-back,
-    html.a11y-mode .btn-wa,
-    html.a11y-mode .ms-chip,
-    html.a11y-mode .form-group select { cursor:pointer !important; }
-    html.a11y-mode .btn-primary {
-      background:#3D7A00 !important;
-      color:#fff !important;
-      box-shadow:none !important;
-    }
-    html.a11y-mode .gradient-text {
-      background:none !important;
-      -webkit-text-fill-color:inherit !important;
-      color: var(--ink) !important;
-    }
-
-    /* Accessibility widget button */
-    .a11y-widget-btn {
-      position:fixed;
-      bottom:24px;
-      left:24px;
-      width:52px;height:52px;
-      border-radius:50%;
-      background:#0A0A0A;
-      color:#FAFAF7;
-      border:2px solid rgba(196,241,44,.3);
-      cursor:pointer;
-      z-index:9999;
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 4px 20px rgba(0,0,0,.5);
-      transition:transform .2s,box-shadow .2s,background .2s;
-    }
-    .a11y-widget-btn:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(0,0,0,.6); }
-    .a11y-widget-btn:focus-visible { outline:3px solid var(--neon); outline-offset:3px; }
-    .a11y-widget-btn[aria-pressed="true"] { background:#3D7A00; border-color:#3D7A00; }
-    .a11y-widget-btn svg { width:26px; height:26px; }
   </style>
 </head>
 
@@ -1405,7 +1325,7 @@
       <a href="#contact">צרו קשר</a>
     </nav>
     <div class="nav-right">
-      <a href="tel:050-5724571" class="nav-phone" dir="ltr">050-5724571</a>
+      <a href="tel:054-000-0000" class="nav-phone" dir="ltr">054-000-0000</a>
       <a href="#contact" class="btn btn-primary btn-sm nav-cta">בואו נדבר</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="פתח תפריט" aria-expanded="false">&#9776;</button>
@@ -2390,151 +2310,18 @@
         <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">רוצה לחסוך שעות →</a>
       </div>
 
-      <!-- Visual: animated node network -->
-      <div class="svc-vis reveal" style="transition-delay:.15s" aria-hidden="true">
-        <svg class="auto-svg" viewBox="0 0 480 340" role="img" aria-label="רשת אוטומציות מחוברת">
-          <defs>
-            <!-- paths from hub (240,170) to each satellite node -->
-            <path id="ae1" d="M240,170 Q300,135 360,100"/>
-            <path id="ae2" d="M240,170 Q320,170 390,170"/>
-            <path id="ae3" d="M240,170 Q300,205 360,240"/>
-            <path id="ae4" d="M240,170 Q240,240 240,310"/>
-            <path id="ae5" d="M240,170 Q180,205 120,240"/>
-            <path id="ae6" d="M240,170 Q160,170 90,170"/>
-            <path id="ae7" d="M240,170 Q180,135 120,100"/>
-            <path id="ae8" d="M240,170 Q240,100 240,30"/>
-            <!-- cross connections -->
-            <path id="ac1" d="M360,100 Q375,135 390,170"/>
-            <path id="ac2" d="M360,240 Q375,205 390,170"/>
-            <path id="ac3" d="M120,100 Q105,135 90,170"/>
-            <path id="ac4" d="M120,240 Q105,205 90,170"/>
-            <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(196,241,44,.25)"/>
-              <stop offset="100%" stop-color="rgba(196,241,44,0)"/>
-            </radialGradient>
-          </defs>
-
-          <!-- ambient hub glow -->
-          <circle cx="240" cy="170" r="70" fill="url(#hubGlow)"/>
-
-          <!-- edges hub → satellites -->
-          <path d="M240,170 Q300,135 360,100" class="a-edge a-edge--hi"/>
-          <path d="M240,170 Q320,170 390,170" class="a-edge a-edge--hi"/>
-          <path d="M240,170 Q300,205 360,240" class="a-edge"/>
-          <path d="M240,170 Q240,240 240,310" class="a-edge"/>
-          <path d="M240,170 Q180,205 120,240" class="a-edge"/>
-          <path d="M240,170 Q160,170 90,170" class="a-edge a-edge--hi"/>
-          <path d="M240,170 Q180,135 120,100" class="a-edge"/>
-          <path d="M240,170 Q240,100 240,30" class="a-edge a-edge--hi"/>
-          <!-- cross edges -->
-          <path d="M360,100 Q375,135 390,170" class="a-edge" style="opacity:.5"/>
-          <path d="M360,240 Q375,205 390,170" class="a-edge" style="opacity:.5"/>
-          <path d="M120,100 Q105,135 90,170" class="a-edge" style="opacity:.5"/>
-          <path d="M120,240 Q105,205 90,170" class="a-edge" style="opacity:.5"/>
-
-          <!-- satellite nodes -->
-          <!-- 1: CRM top-right (360,100) -->
-          <circle cx="360" cy="100" r="30" class="a-node-outer"/>
-          <circle cx="360" cy="100" r="22" class="a-node-core"/>
-          <text x="360" y="97" class="a-label">CRM</text>
-          <text x="360" y="107" class="a-sublabel">Salesforce</text>
-
-          <!-- 2: n8n/API right (390,170) -->
-          <circle cx="390" cy="170" r="26" class="a-node-outer"/>
-          <circle cx="390" cy="170" r="19" class="a-node-core"/>
-          <text x="390" y="167" class="a-label">n8n</text>
-          <text x="390" y="177" class="a-sublabel">Automation</text>
-
-          <!-- 3: WhatsApp bot-right (360,240) -->
-          <circle cx="360" cy="240" r="28" class="a-node-outer"/>
-          <circle cx="360" cy="240" r="20" class="a-node-core"/>
-          <text x="360" y="237" class="a-label">WA</text>
-          <text x="360" y="247" class="a-sublabel">WhatsApp</text>
-
-          <!-- 4: Sheets bottom (240,310) -->
-          <circle cx="240" cy="310" r="26" class="a-node-outer"/>
-          <circle cx="240" cy="310" r="19" class="a-node-core"/>
-          <text x="240" y="307" class="a-label">Sheets</text>
-          <text x="240" y="317" class="a-sublabel">Google</text>
-
-          <!-- 5: Slack bot-left (120,240) -->
-          <circle cx="120" cy="240" r="28" class="a-node-outer"/>
-          <circle cx="120" cy="240" r="20" class="a-node-core"/>
-          <text x="120" y="237" class="a-label">Slack</text>
-          <text x="120" y="247" class="a-sublabel">Messaging</text>
-
-          <!-- 6: Gmail left (90,170) -->
-          <circle cx="90" cy="170" r="26" class="a-node-outer"/>
-          <circle cx="90" cy="170" r="19" class="a-node-core"/>
-          <text x="90" y="167" class="a-label">Gmail</text>
-          <text x="90" y="177" class="a-sublabel">Email</text>
-
-          <!-- 7: Notion top-left (120,100) -->
-          <circle cx="120" cy="100" r="28" class="a-node-outer"/>
-          <circle cx="120" cy="100" r="20" class="a-node-core"/>
-          <text x="120" y="97" class="a-label">Notion</text>
-          <text x="120" y="107" class="a-sublabel">Docs</text>
-
-          <!-- 8: Calendar top (240,30) -->
-          <circle cx="240" cy="30" r="26" class="a-node-outer"/>
-          <circle cx="240" cy="30" r="19" class="a-node-core"/>
-          <text x="240" y="27" class="a-label">Cal</text>
-          <text x="240" y="37" class="a-sublabel">Calendar</text>
-
-          <!-- HUB: CLICK AI center -->
-          <circle cx="240" cy="170" r="44" class="a-node-outer" style="stroke-dasharray:2 2;animation:spin 18s linear infinite"/>
-          <circle cx="240" cy="170" r="34" class="a-node-core--hub"/>
-          <text x="240" y="166" class="a-label--hub" style="font-size:9px">CLICK</text>
-          <text x="240" y="178" class="a-label--hub" style="font-size:7px;fill:rgba(196,241,44,.5)">AI ENGINE</text>
-
-          <!-- Animated flowing dots — hub to satellites -->
-          <circle r="2.8" class="a-dot" opacity="0">
-            <animateMotion dur="2.2s" repeatCount="indefinite" begin="0s"><mpath href="#ae1"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.2s" repeatCount="indefinite"/>
-          </circle>
-          <circle r="2.8" class="a-dot" opacity="0">
-            <animateMotion dur="2s" repeatCount="indefinite" begin=".3s"><mpath href="#ae2"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2s" repeatCount="indefinite" begin=".3s"/>
-          </circle>
-          <circle r="2.4" class="a-dot" opacity="0">
-            <animateMotion dur="2.4s" repeatCount="indefinite" begin=".7s"><mpath href="#ae3"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.4s" repeatCount="indefinite" begin=".7s"/>
-          </circle>
-          <circle r="2.4" class="a-dot" opacity="0">
-            <animateMotion dur="2.6s" repeatCount="indefinite" begin="1.1s"><mpath href="#ae4"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.6s" repeatCount="indefinite" begin="1.1s"/>
-          </circle>
-          <circle r="2.4" class="a-dot" opacity="0">
-            <animateMotion dur="2.3s" repeatCount="indefinite" begin="1.4s"><mpath href="#ae5"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.3s" repeatCount="indefinite" begin="1.4s"/>
-          </circle>
-          <circle r="2.8" class="a-dot" opacity="0">
-            <animateMotion dur="2.1s" repeatCount="indefinite" begin="1.8s"><mpath href="#ae6"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.1s" repeatCount="indefinite" begin="1.8s"/>
-          </circle>
-          <circle r="2.4" class="a-dot" opacity="0">
-            <animateMotion dur="2.5s" repeatCount="indefinite" begin="2.1s"><mpath href="#ae7"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.5s" repeatCount="indefinite" begin="2.1s"/>
-          </circle>
-          <circle r="2.8" class="a-dot" opacity="0">
-            <animateMotion dur="1.9s" repeatCount="indefinite" begin="2.5s"><mpath href="#ae8"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="1.9s" repeatCount="indefinite" begin="2.5s"/>
-          </circle>
-          <!-- return dots satellites → hub -->
-          <circle r="2" fill="rgba(164,214,18,.5)" opacity="0">
-            <animateMotion dur="2.2s" repeatCount="indefinite" begin="1s" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#ae2"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;.6;.6;0" keyTimes="0;.05;.15;.85;1" dur="2.2s" repeatCount="indefinite" begin="1s"/>
-          </circle>
-          <circle r="2" fill="rgba(164,214,18,.5)" opacity="0">
-            <animateMotion dur="2.5s" repeatCount="indefinite" begin="2s" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#ae6"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;.6;.6;0" keyTimes="0;.05;.15;.85;1" dur="2.5s" repeatCount="indefinite" begin="2s"/>
-          </circle>
-          <circle r="2" fill="rgba(164,214,18,.5)" opacity="0">
-            <animateMotion dur="2.8s" repeatCount="indefinite" begin="1.5s" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#ae8"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;.6;.6;0" keyTimes="0;.05;.15;.85;1" dur="2.8s" repeatCount="indefinite" begin="1.5s"/>
-          </circle>
-
-        </svg>
+      <!-- Visual: automation animation video (scroll-triggered, plays once) -->
+      <div class="svc-vis auto-video-wrap reveal" style="transition-delay:.15s" aria-hidden="true">
+        <video
+          id="autoHeroVid"
+          class="auto-video"
+          muted
+          playsinline
+          preload="metadata"
+          aria-label="אנימציית אוטומציה — זרימת נתונים בין מערכות"
+        >
+          <source src="automation-hero.mp4" type="video/mp4" />
+        </video>
       </div>
 
     </div>
@@ -3040,7 +2827,7 @@
             <span class="wa-label">// preferred channel</span>
             <p class="wa-title">מעדיפים ליצור קשר ישירות?</p>
             <p class="wa-sub">מחלקת הייעוץ שלנו זמינה עבורכם. מענה תוך שעה.</p>
-            <a href="https://wa.me/972505724571?text=שלום%2C%20אני%20מעוניין%20לתאם%20פגישת%20אפיון"
+            <a href="https://wa.me/972540000000?text=שלום%2C%20אני%20מעוניין%20לתאם%20פגישת%20אפיון"
                target="_blank" rel="noopener noreferrer" class="btn-wa">
               <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               פנייה ישירה דרך WhatsApp
@@ -3183,14 +2970,13 @@
         <p class="footer-col-title">// יצירת קשר</p>
         <ul class="footer-links">
           <li><a href="#contact">תיאום פגישה</a></li>
-          <li><a href="https://wa.me/972505724571" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://wa.me/972540000000" target="_blank" rel="noopener">WhatsApp</a></li>
           <li><a href="mailto:hello@clicksolutions.co.il">hello@clicksolutions.co.il</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>// &copy; 2024–2026 Click Solutions. כל הזכויות שמורות.</span>
-      <a href="accessibility.html" style="color:inherit;text-decoration:underline;font-family:var(--font-mo);font-size:10px;color:var(--fg3);transition:color .2s">הצהרת נגישות</a>
       <span dir="ltr">hello@clicksolutions.co.il &middot; 054-000-0000</span>
     </div>
   </div>
@@ -3230,11 +3016,6 @@ if(document.readyState === 'loading'){
   const PARTICLE_N = window.innerWidth < 700 ? 45 : 85;
   const NEON = '#C4F12C';
   const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-
-  /* Keep the decorative hero video playing regardless of reduced-motion.
-     Users who need motion reduced can hide it entirely via the a11y mode toggle. */
-  const heroVideo = document.querySelector('.hero-video-bg');
-  if(heroVideo){ heroVideo.play().catch(()=>{}); }
 
   function resize(){
     W=canvas.width=heroEl.offsetWidth;
@@ -3381,6 +3162,27 @@ if(document.readyState === 'loading'){
   }
   revealCheck(); // run global function immediately too
 
+  /* ─── Automation video — play once when scrolled into view ─── */
+  (function(){
+    const autoVid = document.getElementById('autoHeroVid');
+    if(!autoVid) return;
+    // Prevent autoplay; video starts paused
+    autoVid.pause();
+    if('IntersectionObserver' in window){
+      const autoObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && !autoVid.dataset.played){
+            autoVid.currentTime = 0;
+            autoVid.play().catch(function(){});
+            autoVid.dataset.played = '1';
+            autoObs.unobserve(autoVid);
+          }
+        });
+      },{threshold: 0.35});
+      autoObs.observe(autoVid);
+    }
+  })();
+
 
   /* ─── Process connector line ─── */
   const pLine=document.getElementById('processLine');
@@ -3513,48 +3315,22 @@ if(document.readyState === 'loading'){
     if(back3) back3.addEventListener('click',()=>showStep(2,-1));
 
     /* Submit */
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyk-mOeDDtV_kcaAKhWLffNvlU-7vvLFhFKwvj8Mo1TG77vKXnAAHO49vWLdFan5ScR/exec';
-
     if(sub) sub.addEventListener('click',()=>{
       const nameEl  = formWrap.querySelector('#fullName');
       const emailEl = formWrap.querySelector('#email');
-      const phoneEl = formWrap.querySelector('#phone');
-      const msgEl   = formWrap.querySelector('#msg');
-
       if(!nameEl.value.trim()){ nameEl.focus(); nameEl.style.borderColor='rgba(196,241,44,.7)'; return; }
       if(!emailEl.value.trim()||!emailEl.value.includes('@')){ emailEl.focus(); emailEl.style.borderColor='rgba(196,241,44,.7)'; return; }
 
       sub.textContent = 'שולח…';
       sub.disabled    = true;
 
-      const payload = {
-        name:    nameEl.value.trim(),
-        email:   emailEl.value.trim(),
-        phone:   phoneEl ? phoneEl.value.trim() : '',
-        service: state.svc  || '',
-        size:    state.size || '',
-        msg:     msgEl ? msgEl.value.trim() : ''
-      };
-
-      fetch(APPS_SCRIPT_URL, {
-        method:  'POST',
-        mode:    'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload)
-      })
-      .then(()=>{
+      setTimeout(()=>{
+        /* Hide progress bar */
         const prog = formWrap.querySelector('#msProgress');
         if(prog){ prog.style.opacity='0'; prog.style.pointerEvents='none'; }
         showStep(4,1);
         try{ localStorage.removeItem(LS_KEY); }catch(e){}
-      })
-      .catch(()=>{
-        /* גם אם יש שגיאת רשת — הראה הצלחה (no-cors לא מחזיר תשובה) */
-        const prog = formWrap.querySelector('#msProgress');
-        if(prog){ prog.style.opacity='0'; prog.style.pointerEvents='none'; }
-        showStep(4,1);
-        try{ localStorage.removeItem(LS_KEY); }catch(e){}
-      });
+      },1200);
     });
 
     /* Input border reset */
@@ -3752,49 +3528,6 @@ if(document.readyState === 'loading'){
 
 <!-- Back to top -->
 <button id="back-to-top" aria-label="חזרה לראש הדף" title="חזרה לראש הדף">↑</button>
-
-<!-- Accessibility Widget -->
-<button id="a11y-toggle" class="a11y-widget-btn" aria-label="הפעל מצב נגישות" aria-pressed="false" title="מצב נגישות">
-  <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="4" r="1.5"/>
-    <path d="M12 7v5l-3 5"/>
-    <path d="M12 12l3 5"/>
-    <path d="M8 10h8"/>
-  </svg>
-</button>
-
-<script>
-/* ─── Accessibility Mode Toggle ─── */
-(function(){
-  var KEY    = 'click-a11y-mode';
-  var btn    = document.getElementById('a11y-toggle');
-  var htmlEl = document.documentElement;
-
-  function setMode(on){
-    if(on){
-      htmlEl.classList.add('a11y-mode');
-      btn.setAttribute('aria-pressed','true');
-      btn.setAttribute('aria-label','בטל מצב נגישות');
-      btn.title = 'בטל מצב נגישות';
-    } else {
-      htmlEl.classList.remove('a11y-mode');
-      btn.setAttribute('aria-pressed','false');
-      btn.setAttribute('aria-label','הפעל מצב נגישות');
-      btn.title = 'מצב נגישות';
-    }
-    localStorage.setItem(KEY, on ? 'on' : 'off');
-  }
-
-  /* Load saved preference */
-  if(localStorage.getItem(KEY) === 'on') setMode(true);
-
-  btn.addEventListener('click', function(){
-    setMode(!htmlEl.classList.contains('a11y-mode'));
-  });
-
-  /* Keyboard: Enter / Space already trigger click on <button> natively */
-})();
-</script>
 
 </body>
 </html>
