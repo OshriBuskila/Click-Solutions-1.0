@@ -628,16 +628,9 @@
     }
 
     /* ── Section 2: Automation node network ── */
-    .auto-svg{width:100%;height:340px;display:block;overflow:visible}
-    .a-edge{stroke:rgba(196,241,44,.10);stroke-width:1;fill:none;stroke-dasharray:5 4}
-    .a-edge--hi{stroke:rgba(196,241,44,.22);stroke-dasharray:6 3}
-    .a-node-outer{fill:none;stroke:rgba(196,241,44,.12);stroke-width:1;stroke-dasharray:3 3}
-    .a-node-core{fill:#0A0A0A;stroke:rgba(196,241,44,.28);stroke-width:1.5}
-    .a-node-core--hub{fill:rgba(196,241,44,.07);stroke:var(--neon-h);stroke-width:2;filter:drop-shadow(0 0 8px rgba(196,241,44,.3))}
-    .a-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;text-anchor:middle;letter-spacing:.5px;fill:rgba(250,250,247,.4)}
-    .a-label--hub{fill:rgba(196,241,44,.85);font-size:8px;letter-spacing:1px}
-    .a-sublabel{font-family:'JetBrains Mono',monospace;font-size:6px;text-anchor:middle;fill:rgba(250,250,247,.22);letter-spacing:.3px}
-    .a-dot{fill:var(--neon)}
+    /* automation section — video replaces SVG orbit animation */
+    .auto-video-wrap{position:relative;width:100%;align-self:center}
+    .auto-video{width:100%;height:auto;display:block;border-radius:12px;object-fit:cover}
 
     /* ── Section 3: Development visual ── */
     .dev-split{display:grid;grid-template-columns:1.1fr .95fr;gap:14px;width:100%;max-width:520px;direction:ltr}
@@ -2312,151 +2305,18 @@
         <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">רוצה לחסוך שעות →</a>
       </div>
 
-      <!-- Visual: animated node network -->
-      <div class="svc-vis reveal" style="transition-delay:.15s" aria-hidden="true">
-        <svg class="auto-svg" viewBox="0 0 480 340" role="img" aria-label="רשת אוטומציות מחוברת">
-          <defs>
-            <!-- paths from hub (240,170) to each satellite node -->
-            <path id="ae1" d="M240,170 Q300,135 360,100"/>
-            <path id="ae2" d="M240,170 Q320,170 390,170"/>
-            <path id="ae3" d="M240,170 Q300,205 360,240"/>
-            <path id="ae4" d="M240,170 Q240,240 240,310"/>
-            <path id="ae5" d="M240,170 Q180,205 120,240"/>
-            <path id="ae6" d="M240,170 Q160,170 90,170"/>
-            <path id="ae7" d="M240,170 Q180,135 120,100"/>
-            <path id="ae8" d="M240,170 Q240,100 240,30"/>
-            <!-- cross connections -->
-            <path id="ac1" d="M360,100 Q375,135 390,170"/>
-            <path id="ac2" d="M360,240 Q375,205 390,170"/>
-            <path id="ac3" d="M120,100 Q105,135 90,170"/>
-            <path id="ac4" d="M120,240 Q105,205 90,170"/>
-            <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(196,241,44,.25)"/>
-              <stop offset="100%" stop-color="rgba(196,241,44,0)"/>
-            </radialGradient>
-          </defs>
-
-          <!-- ambient hub glow -->
-          <circle cx="240" cy="170" r="70" fill="url(#hubGlow)"/>
-
-          <!-- edges hub → satellites -->
-          <path d="M240,170 Q300,135 360,100" class="a-edge a-edge--hi"/>
-          <path d="M240,170 Q320,170 390,170" class="a-edge a-edge--hi"/>
-          <path d="M240,170 Q300,205 360,240" class="a-edge"/>
-          <path d="M240,170 Q240,240 240,310" class="a-edge"/>
-          <path d="M240,170 Q180,205 120,240" class="a-edge"/>
-          <path d="M240,170 Q160,170 90,170" class="a-edge a-edge--hi"/>
-          <path d="M240,170 Q180,135 120,100" class="a-edge"/>
-          <path d="M240,170 Q240,100 240,30" class="a-edge a-edge--hi"/>
-          <!-- cross edges -->
-          <path d="M360,100 Q375,135 390,170" class="a-edge" style="opacity:.5"/>
-          <path d="M360,240 Q375,205 390,170" class="a-edge" style="opacity:.5"/>
-          <path d="M120,100 Q105,135 90,170" class="a-edge" style="opacity:.5"/>
-          <path d="M120,240 Q105,205 90,170" class="a-edge" style="opacity:.5"/>
-
-          <!-- satellite nodes -->
-          <!-- 1: CRM top-right (360,100) -->
-          <circle cx="360" cy="100" r="30" class="a-node-outer"/>
-          <circle cx="360" cy="100" r="22" class="a-node-core"/>
-          <text x="360" y="97" class="a-label">CRM</text>
-          <text x="360" y="107" class="a-sublabel">Salesforce</text>
-
-          <!-- 2: n8n/API right (390,170) -->
-          <circle cx="390" cy="170" r="26" class="a-node-outer"/>
-          <circle cx="390" cy="170" r="19" class="a-node-core"/>
-          <text x="390" y="167" class="a-label">n8n</text>
-          <text x="390" y="177" class="a-sublabel">Automation</text>
-
-          <!-- 3: WhatsApp bot-right (360,240) -->
-          <circle cx="360" cy="240" r="28" class="a-node-outer"/>
-          <circle cx="360" cy="240" r="20" class="a-node-core"/>
-          <text x="360" y="237" class="a-label">WA</text>
-          <text x="360" y="247" class="a-sublabel">WhatsApp</text>
-
-          <!-- 4: Sheets bottom (240,310) -->
-          <circle cx="240" cy="310" r="26" class="a-node-outer"/>
-          <circle cx="240" cy="310" r="19" class="a-node-core"/>
-          <text x="240" y="307" class="a-label">Sheets</text>
-          <text x="240" y="317" class="a-sublabel">Google</text>
-
-          <!-- 5: Slack bot-left (120,240) -->
-          <circle cx="120" cy="240" r="28" class="a-node-outer"/>
-          <circle cx="120" cy="240" r="20" class="a-node-core"/>
-          <text x="120" y="237" class="a-label">Slack</text>
-          <text x="120" y="247" class="a-sublabel">Messaging</text>
-
-          <!-- 6: Gmail left (90,170) -->
-          <circle cx="90" cy="170" r="26" class="a-node-outer"/>
-          <circle cx="90" cy="170" r="19" class="a-node-core"/>
-          <text x="90" y="167" class="a-label">Gmail</text>
-          <text x="90" y="177" class="a-sublabel">Email</text>
-
-          <!-- 7: Notion top-left (120,100) -->
-          <circle cx="120" cy="100" r="28" class="a-node-outer"/>
-          <circle cx="120" cy="100" r="20" class="a-node-core"/>
-          <text x="120" y="97" class="a-label">Notion</text>
-          <text x="120" y="107" class="a-sublabel">Docs</text>
-
-          <!-- 8: Calendar top (240,30) -->
-          <circle cx="240" cy="30" r="26" class="a-node-outer"/>
-          <circle cx="240" cy="30" r="19" class="a-node-core"/>
-          <text x="240" y="27" class="a-label">Cal</text>
-          <text x="240" y="37" class="a-sublabel">Calendar</text>
-
-          <!-- HUB: CLICK AI center -->
-          <circle cx="240" cy="170" r="44" class="a-node-outer" style="stroke-dasharray:2 2;animation:spin 18s linear infinite"/>
-          <circle cx="240" cy="170" r="34" class="a-node-core--hub"/>
-          <text x="240" y="166" class="a-label--hub" style="font-size:9px">CLICK</text>
-          <text x="240" y="178" class="a-label--hub" style="font-size:7px;fill:rgba(196,241,44,.5)">AI ENGINE</text>
-
-          <!-- Animated flowing dots — hub to satellites -->
-          <circle r="2.8" class="a-dot" opacity="0">
-            <animateMotion dur="2.2s" repeatCount="indefinite" begin="0s"><mpath href="#ae1"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.2s" repeatCount="indefinite"/>
-          </circle>
-          <circle r="2.8" class="a-dot" opacity="0">
-            <animateMotion dur="2s" repeatCount="indefinite" begin=".3s"><mpath href="#ae2"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2s" repeatCount="indefinite" begin=".3s"/>
-          </circle>
-          <circle r="2.4" class="a-dot" opacity="0">
-            <animateMotion dur="2.4s" repeatCount="indefinite" begin=".7s"><mpath href="#ae3"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.4s" repeatCount="indefinite" begin=".7s"/>
-          </circle>
-          <circle r="2.4" class="a-dot" opacity="0">
-            <animateMotion dur="2.6s" repeatCount="indefinite" begin="1.1s"><mpath href="#ae4"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.6s" repeatCount="indefinite" begin="1.1s"/>
-          </circle>
-          <circle r="2.4" class="a-dot" opacity="0">
-            <animateMotion dur="2.3s" repeatCount="indefinite" begin="1.4s"><mpath href="#ae5"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.3s" repeatCount="indefinite" begin="1.4s"/>
-          </circle>
-          <circle r="2.8" class="a-dot" opacity="0">
-            <animateMotion dur="2.1s" repeatCount="indefinite" begin="1.8s"><mpath href="#ae6"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.1s" repeatCount="indefinite" begin="1.8s"/>
-          </circle>
-          <circle r="2.4" class="a-dot" opacity="0">
-            <animateMotion dur="2.5s" repeatCount="indefinite" begin="2.1s"><mpath href="#ae7"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="2.5s" repeatCount="indefinite" begin="2.1s"/>
-          </circle>
-          <circle r="2.8" class="a-dot" opacity="0">
-            <animateMotion dur="1.9s" repeatCount="indefinite" begin="2.5s"><mpath href="#ae8"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.05;.15;.85;1" dur="1.9s" repeatCount="indefinite" begin="2.5s"/>
-          </circle>
-          <!-- return dots satellites → hub -->
-          <circle r="2" fill="rgba(164,214,18,.5)" opacity="0">
-            <animateMotion dur="2.2s" repeatCount="indefinite" begin="1s" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#ae2"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;.6;.6;0" keyTimes="0;.05;.15;.85;1" dur="2.2s" repeatCount="indefinite" begin="1s"/>
-          </circle>
-          <circle r="2" fill="rgba(164,214,18,.5)" opacity="0">
-            <animateMotion dur="2.5s" repeatCount="indefinite" begin="2s" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#ae6"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;.6;.6;0" keyTimes="0;.05;.15;.85;1" dur="2.5s" repeatCount="indefinite" begin="2s"/>
-          </circle>
-          <circle r="2" fill="rgba(164,214,18,.5)" opacity="0">
-            <animateMotion dur="2.8s" repeatCount="indefinite" begin="1.5s" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#ae8"/></animateMotion>
-            <animate attributeName="opacity" values="0;0;.6;.6;0" keyTimes="0;.05;.15;.85;1" dur="2.8s" repeatCount="indefinite" begin="1.5s"/>
-          </circle>
-
-        </svg>
+      <!-- Visual: automation animation video (scroll-triggered, plays once) -->
+      <div class="svc-vis auto-video-wrap reveal" style="transition-delay:.15s" aria-hidden="true">
+        <video
+          id="autoHeroVid"
+          class="auto-video"
+          muted
+          playsinline
+          preload="metadata"
+          aria-label="אנימציית אוטומציה — זרימת נתונים בין מערכות"
+        >
+          <source src="automation-hero.mp4" type="video/mp4" />
+        </video>
       </div>
 
     </div>
@@ -3296,6 +3156,27 @@ if(document.readyState === 'loading'){
     document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
   }
   revealCheck(); // run global function immediately too
+
+  /* ─── Automation video — play once when scrolled into view ─── */
+  (function(){
+    const autoVid = document.getElementById('autoHeroVid');
+    if(!autoVid) return;
+    // Prevent autoplay; video starts paused
+    autoVid.pause();
+    if('IntersectionObserver' in window){
+      const autoObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && !autoVid.dataset.played){
+            autoVid.currentTime = 0;
+            autoVid.play().catch(function(){});
+            autoVid.dataset.played = '1';
+            autoObs.unobserve(autoVid);
+          }
+        });
+      },{threshold: 0.35});
+      autoObs.observe(autoVid);
+    }
+  })();
 
 
   /* ─── Process connector line ─── */
