@@ -203,7 +203,7 @@
        HERO (dark, canvas)
     ═══════════════════════════════════════ */
     .hero{
-      min-height:100vh;height:100vh;padding-top:var(--nav-h);
+      min-height:100vh;padding-top:var(--nav-h);
       position:relative;overflow:hidden;
       background:#0A0A0A;display:flex;align-items:center;
     }
@@ -220,29 +220,29 @@
     ═══════════════════════════════════════ */
     .hero-video-bg{
       position:absolute;
-      /* full-bleed: a box wider than 16:9 crops top/bottom (no zoom-in)
-         and shows the whole width of the clip */
-      top:0;right:0;bottom:0;left:0;
-      width:auto;height:auto;
-      pointer-events:none;z-index:2;
+      top:50%;left:0;
+      transform:translateY(-50%);
+      /* left-anchored 16:9 panel */
+      width:82%;
+      aspect-ratio:16/9;
+      pointer-events:none;z-index:1;
       object-fit:cover;
-      object-position:left center;
-      opacity:1;
-      filter:saturate(1.35) brightness(1.55) contrast(1.05);
-      /* fade out toward the right where the text lives */
-      -webkit-mask-image:linear-gradient(to right,
-        black 0%, black 38%, rgba(0,0,0,.4) 62%, transparent 82%);
-              mask-image:linear-gradient(to right,
-        black 0%, black 38%, rgba(0,0,0,.4) 62%, transparent 82%);
+      opacity:.58;
+      /* richer colours */
+      filter:saturate(1.3) brightness(1.05);
+      /* vignette: left edge slightly soft, right edge fades strongly
+         into title zone, top+bottom fade from ellipse */
+      -webkit-mask-image:radial-gradient(ellipse 108% 82% at 22% 50%,
+        black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
+              mask-image:radial-gradient(ellipse 108% 82% at 22% 50%,
+        black 30%, rgba(0,0,0,.72) 52%, rgba(0,0,0,.18) 70%, transparent 85%);
+      will-change:opacity;
     }
     @media(max-width:760px){
-      .hero-video-bg{right:0;opacity:.6;filter:brightness(1.6);
-        -webkit-mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
-                mask-image:linear-gradient(to bottom,black 55%,transparent 100%);
-      }
+      .hero-video-bg{width:100%;opacity:.24;filter:none}
     }
     @media(prefers-reduced-motion:reduce){
-      /* video remains visible — paused via JS instead of hidden */
+      .hero-video-bg{opacity:0}
     }
 
     /* ═══════════════════════════════════════
@@ -436,7 +436,8 @@
       display:flex;align-items:center;
       width:100%;
     }
-    /* Title occupies the right portion; video breathes on the left. */
+    /* Title occupies the right portion; video/network breathe on the left.
+       margin-inline-end:auto in RTL pushes the block to the right (start edge). */
     .hero-content{
       flex:none;
       width:min(580px, 55%);
@@ -1305,85 +1306,6 @@
       .hero-word{opacity:1;transform:none}
       .reveal{opacity:1;transform:none}
     }
-
-    /* ═══════════════════════════════════════
-       ACCESSIBILITY MODE
-    ═══════════════════════════════════════ */
-    html.a11y-mode {
-      --paper:   #FFFFFF;
-      --card:    #FFFFFF;
-      --ink:     #000000;
-      --ink2:    rgba(0,0,0,.87);
-      --ink3:    rgba(0,0,0,.62);
-      --ink4:    rgba(0,0,0,.15);
-      --neon:    #3D7A00;
-      --neon-h:  #2A5500;
-      --neon-glow: rgba(61,122,0,.2);
-      font-size: 18px;
-    }
-    html.a11y-mode *,
-    html.a11y-mode *::before,
-    html.a11y-mode *::after {
-      animation-duration: .01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: .01ms !important;
-    }
-    html.a11y-mode .hero-word { opacity:1; transform:none; }
-    html.a11y-mode .reveal    { opacity:1; transform:none; }
-    html.a11y-mode .hero-video-bg,
-    html.a11y-mode .hero-cinema { display:none !important; }
-    html.a11y-mode :focus-visible {
-      outline: 3px solid #000000 !important;
-      outline-offset: 4px !important;
-    }
-    html.a11y-mode p,
-    html.a11y-mode li,
-    html.a11y-mode label { line-height:1.9; letter-spacing:.012em; }
-    html.a11y-mode .hero { background:#000 !important; }
-    html.a11y-mode .hero-h1,
-    html.a11y-mode .hero-eyebrow,
-    html.a11y-mode .hero-sub { color:#fff !important; opacity:1; }
-    html.a11y-mode .navbar {
-      background:rgba(0,0,0,.97) !important;
-      border-bottom-color:rgba(61,122,0,.4) !important;
-    }
-    html.a11y-mode .btn { cursor:pointer !important; }
-    html.a11y-mode .hamburger,
-    html.a11y-mode .ms-back,
-    html.a11y-mode .btn-wa,
-    html.a11y-mode .ms-chip,
-    html.a11y-mode .form-group select { cursor:pointer !important; }
-    html.a11y-mode .btn-primary {
-      background:#3D7A00 !important;
-      color:#fff !important;
-      box-shadow:none !important;
-    }
-    html.a11y-mode .gradient-text {
-      background:none !important;
-      -webkit-text-fill-color:inherit !important;
-      color: var(--ink) !important;
-    }
-
-    /* Accessibility widget button */
-    .a11y-widget-btn {
-      position:fixed;
-      bottom:24px;
-      left:24px;
-      width:52px;height:52px;
-      border-radius:50%;
-      background:#0A0A0A;
-      color:#FAFAF7;
-      border:2px solid rgba(196,241,44,.3);
-      cursor:pointer;
-      z-index:9999;
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 4px 20px rgba(0,0,0,.5);
-      transition:transform .2s,box-shadow .2s,background .2s;
-    }
-    .a11y-widget-btn:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(0,0,0,.6); }
-    .a11y-widget-btn:focus-visible { outline:3px solid var(--neon); outline-offset:3px; }
-    .a11y-widget-btn[aria-pressed="true"] { background:#3D7A00; border-color:#3D7A00; }
-    .a11y-widget-btn svg { width:26px; height:26px; }
   </style>
 </head>
 
@@ -1405,7 +1327,7 @@
       <a href="#contact">צרו קשר</a>
     </nav>
     <div class="nav-right">
-      <a href="tel:050-5724571" class="nav-phone" dir="ltr">050-5724571</a>
+      <a href="tel:054-000-0000" class="nav-phone" dir="ltr">054-000-0000</a>
       <a href="#contact" class="btn btn-primary btn-sm nav-cta">בואו נדבר</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="פתח תפריט" aria-expanded="false">&#9776;</button>
@@ -3040,7 +2962,7 @@
             <span class="wa-label">// preferred channel</span>
             <p class="wa-title">מעדיפים ליצור קשר ישירות?</p>
             <p class="wa-sub">מחלקת הייעוץ שלנו זמינה עבורכם. מענה תוך שעה.</p>
-            <a href="https://wa.me/972505724571?text=שלום%2C%20אני%20מעוניין%20לתאם%20פגישת%20אפיון"
+            <a href="https://wa.me/972540000000?text=שלום%2C%20אני%20מעוניין%20לתאם%20פגישת%20אפיון"
                target="_blank" rel="noopener noreferrer" class="btn-wa">
               <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               פנייה ישירה דרך WhatsApp
@@ -3183,14 +3105,13 @@
         <p class="footer-col-title">// יצירת קשר</p>
         <ul class="footer-links">
           <li><a href="#contact">תיאום פגישה</a></li>
-          <li><a href="https://wa.me/972505724571" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://wa.me/972540000000" target="_blank" rel="noopener">WhatsApp</a></li>
           <li><a href="mailto:hello@clicksolutions.co.il">hello@clicksolutions.co.il</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>// &copy; 2024–2026 Click Solutions. כל הזכויות שמורות.</span>
-      <a href="accessibility.html" style="color:inherit;text-decoration:underline;font-family:var(--font-mo);font-size:10px;color:var(--fg3);transition:color .2s">הצהרת נגישות</a>
       <span dir="ltr">hello@clicksolutions.co.il &middot; 054-000-0000</span>
     </div>
   </div>
@@ -3230,11 +3151,6 @@ if(document.readyState === 'loading'){
   const PARTICLE_N = window.innerWidth < 700 ? 45 : 85;
   const NEON = '#C4F12C';
   const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-
-  /* Keep the decorative hero video playing regardless of reduced-motion.
-     Users who need motion reduced can hide it entirely via the a11y mode toggle. */
-  const heroVideo = document.querySelector('.hero-video-bg');
-  if(heroVideo){ heroVideo.play().catch(()=>{}); }
 
   function resize(){
     W=canvas.width=heroEl.offsetWidth;
@@ -3513,48 +3429,22 @@ if(document.readyState === 'loading'){
     if(back3) back3.addEventListener('click',()=>showStep(2,-1));
 
     /* Submit */
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyk-mOeDDtV_kcaAKhWLffNvlU-7vvLFhFKwvj8Mo1TG77vKXnAAHO49vWLdFan5ScR/exec';
-
     if(sub) sub.addEventListener('click',()=>{
       const nameEl  = formWrap.querySelector('#fullName');
       const emailEl = formWrap.querySelector('#email');
-      const phoneEl = formWrap.querySelector('#phone');
-      const msgEl   = formWrap.querySelector('#msg');
-
       if(!nameEl.value.trim()){ nameEl.focus(); nameEl.style.borderColor='rgba(196,241,44,.7)'; return; }
       if(!emailEl.value.trim()||!emailEl.value.includes('@')){ emailEl.focus(); emailEl.style.borderColor='rgba(196,241,44,.7)'; return; }
 
       sub.textContent = 'שולח…';
       sub.disabled    = true;
 
-      const payload = {
-        name:    nameEl.value.trim(),
-        email:   emailEl.value.trim(),
-        phone:   phoneEl ? phoneEl.value.trim() : '',
-        service: state.svc  || '',
-        size:    state.size || '',
-        msg:     msgEl ? msgEl.value.trim() : ''
-      };
-
-      fetch(APPS_SCRIPT_URL, {
-        method:  'POST',
-        mode:    'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload)
-      })
-      .then(()=>{
+      setTimeout(()=>{
+        /* Hide progress bar */
         const prog = formWrap.querySelector('#msProgress');
         if(prog){ prog.style.opacity='0'; prog.style.pointerEvents='none'; }
         showStep(4,1);
         try{ localStorage.removeItem(LS_KEY); }catch(e){}
-      })
-      .catch(()=>{
-        /* גם אם יש שגיאת רשת — הראה הצלחה (no-cors לא מחזיר תשובה) */
-        const prog = formWrap.querySelector('#msProgress');
-        if(prog){ prog.style.opacity='0'; prog.style.pointerEvents='none'; }
-        showStep(4,1);
-        try{ localStorage.removeItem(LS_KEY); }catch(e){}
-      });
+      },1200);
     });
 
     /* Input border reset */
@@ -3752,49 +3642,6 @@ if(document.readyState === 'loading'){
 
 <!-- Back to top -->
 <button id="back-to-top" aria-label="חזרה לראש הדף" title="חזרה לראש הדף">↑</button>
-
-<!-- Accessibility Widget -->
-<button id="a11y-toggle" class="a11y-widget-btn" aria-label="הפעל מצב נגישות" aria-pressed="false" title="מצב נגישות">
-  <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="4" r="1.5"/>
-    <path d="M12 7v5l-3 5"/>
-    <path d="M12 12l3 5"/>
-    <path d="M8 10h8"/>
-  </svg>
-</button>
-
-<script>
-/* ─── Accessibility Mode Toggle ─── */
-(function(){
-  var KEY    = 'click-a11y-mode';
-  var btn    = document.getElementById('a11y-toggle');
-  var htmlEl = document.documentElement;
-
-  function setMode(on){
-    if(on){
-      htmlEl.classList.add('a11y-mode');
-      btn.setAttribute('aria-pressed','true');
-      btn.setAttribute('aria-label','בטל מצב נגישות');
-      btn.title = 'בטל מצב נגישות';
-    } else {
-      htmlEl.classList.remove('a11y-mode');
-      btn.setAttribute('aria-pressed','false');
-      btn.setAttribute('aria-label','הפעל מצב נגישות');
-      btn.title = 'מצב נגישות';
-    }
-    localStorage.setItem(KEY, on ? 'on' : 'off');
-  }
-
-  /* Load saved preference */
-  if(localStorage.getItem(KEY) === 'on') setMode(true);
-
-  btn.addEventListener('click', function(){
-    setMode(!htmlEl.classList.contains('a11y-mode'));
-  });
-
-  /* Keyboard: Enter / Space already trigger click on <button> natively */
-})();
-</script>
 
 </body>
 </html>
