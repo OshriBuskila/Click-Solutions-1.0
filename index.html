@@ -2400,6 +2400,7 @@
           class="auto-video"
           muted
           playsinline
+          loop
           preload="metadata"
           aria-label="אנימציית אוטומציה — זרימת נתונים בין מערכות"
         >
@@ -3206,11 +3207,10 @@ if(document.readyState === 'loading'){
     if('IntersectionObserver' in window){
       const autoObs = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
-          if(e.isIntersecting && !autoVid.dataset.played){
-            autoVid.currentTime = 0;
+          if(e.isIntersecting){
             autoVid.play().catch(function(){});
-            autoVid.dataset.played = '1';
-            autoObs.unobserve(autoVid);
+          } else {
+            autoVid.pause();
           }
         });
       },{threshold: 0.35});
