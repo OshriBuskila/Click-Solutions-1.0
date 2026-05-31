@@ -467,13 +467,27 @@
         object-fit:cover;
         object-position:center top;
         opacity:.95;
-        -webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.2) 12%,rgba(0,0,0,.7) 28%,black 42%);
-        mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.2) 12%,rgba(0,0,0,.7) 28%,black 42%);
+        -webkit-mask-image:none;
+        mask-image:none;
         filter:saturate(1.2) brightness(.9);
       }
-      /* no gradient overlay — hero bg black handles the top */
+      /* no overlay */
       .hero::before{display:none}
-      .hero-inner{z-index:3}
+      /* blur band exactly at the video/black junction */
+      .hero::after{
+        content:'';
+        position:absolute;
+        top:calc(28% - 22px);
+        left:0;right:0;
+        height:44px;
+        z-index:4;
+        pointer-events:none;
+        backdrop-filter:blur(10px);
+        -webkit-backdrop-filter:blur(10px);
+        -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 25%,black 75%,transparent 100%);
+        mask-image:linear-gradient(to bottom,transparent 0%,black 25%,black 75%,transparent 100%);
+      }
+      .hero-inner{z-index:5}
       .hero-h1{background:none;border-radius:0;padding:0;display:block;margin-bottom:0}
     }
 
