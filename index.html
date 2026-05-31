@@ -816,12 +816,12 @@
     /* ═══════════════════════════════════════
        PROCESS
     ═══════════════════════════════════════ */
-    .process{background:var(--paper);padding:0 0 92px;border-top:1px solid var(--ink4);position:relative}
+    .process{background:var(--ink);padding:0 0 92px;border-top:1px solid rgba(196,241,44,.08);position:relative}
     /* scroll progress bar */
     .process-progress{
       position:sticky;top:var(--nav-h);
       height:2px;z-index:10;overflow:hidden;
-      background:var(--ink4);
+      background:rgba(255,255,255,.08);
     }
     .process-progress-fill{
       height:100%;width:0%;
@@ -832,7 +832,7 @@
     .process-grid{
       display:grid;grid-template-columns:repeat(3,1fr);
       position:relative;gap:0;
-      border:1.5px solid var(--ink4);overflow:hidden;
+      border:1.5px solid rgba(196,241,44,.14);overflow:hidden;
     }
     /* animated connector line */
     @keyframes travelDot{
@@ -863,15 +863,15 @@
       animation:travelDot 2.5s var(--ease) 1.3s infinite;
     }
     .process-step{
-      padding:30px 26px;background:var(--paper);
-      border-left:1.5px solid var(--ink4);
+      padding:30px 26px;background:#0A0A0A;
+      border-left:1.5px solid rgba(196,241,44,.1);
       transition:background .3s,transform .3s;
       position:relative;
     }
     .process-step:first-child{border-left:none}
-    .process-step:hover{background:var(--card);transform:translateY(-4px)}
-    .step-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
-    .step-desc{font-size:13.5px;color:var(--ink2);line-height:1.7}
+    .process-step:hover{background:#111;transform:translateY(-4px)}
+    .step-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em;color:var(--fg)}
+    .step-desc{font-size:13.5px;color:var(--fg2);line-height:1.7}
 
     /* ── Process card visual panels ── */
     .step-visual{
@@ -2219,8 +2219,8 @@
   <div class="container">
     <div class="sec-header reveal">
       <span class="tag">// process &middot; 3 steps</span>
-      <h2 class="section-title">הדרך לארגון חכם יותר:<br/>שלושה שלבים ממוקדים.</h2>
-      <p class="section-sub">תהליך שיטתי ומקצועי שלוקח אתכם משלב זיהוי הבעיה ועד לתוצאות בשטח.</p>
+      <h2 class="section-title section-title--light">הדרך לארגון חכם יותר:<br/>שלושה שלבים ממוקדים.</h2>
+      <p class="section-sub section-sub--light">תהליך שיטתי ומקצועי שלוקח אתכם משלב זיהוי הבעיה ועד לתוצאות בשטח.</p>
     </div>
 
     <div class="process-grid" id="processGrid">
