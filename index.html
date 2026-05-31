@@ -1237,27 +1237,22 @@
       animation:cfabPulse 2.6s ease-in-out infinite;
       overflow:hidden;
     }
-    /* phone icon img: invert→black phone, multiply→black on neon bg = clean */
+    /* phone icon — transparent PNG, dark icon on neon bg */
     .cfab__icon{
-      width:92%;height:92%;
+      width:84%;height:84%;
       object-fit:contain;
-      filter:invert(1);
-      mix-blend-mode:multiply;
       transform:scaleX(-1);
-      transition:transform .35s var(--cs-pop,cubic-bezier(.34,1.56,.64,1)),
-                 filter .25s;
+      transition:transform .35s var(--cs-pop,cubic-bezier(.34,1.56,.64,1)),filter .25s;
       display:block;flex-shrink:0;
     }
     .cfab__toggle:hover{transform:scale(1.07)}
-    /* when open: dark bg, icon becomes neon */
+    /* when open: dark bg, icon turns neon */
     .cfab.is-open .cfab__toggle{
-      animation:none;
-      background:#0A0A0A;
+      animation:none;background:#0A0A0A;
       box-shadow:0 4px 22px rgba(0,0,0,.5),0 0 0 1px rgba(196,241,44,.4);
     }
     .cfab.is-open .cfab__icon{
-      filter:invert(1) sepia(1) saturate(10) hue-rotate(35deg);
-      mix-blend-mode:normal;
+      filter:invert(77%) sepia(68%) saturate(600%) hue-rotate(28deg) brightness(105%);
       transform:scaleX(-1) rotate(135deg);
     }
     @keyframes cfabPulse{
@@ -3437,7 +3432,7 @@ if(document.readyState === 'loading'){
 
   <!-- Trigger — exact icon file -->
   <button class="cfab__toggle" id="cfabToggle" aria-label="צרו קשר" aria-expanded="false">
-    <img src="phone-icon.jpg" class="cfab__icon" alt="" aria-hidden="true">
+    <img src="phone-icon.png" class="cfab__icon" alt="" aria-hidden="true">
   </button>
 </div>
 
