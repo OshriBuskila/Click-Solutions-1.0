@@ -571,10 +571,10 @@
     .svc-section--dark{background:var(--ink);border-top:1px solid rgba(196,241,44,.08)}
     .svc-section--deep{background:#0C0C0C;border-top:1px solid rgba(196,241,44,.06)}
     .svc-2col{
-      display:grid;grid-template-columns:1fr 1.5fr;
-      gap:clamp(40px,6vw,88px);align-items:center;
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:clamp(40px,5vw,72px);align-items:center;
     }
-    .svc-2col--rev{grid-template-columns:1.5fr 1fr}
+    .svc-2col--rev{grid-template-columns:1fr 1fr}
     .svc-2col--rev .svc-text{order:2}
     .svc-2col--rev .svc-vis{order:1}
     .svc-kicker{
@@ -611,27 +611,27 @@
       color:rgba(10,10,10,.72);
       background:rgba(10,10,10,.04);
     }
-    .svc-vis{position:relative;min-height:480px;display:flex;align-items:center;justify-content:center}
+    .svc-vis{position:relative;min-height:0;display:flex;align-items:center;justify-content:center}
 
     /* ── Section 1: Training photo ── */
     .train-img-wrap{
       position:relative;
       width:100%;
-      max-width:460px;
       align-self:center;
     }
     .train-hero-img{
       width:100%;
-      height:auto;
+      aspect-ratio:16/9;
+      object-fit:cover;
       display:block;
       border-radius:14px;
     }
 
     /* ── Section 2: Automation — video (cfir) ── */
     /* shared dark-section video style (cfir: automation + dev/CRM video) */
-    .auto-video-wrap,.crm-video-wrap{position:relative;width:100%;max-width:460px;align-self:center}
+    .auto-video-wrap,.crm-video-wrap{position:relative;width:100%;align-self:center}
     .auto-video,.crm-video{
-      width:100%;height:auto;display:block;
+      width:100%;aspect-ratio:16/9;object-fit:cover;display:block;
       border-radius:14px;
       border:1px solid rgba(196,241,44,.18);
       box-shadow:0 0 32px rgba(196,241,44,.10), 0 8px 32px rgba(0,0,0,.45);
@@ -3111,21 +3111,45 @@ if(document.readyState === 'loading'){
     });
   }
 
-  /* ─── Nav active section highlight ─── */
-  const navSections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  if(navLinks.length){
-    const secObs = new IntersectionObserver(entries=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          navLinks.forEach(l=>l.classList.remove('nav-active'));
-          const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
-          if(active) active.classList.add('nav-active');
-        }
+  /* ─── Nav active section highlight (scroll-based, reliable) ─── */
+  (function(){
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    if(!navLinks.length) return;
+
+    /* Map each nav href to all section IDs it should cover.
+       The service sections (svc-automation, svc-training) all belong to #services. */
+    const sectionToNav = {
+      'services':      '#services',
+      'svc-dev':       '#services',
+      'svc-automation':'#services',
+      'svc-training':  '#services',
+      'process':       '#process',
+      'why-us':        '#why-us',
+      'stats':         '#why-us',
+      'contact':       '#contact',
+    };
+
+    function setActive(href){
+      navLinks.forEach(l=>{
+        if(l.getAttribute('href') === href) l.classList.add('nav-active');
+        else l.classList.remove('nav-active');
       });
-    },{threshold:.35,rootMargin:'-60px 0px -35% 0px'});
-    navSections.forEach(s=>secObs.observe(s));
-  }
+    }
+
+    function updateActive(){
+      const triggerY = window.scrollY + window.innerHeight * 0.45;
+      const sections = document.querySelectorAll('section[id]');
+      let current = null;
+      sections.forEach(s=>{
+        if(s.offsetTop <= triggerY) current = s.id;
+      });
+      if(current && sectionToNav[current]) setActive(sectionToNav[current]);
+      else if(!current) navLinks.forEach(l=>l.classList.remove('nav-active'));
+    }
+
+    window.addEventListener('scroll', updateActive, {passive:true});
+    updateActive();
+  })();
 
 })();
 </script>
