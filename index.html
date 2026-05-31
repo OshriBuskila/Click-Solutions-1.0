@@ -444,7 +444,7 @@
       .mob-hide{display:none!important}
       .hero{align-items:flex-start}
       .hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:8px 0 0;min-height:calc(100vh - var(--nav-h));position:relative}
-      .hero-content{width:100%;margin-inline-end:0;overflow:visible}
+      .hero-content{width:100%;margin-inline-end:0;overflow:visible;padding-top:18px}
       /* dark backdrop only behind the subtitle paragraph */
       .hero-sub{
         background:rgba(0,0,0,.52);
@@ -454,10 +454,10 @@
         padding:10px 14px;
         display:inline-block;
       }
-      /* CTAs pinned to bottom of hero */
+      /* CTAs pinned to bottom of hero — above WA float button (54px+16px gap) */
       .hero-actions{
         position:absolute;
-        bottom:32px;
+        bottom:88px;
         right:0;left:0;
         display:flex;gap:12px;
         flex-wrap:wrap;
