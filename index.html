@@ -982,9 +982,21 @@
     .wf-kicker{font-family:var(--font-mo);font-size:13.5px;letter-spacing:3px;text-transform:uppercase;color:var(--neon-h);margin-bottom:15px;display:block}
     .wf-title{font-size:clamp(21px,2.6vw,30px);font-weight:800;color:var(--ink);letter-spacing:-.025em;line-height:1.18;margin-bottom:12px}
     .wf-desc{font-size:14px;color:var(--ink2);line-height:1.78}
-    .wf-portrait-name{display:block;margin-top:10px;font-family:var(--font-he);font-size:13px;font-weight:600;color:var(--ink2);text-align:center;letter-spacing:.01em}
+    .wf-portrait-name{
+      display:block;margin-top:14px;
+      font-family:var(--font-he);font-size:17px;font-weight:700;
+      color:var(--ink);text-align:center;letter-spacing:-.01em;
+      position:relative;padding-bottom:8px;
+    }
+    .wf-portrait-name::after{
+      content:'';display:block;
+      width:32px;height:2px;
+      background:var(--neon-h);
+      margin:6px auto 0;
+      border-radius:2px;
+    }
     /* visual panel */
-    .wf-visual{display:flex;align-items:center;justify-content:center;min-height:180px;position:relative}
+    .wf-visual{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;position:relative;gap:0}
 
     /* ── Expertise: SVG bridge diagram ── */
     .bridge-lbl-human{font-family:'JetBrains Mono',monospace;font-size:8.5px;fill:rgba(10,10,10,.5);text-anchor:middle;letter-spacing:1px}
