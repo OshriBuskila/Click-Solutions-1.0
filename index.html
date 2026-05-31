@@ -441,8 +441,17 @@
       margin-inline-end:auto; /* RTL: pushes content toward right edge */
     }
     @media(max-width:860px){
-      .hero-inner{flex-direction:column;align-items:flex-start;padding:64px 0 72px}
-      .hero-content{width:100%;margin-inline-end:0;overflow:visible}
+      .hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:28px 0 48px}
+      .hero-content{
+        width:100%;margin-inline-end:0;overflow:visible;
+        /* subtle dark backdrop for readability on video bg */
+        background:rgba(0,0,0,.45);
+        backdrop-filter:blur(2px);
+        -webkit-backdrop-filter:blur(2px);
+        border-radius:12px;
+        padding:20px 18px 24px;
+        margin-top:8px;
+      }
     }
 
     /* mouse-glow */
