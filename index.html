@@ -458,17 +458,16 @@
       .hero-actions{display:none!important}
       /* hero height */
       .hero{min-height:92vh!important;height:92vh!important}
-      /* video covers full hero but sits behind the overlay */
-      .hero-video-bg{object-position:center 60%;opacity:.95}
-      /* top zone = solid black (title lives here), then quick fade into video */
+      /* video pushed low — bottom will crop */
+      .hero-video-bg{object-position:center bottom;opacity:.95}
+      /* solid black until 68%, then short sharp fade into video */
       .hero::before{
         content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
         background:linear-gradient(to bottom,
           #0A0A0A 0%,
-          #0A0A0A 44%,
-          rgba(10,10,10,.85) 50%,
-          rgba(10,10,10,.15) 60%,
-          transparent 66%);
+          #0A0A0A 68%,
+          rgba(10,10,10,.5) 74%,
+          transparent 80%);
       }
       .hero-inner{z-index:3}
       /* reset h1 — no card */
