@@ -1032,95 +1032,149 @@
     /* ═══════════════════════════════════════
        CONTACT
     ═══════════════════════════════════════ */
-    .contact{background:var(--paper);padding:92px 0;border-top:1px solid var(--ink4)}
-    .contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start}
+    /* ── Section wrapper ── */
+    .contact{
+      background:var(--ink);
+      padding:100px 0;
+      border-top:none;
+      position:relative;overflow:hidden;
+    }
+    .contact::before{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 55% 70% at 75% 50%,rgba(196,241,44,.06) 0%,transparent 68%);
+    }
+    /* ── 2-col grid — perfectly balanced ── */
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:clamp(40px,6vw,88px);
+      align-items:center;
+    }
+    /* ── Left: copy ── */
     .contact-h2{
       font-family:var(--font-he);font-weight:900;
-      font-size:clamp(28px,4vw,46px);line-height:1.06;
-      letter-spacing:-.025em;margin-bottom:14px;
+      font-size:clamp(28px,3.8vw,48px);line-height:1.06;
+      letter-spacing:-.025em;margin-bottom:16px;
+      color:var(--fg);
     }
-    .contact-sub{font-size:16px;color:var(--ink2);line-height:1.72;margin-bottom:32px;max-width:420px}
+    .contact-sub{
+      font-size:16px;color:var(--fg2);
+      line-height:1.72;margin-bottom:36px;max-width:400px;
+    }
+    /* trust chips row */
+    .contact-trust{
+      display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;
+    }
+    .contact-trust-item{
+      font-family:var(--font-mo);font-size:10px;letter-spacing:1.2px;
+      text-transform:uppercase;color:rgba(196,241,44,.55);
+      border:1px solid rgba(196,241,44,.18);
+      padding:7px 14px;
+    }
+    /* WA block — clean inline button style */
     .wa-block{
-      background:var(--ink);color:var(--fg);
-      padding:20px 22px;position:relative;overflow:hidden;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:12px;
+      padding:22px 24px;
+      position:relative;overflow:hidden;
     }
-    .wa-block::before{content:'';position:absolute;top:0;bottom:0;right:0;width:3px;background:var(--neon)}
-    .wa-block-inner{padding-right:16px}
-    .wa-label{font-family:var(--font-mo);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--fg3);display:block;margin-bottom:8px}
-    .wa-title{font-size:17px;font-weight:700;margin-bottom:6px}
+    .wa-block::before{display:none}
+    .wa-block-inner{padding-right:0}
+    .wa-label{font-family:var(--font-mo);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(196,241,44,.45);display:block;margin-bottom:8px}
+    .wa-title{font-size:16px;font-weight:700;margin-bottom:14px;color:var(--fg)}
     .wa-sub{font-size:13px;color:var(--fg2);margin-bottom:14px}
     .btn-wa{
-      display:inline-flex;align-items:center;gap:8px;
+      display:inline-flex;align-items:center;gap:9px;
       background:#25D366;color:#fff;font-weight:700;font-size:14px;
-      padding:10px 18px;border-radius:0;cursor:pointer;
-      transition:filter .2s;
+      padding:12px 22px;border-radius:8px;cursor:pointer;
+      transition:filter .2s,transform .15s;
     }
-    .btn-wa:hover{filter:brightness(1.1)}
-    .wa-svg{width:18px;height:18px;fill:#fff}
+    .btn-wa:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .wa-svg{width:18px;height:18px;fill:#fff;flex-shrink:0}
 
-    /* Form */
+    /* ── Right: Form card ── */
     .contact-form{
-      background:var(--card);
-      border:1.5px solid var(--ink);
-      padding:30px 28px;
-      display:flex;flex-direction:column;gap:16px;
+      background:var(--paper);
+      border:none;
+      border-radius:16px;
+      padding:36px 32px;
+      display:flex;flex-direction:column;gap:0;
       position:relative;
+      box-shadow:0 0 0 1px rgba(196,241,44,.25), 0 24px 64px rgba(0,0,0,.5);
     }
     .contact-form::before{
-      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;
       background:linear-gradient(90deg,var(--neon),var(--neon-h));
+      border-radius:16px 16px 0 0;
     }
     .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .form-group{display:flex;flex-direction:column;gap:5px;position:relative}
+    .form-group{display:flex;flex-direction:column;gap:6px;position:relative;margin-bottom:14px}
     .form-group label{font-size:12px;font-weight:600;color:var(--ink2)}
-    .form-group label sup{color:var(--ink)}
+    .form-group label sup{color:var(--neon-h)}
     .form-group input,
     .form-group textarea,
     .form-group select{
-      background:var(--paper);border:1.5px solid var(--ink4);
-      border-radius:0;padding:11px 14px;color:var(--ink);
+      background:#fff;border:1.5px solid var(--ink4);
+      border-radius:8px;padding:11px 14px;color:var(--ink);
       font-size:14.5px;outline:none;width:100%;
-      transition:border-color .25s,box-shadow .25s;
+      transition:border-color .2s,box-shadow .2s;
     }
     .form-group input:focus,
     .form-group textarea:focus,
     .form-group select:focus{
-      border-color:var(--ink);
-      box-shadow:0 0 0 3px rgba(196,241,44,.15);
+      border-color:rgba(196,241,44,.6);
+      box-shadow:0 0 0 3px rgba(196,241,44,.12);
     }
     .form-group textarea{resize:vertical;min-height:96px}
     .form-group select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%230A0A0A' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center}
     .checks{display:flex;flex-direction:column;gap:8px}
     .check{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer}
     .check input[type=checkbox]{width:16px;height:16px;accent-color:var(--ink);cursor:pointer}
-    .form-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
+    .form-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
     .form-note{font-family:var(--font-mo);font-size:10px;color:var(--ink3)}
     .form-success{display:none;color:#2EA655;font-size:14px;font-weight:600;text-align:center;padding:10px 0}
     .form-success.visible{display:block}
-    /* Multi-step form */
+
+    /* ── Progress indicator — numbered steps ── */
     .ms-progress{display:flex;align-items:center;gap:0;margin-bottom:28px}
     .ms-prog-dot{
-      width:8px;height:8px;border-radius:50%;
-      border:1.5px solid var(--ink3);background:transparent;
-      flex-shrink:0;transition:background .3s,border-color .3s;
+      width:30px;height:30px;border-radius:50%;
+      border:1.5px solid var(--ink4);background:#fff;
+      flex-shrink:0;transition:background .3s,border-color .3s,color .3s;
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--font-mo);font-size:10px;font-weight:700;
+      color:var(--ink3);
     }
-    .ms-prog-dot.active,.ms-prog-dot.done{background:var(--neon-h);border-color:var(--neon-h)}
-    .ms-prog-line{flex:1;height:1px;background:var(--ink4);transition:background .3s}
+    .ms-prog-dot.active{background:var(--neon);border-color:var(--neon);color:var(--ink)}
+    .ms-prog-dot.done{background:var(--neon-h);border-color:var(--neon-h);color:var(--ink)}
+    .ms-prog-line{flex:1;height:1.5px;background:var(--ink4);transition:background .3s}
     .ms-prog-line.done{background:var(--neon-h)}
+    /* ── Steps ── */
     .ms-step{display:none;flex-direction:column;gap:14px;will-change:transform,opacity}
     .ms-step.active{display:flex}
-    .ms-q{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.01em;margin-bottom:4px}
+    .ms-q{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.01em;margin-bottom:2px}
     .ms-q-sub{font-family:var(--font-mo);font-size:10px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-top:-8px}
+    /* ── Chips ── */
     .ms-chips{display:flex;flex-wrap:wrap;gap:10px}
     .ms-chip{
       font-family:var(--font-he);font-size:14px;font-weight:600;
-      padding:12px 18px;border:1.5px solid var(--ink4);
-      background:transparent;color:var(--ink2);
-      cursor:pointer;transition:border-color .25s,color .25s,background .25s;
+      padding:12px 20px;
+      border:1.5px solid var(--ink4);border-radius:8px;
+      background:#fff;color:var(--ink2);
+      cursor:pointer;transition:border-color .2s,color .2s,background .2s,box-shadow .2s;
       text-align:right;
     }
-    .ms-chip:hover{border-color:var(--neon-h);color:var(--ink);background:rgba(196,241,44,.05)}
-    .ms-chip.selected{border-color:var(--neon-h);background:rgba(196,241,44,.1);color:var(--ink)}
+    .ms-chip:hover{
+      border-color:var(--neon-h);color:var(--ink);
+      background:rgba(196,241,44,.06);
+      box-shadow:0 2px 8px rgba(164,214,18,.15);
+    }
+    .ms-chip.selected{
+      border-color:var(--neon-h);background:rgba(196,241,44,.12);
+      color:var(--ink);
+      box-shadow:0 0 0 3px rgba(196,241,44,.12);
+    }
     .ms-chip-full{width:100%}
     .ms-back{
       background:none;border:none;font-family:var(--font-mo);
@@ -1130,49 +1184,29 @@
     }
     .ms-back:hover{color:var(--ink)}
     .ms-success-icon{
-      width:44px;height:44px;border-radius:50%;
+      width:48px;height:48px;border-radius:50%;
       background:rgba(196,241,44,.15);border:1.5px solid var(--neon-h);
-      display:flex;align-items:center;justify-content:center;
-      font-size:20px;
+      display:flex;align-items:center;justify-content:center;font-size:22px;
     }
     .ms-chip-tag{
-      display:block;
-      font-family:var(--font-mo);
-      font-size:9px;
-      letter-spacing:1.2px;
-      color:var(--ink3);
-      margin-bottom:4px;
+      display:block;font-family:var(--font-mo);
+      font-size:9px;letter-spacing:1.2px;color:var(--ink3);margin-bottom:4px;
     }
-    .ms-chip:hover .ms-chip-tag,
-    .ms-chip.selected .ms-chip-tag{color:var(--neon-h)}
+    .ms-chip:hover .ms-chip-tag,.ms-chip.selected .ms-chip-tag{color:var(--neon-h)}
     .ms-foot{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-top:4px;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:16px;margin-top:8px;
     }
     .ms-success{background:transparent}
     .ms-success-inner{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      text-align:center;
-      gap:14px;
-      padding:32px 0;
+      display:flex;flex-direction:column;align-items:center;
+      text-align:center;gap:14px;padding:32px 0;
     }
     .ms-success-title{
-      font-family:var(--font-he);
-      font-size:22px;
-      font-weight:700;
-      color:var(--ink);
-      letter-spacing:-.02em;
+      font-family:var(--font-he);font-size:22px;font-weight:700;
+      color:var(--ink);letter-spacing:-.02em;
     }
-    .ms-success-sub{
-      font-size:14px;
-      color:var(--ink2);
-      line-height:1.6;
-    }
+    .ms-success-sub{font-size:14px;color:var(--ink2);line-height:1.6}
 
     /* ═══════════════════════════════════════
        FOOTER
@@ -2420,12 +2454,17 @@
   <div class="container">
     <div class="contact-grid">
       <div>
-        <span class="tag reveal">// contact</span>
+        <span class="tag reveal" style="color:rgba(196,241,44,.55)">// contact</span>
         <h2 class="contact-h2 reveal">הגיע הזמן לקדם<br/>את הארגון לשלב הבא.</h2>
         <p class="contact-sub reveal">
           השאירו פרטים לתיאום פגישת היכרות. נבחן יחד, ללא התחייבות,
           את האפיקים בהם נוכל לייעל ולשפר את הפעילות העסקית שלכם.
         </p>
+        <div class="contact-trust reveal">
+          <span class="contact-trust-item">מענה תוך 24 שעות</span>
+          <span class="contact-trust-item">ללא התחייבות</span>
+          <span class="contact-trust-item">פגישה ראשונה חינם</span>
+        </div>
         <div class="wa-block reveal">
           <div class="wa-block-inner">
             <p class="wa-title">מעדיפים ליצור קשר ישירות?</p>
@@ -2443,11 +2482,11 @@
 
         <!-- Progress indicator -->
         <div class="ms-progress" id="msProgress" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1">
-          <div class="ms-prog-dot active" data-step="1" aria-label="שלב 1"></div>
+          <div class="ms-prog-dot active" data-step="1" aria-label="שלב 1">01</div>
           <div class="ms-prog-line"></div>
-          <div class="ms-prog-dot" data-step="2" aria-label="שלב 2"></div>
+          <div class="ms-prog-dot" data-step="2" aria-label="שלב 2">02</div>
           <div class="ms-prog-line"></div>
-          <div class="ms-prog-dot" data-step="3" aria-label="שלב 3"></div>
+          <div class="ms-prog-dot" data-step="3" aria-label="שלב 3">03</div>
         </div>
 
         <!-- Step 1: Service type -->
