@@ -458,19 +458,24 @@
       .hero-actions{display:none!important}
       /* hero height */
       .hero{min-height:92vh!important;height:92vh!important}
-      /* video starts lower — show bottom portion */
-      .hero-video-bg{object-position:center 70%;opacity:.85}
-      /* overlay: solid black on top (text area), fades into video below */
+      /* video fills full hero, show lower/richer part */
+      .hero-video-bg{object-position:center 65%;opacity:.9}
+      /* tiny fade at very top only — short, not spread out */
       .hero::before{
         content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
         background:linear-gradient(to bottom,
           #0A0A0A 0%,
-          #0A0A0A 42%,
-          rgba(10,10,10,.7) 55%,
-          rgba(10,10,10,.2) 72%,
-          transparent 88%);
+          rgba(10,10,10,.0) 28%);
       }
       .hero-inner{z-index:3}
+      /* dark card behind main title only */
+      .hero-h1{
+        background:rgba(0,0,0,.62);
+        border-radius:10px;
+        padding:14px 16px;
+        display:inline-block;
+        margin-bottom:12px;
+      }
     }
 
     /* mouse-glow */
