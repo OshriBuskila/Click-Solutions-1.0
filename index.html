@@ -456,17 +456,16 @@
       }
       /* hide CTAs on mobile */
       .hero-actions{display:none!important}
-      /* crop hero from bottom + show lower portion of video */
-      .hero{min-height:72vh!important;height:72vh!important}
-      .hero-video-bg{object-position:center 60%}
-      /* black fade from top so title blends into video */
+      /* crop hero — between 72vh and 100vh */
+      .hero{min-height:86vh!important;height:86vh!important}
+      .hero-video-bg{object-position:center 50%;opacity:.55}
+      /* subtle black fade only at top so title blends into video */
       .hero::before{
         content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
         background:linear-gradient(to bottom,
-          #0A0A0A 0%,
-          rgba(10,10,10,.6) 35%,
-          rgba(10,10,10,.1) 65%,
-          transparent 100%);
+          rgba(10,10,10,.75) 0%,
+          rgba(10,10,10,.35) 25%,
+          transparent 55%);
       }
       .hero-inner{z-index:3}
     }
