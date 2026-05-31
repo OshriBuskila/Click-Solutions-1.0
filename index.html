@@ -1340,10 +1340,13 @@
 
     /* 4. Process mobile — scroll-driven green fill + numbered dots */
     @media(max-width:760px){
+      /* allow dots to overflow the panel boundary */
+      .cs__panel{overflow:visible}
       .cs__steps{
         position:relative;
         border-inline-start:2px solid rgba(196,241,44,.12);
-        padding-inline-start:30px; /* more room for larger dot */
+        padding-inline-start:44px;
+        margin-inline-start:20px;
       }
       /* fill overlay */
       .cs__steps::after{
@@ -1357,30 +1360,35 @@
         box-shadow:0 0 10px rgba(196,241,44,.6);
         transition:height .08s linear;
         pointer-events:none;
+        z-index:2;
       }
-      /* numbered circles via ::before + data-mob-num */
+      /* numbered circles — positioned on the line to the right of the panel */
       .cs__panel::before{
         content: attr(data-mob-num);
         position:absolute;
-        inset-inline-start:-46px;
-        top:20px;
+        inset-inline-start:-54px;
+        top:16px;
         width:32px;height:32px;
         border-radius:50%;
         background:rgba(196,241,44,.08);
-        border:2px solid rgba(196,241,44,.25);
-        color:var(--cs-neon);
-        font-family:var(--cs-en,'Space Grotesk',sans-serif);
+        border:2px solid rgba(196,241,44,.2);
+        color:rgba(196,241,44,.4);
+        font-family:'Space Grotesk','JetBrains Mono',monospace;
         font-weight:700;font-size:12px;
-        display:flex;align-items:center;justify-content:center;
+        line-height:32px;
+        text-align:center;
         box-shadow:none;
-        transform:scale(0);opacity:0;
-        transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s,background .3s,border-color .3s;
+        transform:scale(0.6);opacity:0.4;
+        transition:transform .4s cubic-bezier(.34,1.56,.64,1),
+                   opacity .3s,background .3s,border-color .3s,
+                   color .3s,box-shadow .3s;
+        z-index:3;
       }
       .cs__panel.mob-dot-vis::before{
         transform:scale(1);opacity:1;
         background:var(--cs-neon);
         border-color:var(--cs-neon);
-        color:var(--cs-ink);
+        color:#0A0A0A;
         box-shadow:0 0 0 5px rgba(196,241,44,.16),0 0 16px rgba(196,241,44,.5);
       }
     }
