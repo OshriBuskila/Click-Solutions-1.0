@@ -103,7 +103,7 @@
     .btn{
       display:inline-flex;align-items:center;gap:8px;
       font-family:var(--font-he);font-size:.95rem;font-weight:700;
-      border:none;border-radius:0;cursor:none;
+      border:none;border-radius:0;cursor:pointer;
       padding:13px 26px;
       position:relative;overflow:hidden;
       transition:color .25s var(--ease),box-shadow .3s var(--ease),transform .25s var(--ease);
@@ -189,7 +189,7 @@
     .nav-right{display:flex;align-items:center;gap:14px}
     .nav-phone{font-family:var(--font-mo);font-size:12px;color:var(--fg3);direction:ltr;transition:color .3s}
     .navbar.light .nav-phone{color:var(--ink3)}
-    .hamburger{display:none;margin-right:auto;background:none;border:none;color:var(--fg);font-size:22px;cursor:none;padding:4px 6px;line-height:1;transition:color .3s}
+    .hamburger{display:none;margin-right:auto;background:none;border:none;color:var(--fg);font-size:22px;cursor:pointer;padding:4px 6px;line-height:1;transition:color .3s}
     .navbar.light .hamburger{color:var(--ink)}
 
     /* Mobile */
@@ -203,7 +203,7 @@
        HERO (dark, canvas)
     ═══════════════════════════════════════ */
     .hero{
-      min-height:100vh;padding-top:var(--nav-h);
+      min-height:100vh;height:100vh;padding-top:var(--nav-h);
       position:relative;overflow:hidden;
       background:#0A0A0A;display:flex;align-items:center;
     }
@@ -218,6 +218,7 @@
     /* ═══════════════════════════════════════
        HERO VIDEO — centred looping background
     ═══════════════════════════════════════ */
+    /* Latest from cfir: fills full hero height, right-fade mask (no black bar) */
     .hero-video-bg{
       position:absolute;
       top:0;left:0;
@@ -228,7 +229,6 @@
       pointer-events:none;z-index:1;
       object-fit:cover;
       opacity:.58;
-      /* richer colours */
       filter:saturate(1.3) brightness(1.05);
       /* fade only toward the right (text side) — no top/bottom fade */
       -webkit-mask-image:linear-gradient(to right, black 45%, rgba(0,0,0,.7) 62%, rgba(0,0,0,.15) 78%, transparent 90%);
@@ -236,10 +236,11 @@
       will-change:opacity;
     }
     @media(max-width:760px){
-      .hero-video-bg{width:100%;opacity:.24;filter:none}
+      /* full width ← 100vw*9/16 = 56.25vw tall */
+      .hero-video-bg{width:100%;height:56.25vw;opacity:.24;filter:none}
     }
     @media(prefers-reduced-motion:reduce){
-      .hero-video-bg{opacity:0}
+      /* video remains visible — played via JS instead of hidden */
     }
 
     /* ═══════════════════════════════════════
@@ -433,8 +434,7 @@
       display:flex;align-items:center;
       width:100%;
     }
-    /* Title occupies the right portion; video/network breathe on the left.
-       margin-inline-end:auto in RTL pushes the block to the right (start edge). */
+    /* Title occupies the right portion; video breathes on the left. */
     .hero-content{
       flex:none;
       width:min(580px, 55%);
@@ -458,9 +458,10 @@
 
     .hero-inner{z-index:5}
     .hero-eyebrow{
-      font-family:var(--font-mo);font-size:11px;
-      letter-spacing:2.4px;text-transform:uppercase;
-      color:var(--fg3);margin-bottom:22px;
+      font-family:var(--font-mo);font-size:13px;
+      letter-spacing:3px;text-transform:uppercase;
+      color:var(--fg2);margin-bottom:22px;
+      font-weight:600;
       opacity:0;animation:fadeUp .7s var(--ease) .2s forwards;
     }
     .hero-h1{
@@ -570,13 +571,14 @@
     .svc-section--dark{background:var(--ink);border-top:1px solid rgba(196,241,44,.08)}
     .svc-section--deep{background:#0C0C0C;border-top:1px solid rgba(196,241,44,.06)}
     .svc-2col{
-      display:grid;grid-template-columns:1fr 1fr;
+      display:grid;grid-template-columns:1fr 1.5fr;
       gap:clamp(40px,6vw,88px);align-items:center;
     }
+    .svc-2col--rev{grid-template-columns:1.5fr 1fr}
     .svc-2col--rev .svc-text{order:2}
     .svc-2col--rev .svc-vis{order:1}
     .svc-kicker{
-      font-family:var(--font-mo);font-size:9px;letter-spacing:2.5px;
+      font-family:var(--font-mo);font-size:13.5px;letter-spacing:2.5px;
       text-transform:uppercase;color:var(--neon-h);margin-bottom:14px;display:block;
     }
     .svc-h2{
@@ -609,13 +611,13 @@
       color:rgba(10,10,10,.72);
       background:rgba(10,10,10,.04);
     }
-    .svc-vis{position:relative;min-height:360px;display:flex;align-items:center;justify-content:center}
+    .svc-vis{position:relative;min-height:480px;display:flex;align-items:center;justify-content:center}
 
     /* ── Section 1: Training photo ── */
     .train-img-wrap{
       position:relative;
       width:100%;
-      align-self:center;
+      align-self:stretch;
     }
     .train-hero-img{
       width:100%;
@@ -624,8 +626,8 @@
       border-radius:14px;
     }
 
-    /* ── Section 2: Automation node network ── */
-    /* shared dark-section video style (automation + dev/CRM) */
+    /* ── Section 2: Automation — video (cfir) ── */
+    /* shared dark-section video style (cfir: automation + dev/CRM video) */
     .auto-video-wrap,.crm-video-wrap{position:relative;width:100%;align-self:center}
     .auto-video,.crm-video{
       width:100%;height:auto;display:block;
@@ -1036,7 +1038,7 @@
     .btn-wa{
       display:inline-flex;align-items:center;gap:8px;
       background:#25D366;color:#fff;font-weight:700;font-size:14px;
-      padding:10px 18px;border-radius:0;cursor:none;
+      padding:10px 18px;border-radius:0;cursor:pointer;
       transition:filter .2s;
     }
     .btn-wa:hover{filter:brightness(1.1)}
@@ -1073,10 +1075,10 @@
       box-shadow:0 0 0 3px rgba(196,241,44,.15);
     }
     .form-group textarea{resize:vertical;min-height:96px}
-    .form-group select{cursor:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%230A0A0A' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center}
+    .form-group select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%230A0A0A' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center}
     .checks{display:flex;flex-direction:column;gap:8px}
-    .check{display:flex;align-items:center;gap:10px;font-size:14px;cursor:none}
-    .check input[type=checkbox]{width:16px;height:16px;accent-color:var(--ink);cursor:none}
+    .check{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer}
+    .check input[type=checkbox]{width:16px;height:16px;accent-color:var(--ink);cursor:pointer}
     .form-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
     .form-note{font-family:var(--font-mo);font-size:10px;color:var(--ink3)}
     .form-success{display:none;color:#2EA655;font-size:14px;font-weight:600;text-align:center;padding:10px 0}
@@ -1100,7 +1102,7 @@
       font-family:var(--font-he);font-size:14px;font-weight:600;
       padding:12px 18px;border:1.5px solid var(--ink4);
       background:transparent;color:var(--ink2);
-      cursor:none;transition:border-color .25s,color .25s,background .25s;
+      cursor:pointer;transition:border-color .25s,color .25s,background .25s;
       text-align:right;
     }
     .ms-chip:hover{border-color:var(--neon-h);color:var(--ink);background:rgba(196,241,44,.05)}
@@ -1109,7 +1111,7 @@
     .ms-back{
       background:none;border:none;font-family:var(--font-mo);
       font-size:10px;letter-spacing:1px;color:var(--ink3);
-      cursor:none;padding:0;margin-top:4px;
+      cursor:pointer;padding:0;margin-top:4px;
       transition:color .2s;text-align:right;direction:rtl;
     }
     .ms-back:hover{color:var(--ink)}
@@ -1172,7 +1174,7 @@
       position:fixed;bottom:32px;left:32px;
       width:48px;height:48px;
       background:var(--neon);color:var(--ink);
-      border:none;cursor:none;
+      border:none;cursor:pointer;
       display:flex;align-items:center;justify-content:center;
       font-size:20px;font-weight:900;
       opacity:0;pointer-events:none;
@@ -1207,8 +1209,9 @@
       align-items:center;
     }
     .quote-kicker{
-      font-family:var(--font-mo);font-size:9px;letter-spacing:2.5px;
-      text-transform:uppercase;color:var(--neon-h);margin-bottom:16px;display:block;
+      font-family:var(--font-mo);font-size:14px;letter-spacing:3px;
+      text-transform:uppercase;color:rgba(196,241,44,.45);margin-bottom:16px;display:block;
+      font-weight:600;
     }
     .quote-title{
       font-family:var(--font-he);font-weight:900;
@@ -1216,11 +1219,11 @@
       color:var(--fg);letter-spacing:-.025em;line-height:1.1;margin-bottom:14px;
     }
     .quote-sub{font-size:15px;color:var(--fg2);line-height:1.75;max-width:520px;margin-bottom:28px}
-    .quote-services{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:0}
+    .quote-services{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:0}
     .quote-tag{
-      font-family:var(--font-mo);font-size:9px;letter-spacing:1.5px;
+      font-family:var(--font-mo);font-size:11px;letter-spacing:2px;
       text-transform:uppercase;border:1px solid rgba(196,241,44,.18);
-      color:rgba(196,241,44,.5);padding:6px 12px;
+      color:rgba(196,241,44,.5);padding:8px 16px;
     }
     .quote-cta-col{
       display:flex;flex-direction:column;align-items:center;
@@ -1271,7 +1274,7 @@
       .svc-2col--rev .svc-text{order:1}
       .svc-2col--rev .svc-vis{order:2}
       .svc-section{padding:72px 0}
-      .svc-vis{min-height:260px}
+      .svc-vis{min-height:200px}
       .dev-split{grid-template-columns:1fr}
       .train-svg,.auto-svg{max-width:100%;height:260px}
       .why-feat{grid-template-columns:1fr;gap:28px;padding:36px 0}
@@ -1301,6 +1304,85 @@
       .hero-word{opacity:1;transform:none}
       .reveal{opacity:1;transform:none}
     }
+
+    /* ═══════════════════════════════════════
+       ACCESSIBILITY MODE
+    ═══════════════════════════════════════ */
+    html.a11y-mode {
+      --paper:   #FFFFFF;
+      --card:    #FFFFFF;
+      --ink:     #000000;
+      --ink2:    rgba(0,0,0,.87);
+      --ink3:    rgba(0,0,0,.62);
+      --ink4:    rgba(0,0,0,.15);
+      --neon:    #3D7A00;
+      --neon-h:  #2A5500;
+      --neon-glow: rgba(61,122,0,.2);
+      font-size: 18px;
+    }
+    html.a11y-mode *,
+    html.a11y-mode *::before,
+    html.a11y-mode *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+    html.a11y-mode .hero-word { opacity:1; transform:none; }
+    html.a11y-mode .reveal    { opacity:1; transform:none; }
+    html.a11y-mode .hero-video-bg,
+    html.a11y-mode .hero-cinema { display:none !important; }
+    html.a11y-mode :focus-visible {
+      outline: 3px solid #000000 !important;
+      outline-offset: 4px !important;
+    }
+    html.a11y-mode p,
+    html.a11y-mode li,
+    html.a11y-mode label { line-height:1.9; letter-spacing:.012em; }
+    html.a11y-mode .hero { background:#000 !important; }
+    html.a11y-mode .hero-h1,
+    html.a11y-mode .hero-eyebrow,
+    html.a11y-mode .hero-sub { color:#fff !important; opacity:1; }
+    html.a11y-mode .navbar {
+      background:rgba(0,0,0,.97) !important;
+      border-bottom-color:rgba(61,122,0,.4) !important;
+    }
+    html.a11y-mode .btn { cursor:pointer !important; }
+    html.a11y-mode .hamburger,
+    html.a11y-mode .ms-back,
+    html.a11y-mode .btn-wa,
+    html.a11y-mode .ms-chip,
+    html.a11y-mode .form-group select { cursor:pointer !important; }
+    html.a11y-mode .btn-primary {
+      background:#3D7A00 !important;
+      color:#fff !important;
+      box-shadow:none !important;
+    }
+    html.a11y-mode .gradient-text {
+      background:none !important;
+      -webkit-text-fill-color:inherit !important;
+      color: var(--ink) !important;
+    }
+
+    /* Accessibility widget button */
+    .a11y-widget-btn {
+      position:fixed;
+      bottom:24px;
+      left:24px;
+      width:52px;height:52px;
+      border-radius:50%;
+      background:#0A0A0A;
+      color:#FAFAF7;
+      border:2px solid rgba(196,241,44,.3);
+      cursor:pointer;
+      z-index:9999;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 20px rgba(0,0,0,.5);
+      transition:transform .2s,box-shadow .2s,background .2s;
+    }
+    .a11y-widget-btn:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(0,0,0,.6); }
+    .a11y-widget-btn:focus-visible { outline:3px solid var(--neon); outline-offset:3px; }
+    .a11y-widget-btn[aria-pressed="true"] { background:#3D7A00; border-color:#3D7A00; }
+    .a11y-widget-btn svg { width:26px; height:26px; }
   </style>
 </head>
 
@@ -1322,7 +1404,7 @@
       <a href="#contact">צרו קשר</a>
     </nav>
     <div class="nav-right">
-      <a href="tel:054-000-0000" class="nav-phone" dir="ltr">054-000-0000</a>
+      <a href="tel:050-5724571" class="nav-phone" dir="ltr">050-5724571</a>
       <a href="#contact" class="btn btn-primary btn-sm nav-cta">בואו נדבר</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="פתח תפריט" aria-expanded="false">&#9776;</button>
@@ -1354,17 +1436,17 @@
   <svg class="hero-bg-net" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
     <defs>
       <!-- Flow paths between AI hub and connected systems -->
-      <path id="hbn-wa-ai"   d="M165,115 Q255,150 345,200"/>     <!-- WhatsApp → AI -->
-      <path id="hbn-em-ai"   d="M575,105 Q470,140 345,200"/>     <!-- Email → AI -->
-      <path id="hbn-crm-ai"  d="M140,395 Q235,290 345,200"/>     <!-- CRM → AI -->
-      <path id="hbn-ai-db"   d="M345,200 Q520,235 695,285"/>     <!-- AI → Database -->
-      <path id="hbn-db-ag2"  d="M695,285 Q800,375 880,460"/>     <!-- DB → Agent_02 -->
-      <path id="hbn-ai-bk"   d="M345,200 Q395,360 410,520"/>     <!-- AI → Book -->
-      <path id="hbn-bk-ag2"  d="M410,520 Q645,505 880,460"/>     <!-- Book → Agent_02 -->
-      <path id="hbn-ag2-r"   d="M880,460 Q1040,415 1185,375"/>   <!-- Agent_02 → right node -->
-      <path id="hbn-em-tr"   d="M575,105 Q830,55 1085,125"/>     <!-- Email → top-right -->
-      <path id="hbn-crm-ag2" d="M140,395 Q500,560 880,460"/>     <!-- CRM → Agent_02 (long) -->
-      <path id="hbn-ai-ag2"  d="M345,200 Q615,330 880,460"/>     <!-- AI → Agent_02 (cross) -->
+      <path id="hbn-wa-ai"   d="M165,115 Q255,150 345,200"/>     <!-- WhatsApp ← AI -->
+      <path id="hbn-em-ai"   d="M575,105 Q470,140 345,200"/>     <!-- Email ← AI -->
+      <path id="hbn-crm-ai"  d="M140,395 Q235,290 345,200"/>     <!-- CRM ← AI -->
+      <path id="hbn-ai-db"   d="M345,200 Q520,235 695,285"/>     <!-- AI ← Database -->
+      <path id="hbn-db-ag2"  d="M695,285 Q800,375 880,460"/>     <!-- DB ← Agent_02 -->
+      <path id="hbn-ai-bk"   d="M345,200 Q395,360 410,520"/>     <!-- AI ← Book -->
+      <path id="hbn-bk-ag2"  d="M410,520 Q645,505 880,460"/>     <!-- Book ← Agent_02 -->
+      <path id="hbn-ag2-r"   d="M880,460 Q1040,415 1185,375"/>   <!-- Agent_02 ← right node -->
+      <path id="hbn-em-tr"   d="M575,105 Q830,55 1085,125"/>     <!-- Email ← top-right -->
+      <path id="hbn-crm-ag2" d="M140,395 Q500,560 880,460"/>     <!-- CRM ← Agent_02 (long) -->
+      <path id="hbn-ai-ag2"  d="M345,200 Q615,330 880,460"/>     <!-- AI ← Agent_02 (cross) -->
     </defs>
 
     <!-- ─── Network connection edges (dashed) ─── -->
@@ -1601,9 +1683,9 @@
         <span class="ln">  <span class="attr">workflows</span>: <span class="num">14</span>,</span>
         <span class="ln">});</span>
         <span class="ln">&nbsp;</span>
-        <span class="ln"><span class="cm">→ connecting agents...</span></span>
-        <span class="ln"><span class="cm">→ training models...</span></span>
-        <span class="ln"><span class="cm">→ deploying automation...</span></span>
+        <span class="ln"><span class="cm">← connecting agents...</span></span>
+        <span class="ln"><span class="cm">← training models...</span></span>
+        <span class="ln"><span class="cm">← deploying automation...</span></span>
         <span class="ln"><span class="ok">✓ ready.</span><span class="cursor-blink"></span></span>
       </div>
       <div class="cine-label">scene 01 · code</div>
@@ -1892,11 +1974,11 @@
 
         <p class="hero-sub">
           החל מהכשרת הצוותים, דרך פיתוח אוטומציות חכמות ועד לבניית ממשקי ניהול מתקדמים.
-          מעטפת טכנולוגית מותאמת אישית שחוסכת משאבים ומייעלת את סביבת העבודה מהיום הראשון.
+          מעטפת טכנולוגית מותאמת אישית.
         </p>
 
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary btn-lg" style="padding:19px 38px;font-size:1.05rem;box-shadow:0 0 32px rgba(196,241,44,.35)">לתיאום פגישת אפיון ←</a>
+          <a href="#contact" class="btn btn-primary btn-lg" style="padding:19px 38px;font-size:1.05rem;box-shadow:0 0 32px rgba(196,241,44,.35)">ליצירת קשר ←</a>
           <a href="#services" class="btn btn-ghost-light btn-lg" style="opacity:.7">הפתרונות שלנו</a>
         </div>
       </div>
@@ -1949,21 +2031,21 @@
         <span class="svc-kicker">// 01 &nbsp;·&nbsp; AI Training &amp; Advisory</span>
         <h2 class="svc-h2" id="svc1-title">הדרכות, סדנאות<br/>וייעוץ AI</h2>
         <p class="svc-p">
-          אנחנו מגיעים אליכם. סדנאות מעשיות, הכשרות מנהלים וסילבוסים הנתפרים
+          אנחנו מגיעים אליכם. סדנאות מעשיות, הכשרות מנהלים וסילבוסים מותאמים
           לתהליכי העבודה האמיתיים של הארגון — לא שקופיות גנריות.
         </p>
         <ul class="svc-feats" role="list">
-          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>ורקשופים חיים עם ChatGPT, Claude &amp; Gemini</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>סדנאות חיות עם הכלים החמים ביותר בשוק — Copilot, ChatGPT, Claude &amp; Gemini</li>
           <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>סילבוס מותאם לכל מחלקה — שיווק, כספים, מכירות, R&amp;D</li>
           <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>ליווי מנהלים: אסטרטגיית AI לארגון</li>
-          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>מדידת פרודוקטיביות לפני ואחרי</li>
+
         </ul>
         <div class="svc-badge-row">
           <span class="svc-badge">AI Strategy</span>
           <span class="svc-badge">Live Workshops</span>
           <span class="svc-badge">Hands-on</span>
         </div>
-        <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">קבעו סדנה →</a>
+        <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex"> לפרטים נוספים ← </a>
       </div>
 
       <!-- Visual (left col in RTL) -->
@@ -1975,7 +2057,7 @@
             <pattern id="tDots" width="18" height="18" patternUnits="userSpaceOnUse">
               <circle cx="9" cy="9" r=".9" fill="rgba(10,10,10,.07)"/>
             </pattern>
-            <!-- Particle drop paths (model cards → skills bar) -->
+            <!-- Particle drop paths (model cards ← skills bar) -->
             <path id="td1" d="M101,124 Q101,142 101,158"/>
             <path id="td2" d="M240,124 Q240,142 240,158"/>
             <path id="td3" d="M379,124 Q379,142 379,158"/>
@@ -2289,14 +2371,13 @@
         <span class="svc-kicker">// 02 &nbsp;·&nbsp; Process Automation</span>
         <h2 class="svc-h2" id="svc2-title">אוטומציות<br/>שמשחררות אתכם</h2>
         <p class="svc-p">
-          כל משימה שחוזרת על עצמה — יכולה לרוץ לבד. אנחנו מחברים את המערכות שלכם
-          כך שמידע זורם אוטומטית, בלי טעויות, בלי שכחות, בלי צורך בהתעסקות.
+          זמן הצוות יקר מדי בשביל משימות שמכונה יכולה לעשות. אנחנו בונים אוטומציות שמחברות בין המערכות שלכם ומשחררות את האנשים לעבודה שרק אנשים יכולים לעשות.
         </p>
         <ul class="svc-feats" role="list">
-          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>חיבור CRM, דוא"ל, WhatsApp, גיליונות</li>
-          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>סנכרון נתונים אוטומטי בין מערכות</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>חיבור CRM, דוא"ל, WhatsApp, Excel</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>יצירת מסמכים ודוחות אוטומטיים</li>
           <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>צ'אטבוטים חכמים עם AI פנים-ארגוני</li>
-          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>דוחות ועדכונים שמגיעים אליכם, לא להפך</li>
+          <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>יצירת התראות ותזכורות אוטומטיות</li>
         </ul>
         <div class="svc-badge-row">
           <span class="svc-badge">n8n / Make</span>
@@ -2304,9 +2385,10 @@
           <span class="svc-badge">AI Agents</span>
           <span class="svc-badge">API Integrations</span>
         </div>
-        <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">רוצה לחסוך שעות →</a>
+        <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex"> בואו נדבר על אוטומציה ← </a>
       </div>
 
+      <!-- Visual: animated node network -->
       <!-- Visual: automation animation video (scroll-triggered, plays once) -->
       <div class="svc-vis auto-video-wrap reveal" style="transition-delay:.15s" aria-hidden="true">
         <video
@@ -2314,6 +2396,7 @@
           class="auto-video"
           muted
           playsinline
+          loop
           preload="metadata"
           aria-label="אנימציית אוטומציה — זרימת נתונים בין מערכות"
         >
@@ -2337,8 +2420,8 @@
         <span class="svc-kicker">// 03 &nbsp;·&nbsp; Interface &amp; Systems Dev</span>
         <h2 class="svc-h2" id="svc3-title">פיתוח ממשקים<br/>ומערכות מותאמות</h2>
         <p class="svc-p">
-          אתרים, דפי נחיתה, CRM פנים-ארגוני ואפליקציות שנבנות מאפס עם AI.
-          כל מסך, כל כפתור, כל תהליך — מדויקים לאיך שהעסק שלכם עובד.
+          אתרים, דפי נחיתה, CRM פנים-ארגוני ואפליקציות מבוססות AI.
+          כל מסך, כל כפתור, כל תהליך — מותאמים לאיך שהעסק שלכם עובד.
         </p>
         <ul class="svc-feats" role="list">
           <li class="svc-feat"><span class="svc-feat-dot" aria-hidden="true"></span>אתרי תדמית ודפי נחיתה ממירים</li>
@@ -2352,7 +2435,7 @@
           <span class="svc-badge">CRM Dev</span>
           <span class="svc-badge">API First</span>
         </div>
-        <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex">שוחחו על הפרויקט →</a>
+        <a href="#contact" class="btn btn-primary" style="margin-top:28px;display:inline-flex"> בואו נבנה משהו ביחד ← </a>
       </div>
 
       <!-- Visual: CRM animation video (looping) -->
@@ -2370,104 +2453,6 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════
-     STACK MARQUEE
-═══════════════════════════════════════ -->
-<section class="stack" id="stack" aria-label="הכלים שאנחנו עובדים איתם">
-
-  <div class="stack-header">
-    <span class="stack-title">THE STACK &nbsp;/&nbsp; כלים שאנחנו עובדים איתם</span>
-    <div style="display:flex;align-items:center;gap:18px">
-      <span class="stack-count">24+ TOOLS</span>
-      <span class="stack-live">
-        <span class="stack-live-dot"></span>
-        LIVE
-      </span>
-    </div>
-  </div>
-
-  <div class="stack-marquee-wrap">
-
-    <!-- ROW 1: forward scroll — AI models & automation -->
-    <div class="stack-row">
-      <div class="stack-track">
-        <!-- set A -->
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>ChatGPT</span>
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Claude</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>n8n</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--auto"></span>Make.com</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>HubSpot</span>
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Gemini</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Zapier</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>Salesforce</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Perplexity</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--auto"></span>Airtable</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--biz"></span>Notion</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Midjourney</span>
-        <!-- set B (duplicate for seamless loop) -->
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>ChatGPT</span>
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Claude</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>n8n</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--auto"></span>Make.com</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>HubSpot</span>
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Gemini</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Zapier</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>Salesforce</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Perplexity</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--auto"></span>Airtable</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--biz"></span>Notion</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Midjourney</span>
-      </div>
-    </div>
-
-    <!-- ROW 2: reverse scroll — creative, biz & dev tools -->
-    <div class="stack-row stack-row--alt stack-row--rev">
-      <div class="stack-track">
-        <!-- set A -->
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>ElevenLabs</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--biz"></span>Monday.com</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Slack</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>ActiveCampaign</span>
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Runway</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Typeform</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--biz"></span>Webflow</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--ai"></span>Anthropic API</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--biz"></span>Intercom</span>
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Grok</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--auto"></span>Gong</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Cohere</span>
-        <!-- set B (duplicate) -->
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>ElevenLabs</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--biz"></span>Monday.com</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Slack</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--biz"></span>ActiveCampaign</span>
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Runway</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--auto"></span>Typeform</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--biz"></span>Webflow</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--ai"></span>Anthropic API</span>
-        <span class="mq-item mq-item--mid"><span class="mq-dot mq-dot--biz"></span>Intercom</span>
-        <span class="mq-item mq-item--neon"><span class="mq-dot mq-dot--ai"></span>Grok</span>
-        <span class="mq-item"><span class="mq-dot mq-dot--auto"></span>Gong</span>
-        <span class="mq-item mq-item--hi"><span class="mq-dot mq-dot--ai"></span>Cohere</span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- legend -->
-  <div style="display:flex;align-items:center;justify-content:center;gap:28px;padding:0 0 26px;position:relative;z-index:3">
-    <span style="display:flex;align-items:center;gap:7px;font-family:var(--font-mo);font-size:9px;color:rgba(250,250,247,.22);letter-spacing:.06em">
-      <span style="width:5px;height:5px;border-radius:50%;background:var(--neon);box-shadow:0 0 6px rgba(196,241,44,.6);display:inline-block"></span>AI &amp; LLM
-    </span>
-    <span style="display:flex;align-items:center;gap:7px;font-family:var(--font-mo);font-size:9px;color:rgba(250,250,247,.22);letter-spacing:.06em">
-      <span style="width:5px;height:5px;border-radius:50%;background:rgba(120,180,255,.7);display:inline-block"></span>AUTOMATION
-    </span>
-    <span style="display:flex;align-items:center;gap:7px;font-family:var(--font-mo);font-size:9px;color:rgba(250,250,247,.22);letter-spacing:.06em">
-      <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,160,80,.6);display:inline-block"></span>BUSINESS
-    </span>
-  </div>
-
-</section>
 
 <!-- ═══════════════════════════════════════
      PROCESS
@@ -2615,9 +2600,7 @@
       <h2 class="section-title">
         טכנולוגיה קיימת בכל מקום.<br/>שותפים אסטרטגיים קשה יותר למצוא.
       </h2>
-      <p class="section-sub">
-        מחויבות לשקיפות ולתוצאות — זאת ההבטחה שלנו לכל ארגון.
-      </p>
+
     </div>
 
     <div class="why-features">
@@ -2643,7 +2626,7 @@
 
       <!-- ── Row 2: Custom — Generic vs Tailored (zigzag: visual-right / text-left) ── -->
       <div class="why-feat reveal" style="transition-delay:.1s">
-        <!-- visual first → goes to right column in RTL grid -->
+        <!-- visual first ← goes to right column in RTL grid -->
         <div class="wf-visual" aria-hidden="true">
           <img
             src="oshri-portrait.png"
@@ -2651,7 +2634,7 @@
             style="width:100%;max-width:320px;height:auto;display:block;border-radius:14px;box-shadow:0 8px 32px rgba(10,10,10,.12)"
           />
         </div>
-        <!-- body second → goes to left column in RTL grid -->
+        <!-- body second ← goes to left column in RTL grid -->
         <div class="wf-body">
           <span class="wf-kicker">// tailored to you</span>
           <h3 class="wf-title">חליפה תפורה למידותיכם</h3>
@@ -2674,7 +2657,7 @@
         </div>
         <div class="wf-visual" aria-hidden="true">
           <img
-            src="barel-portrait.png"
+            src="barel-portrait.jpeg"
             alt="צוות Click Solutions — תוצאות מדידות"
             style="width:100%;max-width:320px;height:auto;display:block;border-radius:14px;box-shadow:0 8px 32px rgba(10,10,10,.12)"
           />
@@ -2694,11 +2677,11 @@
 
       <!-- Left: copy -->
       <div>
-        <span class="quote-kicker">// מה זה עולה?</span>
-        <h2 class="quote-title">כל פרויקט הוא עולם בפני עצמו.</h2>
+        <span class="quote-kicker">// כמה זה עולה?</span>
+        <h2 class="quote-title">כל ארגון הוא עולם בפני עצמו.</h2>
         <p class="quote-sub">
           לא מאמינים במחירוני "מדף". הצעת המחיר שלנו נבנית בהתאם לגודל הארגון,
-          המורכבות, ולמה שבאמת ייצור ערך — לא לפי טבלה גנרית.
+          המורכבות, ולמה שבאמת ייצור ערך — לא לפי טבלה גנרית מוכנה מראש.
         </p>
         <div class="quote-services">
           <span class="quote-tag">הדרכות AI</span>
@@ -2707,15 +2690,6 @@
         </div>
       </div>
 
-      <!-- Right: CTA -->
-      <div class="quote-cta-col">
-        <a href="#contact" class="btn btn-primary" style="font-size:15px;padding:16px 32px;white-space:nowrap">
-          קבלו הצעת מחיר ←
-        </a>
-        <p class="quote-cta-note">
-          ייעוץ ראשוני ללא עלות<br/>אין התחייבות · מענה תוך 24 שעות
-        </p>
-      </div>
 
     </div>
   </div>
@@ -2731,15 +2705,14 @@
         <span class="tag reveal">// contact</span>
         <h2 class="contact-h2 reveal">הגיע הזמן לקדם<br/>את הארגון לשלב הבא.</h2>
         <p class="contact-sub reveal">
-          השאירו פרטים לתיאום פגישת היכרות וייעוץ אסטרטגי. נבחן יחד, ללא התחייבות,
+          השאירו פרטים לתיאום פגישת היכרות. נבחן יחד, ללא התחייבות,
           את האפיקים בהם נוכל לייעל ולשפר את הפעילות העסקית שלכם.
         </p>
         <div class="wa-block reveal">
           <div class="wa-block-inner">
-            <span class="wa-label">// preferred channel</span>
             <p class="wa-title">מעדיפים ליצור קשר ישירות?</p>
-            <p class="wa-sub">מחלקת הייעוץ שלנו זמינה עבורכם. מענה תוך שעה.</p>
-            <a href="https://wa.me/972540000000?text=שלום%2C%20אני%20מעוניין%20לתאם%20פגישת%20אפיון"
+            
+            <a href="https://wa.me/972505724571?text=שלום%2C%20אני%20מעוניין%20לתאם%20פגישת%20אפיון"
                target="_blank" rel="noopener noreferrer" class="btn-wa">
               <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               פנייה ישירה דרך WhatsApp
@@ -2761,7 +2734,7 @@
 
         <!-- Step 1: Service type -->
         <div class="ms-step active" data-step="1">
-          <p class="ms-q">מה הכאב הכי דחוף שלכם?</p>
+          <p class="ms-q">מה הפתרון שאתם מחפשים?</p>
           <div class="ms-chips" role="group" aria-label="סוג שירות">
             <button type="button" class="ms-chip" data-value="training" aria-pressed="false">
               <span class="ms-chip-tag">// 01</span>
@@ -2776,33 +2749,79 @@
               פיתוח ממשקים
             </button>
           </div>
-          <button type="button" class="btn btn-primary ms-next" id="msNext1" disabled aria-label="המשך לשלב הבא">המשך →</button>
+          <button type="button" class="btn btn-primary ms-next" id="msNext1" disabled aria-label="המשך לשלב הבא">המשך ←</button>
         </div>
 
-        <!-- Step 2: Team size -->
+        <!-- Step 2: Contextual question (content swapped by JS based on step 1 choice) -->
         <div class="ms-step" data-step="2">
-          <p class="ms-q">כמה אנשים בצוות?</p>
-          <div class="ms-chips" role="group" aria-label="גודל צוות">
-            <button type="button" class="ms-chip" data-value="1-20" aria-pressed="false">
-              <span class="ms-chip-tag">// XS</span>
-              1 – 20
-            </button>
-            <button type="button" class="ms-chip" data-value="20-100" aria-pressed="false">
-              <span class="ms-chip-tag">// S</span>
-              20 – 100
-            </button>
-            <button type="button" class="ms-chip" data-value="100-500" aria-pressed="false">
-              <span class="ms-chip-tag">// M</span>
-              100 – 500
-            </button>
-            <button type="button" class="ms-chip" data-value="500+" aria-pressed="false">
-              <span class="ms-chip-tag">// L</span>
-              500+
-            </button>
+
+          <!-- Variant: Training ← team size -->
+          <div class="ms-step-variant" data-for="training">
+            <p class="ms-q">כמה אנשים בצוות?</p>
+            <div class="ms-chips" role="group" aria-label="גודל צוות">
+              <button type="button" class="ms-chip" data-value="1-20" aria-pressed="false">
+                <span class="ms-chip-tag"></span>1 – 20
+              </button>
+              <button type="button" class="ms-chip" data-value="20-100" aria-pressed="false">
+                <span class="ms-chip-tag"></span>20 – 100
+              </button>
+              <button type="button" class="ms-chip" data-value="100-500" aria-pressed="false">
+                <span class="ms-chip-tag"></span>100 – 500
+              </button>
+              <button type="button" class="ms-chip" data-value="500+" aria-pressed="false">
+                <span class="ms-chip-tag"></span>500+
+              </button>
+            </div>
           </div>
+
+          <!-- Variant: Automation ← what to automate -->
+          <div class="ms-step-variant" data-for="automation" style="display:none">
+            <p class="ms-q">מה תרצו לאוטמט?</p>
+            <div class="ms-chips" role="group" aria-label="סוג אוטומציה">
+              <button type="button" class="ms-chip" data-value="leads" aria-pressed="false">
+                <span class="ms-chip-tag">// 01</span>ניהול לידים ומכירות
+              </button>
+              <button type="button" class="ms-chip" data-value="documents" aria-pressed="false">
+                <span class="ms-chip-tag">// 02</span>הפקת מסמכים ודוחות
+              </button>
+              <button type="button" class="ms-chip" data-value="comms" aria-pressed="false">
+                <span class="ms-chip-tag">// 03</span>תקשורת ותזכורות
+              </button>
+              <button type="button" class="ms-chip" data-value="integrations" aria-pressed="false">
+                <span class="ms-chip-tag">// 04</span>חיבור בין מערכות
+              </button>
+              <button type="button" class="ms-chip" data-value="other-auto" aria-pressed="false">
+                <span class="ms-chip-tag">// 05</span>אחר
+              </button>
+            </div>
+          </div>
+
+          <!-- Variant: Interfaces ← project stage -->
+          <div class="ms-step-variant" data-for="interfaces" style="display:none">
+            <p class="ms-q">באיזה שלב הפרויקט?</p>
+            <div class="ms-chips" role="group" aria-label="שלב הפרויקט">
+             <button type="button" class="ms-chip" data-value="existing" aria-pressed="false">
+                <span class="ms-chip-tag">// 01</span>מערכת קיימת לשיפור
+              </button>
+
+              <button type="button" class="ms-chip" data-value="spec" aria-pressed="false">
+                <span class="ms-chip-tag">// 02</span>יש מפרט, מחפשים מפתח
+              </button>
+              <button type="button" class="ms-chip" data-value="idea" aria-pressed="false">
+                <span class="ms-chip-tag">// 03</span>יש רעיון, צריך ייעוץ
+              </button>
+              <button type="button" class="ms-chip" data-value="integration" aria-pressed="false">
+                <span class="ms-chip-tag">// 04</span>אינטגרציה למערכת קיימת
+              </button>
+              <button type="button" class="ms-chip" data-value="other-dev" aria-pressed="false">
+                <span class="ms-chip-tag">// 05</span>אחר
+              </button>
+            </div>
+          </div>
+
           <div class="ms-foot">
             <button type="button" class="ms-back" id="msBack2" aria-label="חזור לשלב הקודם">← חזור</button>
-            <button type="button" class="btn btn-primary ms-next" id="msNext2" disabled aria-label="המשך לשלב הבא">המשך →</button>
+            <button type="button" class="btn btn-primary ms-next" id="msNext2" disabled aria-label="המשך לשלב הבא">המשך ←</button>
           </div>
         </div>
 
@@ -2810,13 +2829,13 @@
         <div class="ms-step" data-step="3">
           <p class="ms-q">ואיך ניצור איתכם קשר?</p>
           <div class="form-group">
-            <label for="fullName">שם מלא <sup>*</sup></label>
-            <input type="text" id="fullName" name="fullName" placeholder="ישראל ישראלי" required autocomplete="name" />
+            <label for="fullName">שם מלא/שם הארגון <sup>*</sup></label>
+            <input type="text" id="fullName" name="fullName" placeholder="" required autocomplete="name" />
           </div>
           <div class="form-row">
             <div class="form-group">
               <label for="email">דוא"ל <sup>*</sup></label>
-              <input type="email" id="email" name="email" placeholder="israel@example.co.il" required autocomplete="email" />
+              <input type="email" id="email" name="email" placeholder="" required autocomplete="email" />
             </div>
             <div class="form-group">
               <label for="phone">טלפון</label>
@@ -2824,8 +2843,8 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="msg">ספרו לנו בקצרה על האתגר</label>
-            <textarea id="msg" name="msg" placeholder="מה מעכב אתכם כרגע?"></textarea>
+            <label for="msg">ספרו לנו בקצרה</label>
+            <textarea id="msg" name="msg" placeholder=""></textarea>
           </div>
           <div class="ms-foot">
             <button type="button" class="ms-back" id="msBack3" aria-label="חזור לשלב הקודם">← חזור</button>
@@ -2860,7 +2879,6 @@
       <div class="footer-brand">
         <a href="#" class="logo" style="color:var(--fg)" aria-label="Click Solutions">click<span class="logo-cursor" aria-hidden="true"></span></a>
         <p>בונים מעטפות טכנולוגיות לארגונים שמסרבים להישאר מאחור.</p>
-        <a href="#contact" class="footer-cta">בואו נדבר →</a>
       </div>
       <div>
         <p class="footer-col-title">// שירותים</p>
@@ -2882,13 +2900,14 @@
         <p class="footer-col-title">// יצירת קשר</p>
         <ul class="footer-links">
           <li><a href="#contact">תיאום פגישה</a></li>
-          <li><a href="https://wa.me/972540000000" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://wa.me/972505724571" target="_blank" rel="noopener">WhatsApp</a></li>
           <li><a href="mailto:hello@clicksolutions.co.il">hello@clicksolutions.co.il</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>// &copy; 2024–2026 Click Solutions. כל הזכויות שמורות.</span>
+      <a href="accessibility.html" style="color:inherit;text-decoration:underline;font-family:var(--font-mo);font-size:10px;color:var(--fg3);transition:color .2s">הצהרת נגישות</a>
       <span dir="ltr">hello@clicksolutions.co.il &middot; 054-000-0000</span>
     </div>
   </div>
@@ -2928,6 +2947,11 @@ if(document.readyState === 'loading'){
   const PARTICLE_N = window.innerWidth < 700 ? 45 : 85;
   const NEON = '#C4F12C';
   const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* Keep the decorative hero video playing regardless of reduced-motion.
+     Users who need motion reduced can hide it entirely via the a11y mode toggle. */
+  const heroVideo = document.querySelector('.hero-video-bg');
+  if(heroVideo){ heroVideo.play().catch(()=>{}); }
 
   function resize(){
     W=canvas.width=heroEl.offsetWidth;
@@ -3008,7 +3032,7 @@ if(document.readyState === 'loading'){
   },{threshold:0});
   heroObs.observe(heroEl);
 
-  // Mouse → canvas (for particle repulsion)
+  // Mouse ← canvas (for particle repulsion)
   document.addEventListener('mousemove',e=>{
     const r=canvas.getBoundingClientRect();
     mouse.x=e.clientX-r.left;
@@ -3074,20 +3098,18 @@ if(document.readyState === 'loading'){
   }
   revealCheck(); // run global function immediately too
 
-  /* ─── Automation video — play once when scrolled into view ─── */
+  /* ─── Automation video — play once when scrolled into view (cfir) ─── */
   (function(){
     const autoVid = document.getElementById('autoHeroVid');
     if(!autoVid) return;
-    // Prevent autoplay; video starts paused
-    autoVid.pause();
+    autoVid.pause(); // starts paused; plays on scroll
     if('IntersectionObserver' in window){
       const autoObs = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
-          if(e.isIntersecting && !autoVid.dataset.played){
-            autoVid.currentTime = 0;
+          if(e.isIntersecting){
             autoVid.play().catch(function(){});
-            autoVid.dataset.played = '1';
-            autoObs.unobserve(autoVid);
+          } else {
+            autoVid.pause();
           }
         });
       },{threshold: 0.35});
@@ -3221,28 +3243,69 @@ if(document.readyState === 'loading'){
     const back3 = formWrap.querySelector('#msBack3');
     const sub   = formWrap.querySelector('#msSubmit');
 
-    if(next1) next1.addEventListener('click',()=>showStep(2,1));
+    if(next1) next1.addEventListener('click',()=>{
+      const step2 = getStep(2);
+      step2.querySelectorAll('.ms-step-variant').forEach(v=>{
+        v.style.display = v.dataset.for === state.svc ? '' : 'none';
+      });
+      step2.querySelectorAll('.ms-chip').forEach(c=>{ c.classList.remove('selected'); c.setAttribute('aria-pressed','false'); });
+      formWrap.querySelector('#msNext2').disabled = true;
+      state.size = null;
+      showStep(2,1);
+    });
     if(next2) next2.addEventListener('click',()=>showStep(3,1));
     if(back2) back2.addEventListener('click',()=>showStep(1,-1));
     if(back3) back3.addEventListener('click',()=>showStep(2,-1));
 
     /* Submit */
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyk-mOeDDtV_kcaAKhWLffNvlU-7vvLFhFKwvj8Mo1TG77vKXnAAHO49vWLdFan5ScR/exec';
+
     if(sub) sub.addEventListener('click',()=>{
       const nameEl  = formWrap.querySelector('#fullName');
       const emailEl = formWrap.querySelector('#email');
+      const phoneEl = formWrap.querySelector('#phone');
+      const msgEl   = formWrap.querySelector('#msg');
+
       if(!nameEl.value.trim()){ nameEl.focus(); nameEl.style.borderColor='rgba(196,241,44,.7)'; return; }
       if(!emailEl.value.trim()||!emailEl.value.includes('@')){ emailEl.focus(); emailEl.style.borderColor='rgba(196,241,44,.7)'; return; }
+      const phoneVal = phoneEl ? phoneEl.value.trim() : '';
+      if(phoneVal && !/^0[2-9]\d?-?\d{7}$/.test(phoneVal)){
+        phoneEl.focus(); phoneEl.style.borderColor='rgba(196,241,44,.7)';
+        phoneEl.placeholder='פורמט: 050-0000000';
+        return;
+      }
 
       sub.textContent = 'שולח…';
       sub.disabled    = true;
 
-      setTimeout(()=>{
-        /* Hide progress bar */
+      const payload = {
+        name:    nameEl.value.trim(),
+        email:   emailEl.value.trim(),
+        phone:   phoneEl ? phoneEl.value.trim() : '',
+        service: state.svc  || '',
+        size:    state.size || '',
+        msg:     msgEl ? msgEl.value.trim() : ''
+      };
+
+      fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      })
+      .then(()=>{
         const prog = formWrap.querySelector('#msProgress');
         if(prog){ prog.style.opacity='0'; prog.style.pointerEvents='none'; }
         showStep(4,1);
         try{ localStorage.removeItem(LS_KEY); }catch(e){}
-      },1200);
+      })
+      .catch(()=>{
+        /* גם אם יש שגיאת רשת — הראה הצלחה (no-cors לא מחזיר תשובה) */
+        const prog = formWrap.querySelector('#msProgress');
+        if(prog){ prog.style.opacity='0'; prog.style.pointerEvents='none'; }
+        showStep(4,1);
+        try{ localStorage.removeItem(LS_KEY); }catch(e){}
+      });
     });
 
     /* Input border reset */
@@ -3440,6 +3503,49 @@ if(document.readyState === 'loading'){
 
 <!-- Back to top -->
 <button id="back-to-top" aria-label="חזרה לראש הדף" title="חזרה לראש הדף">↑</button>
+
+<!-- Accessibility Widget -->
+<button id="a11y-toggle" class="a11y-widget-btn" aria-label="הפעל מצב נגישות" aria-pressed="false" title="מצב נגישות">
+  <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="4" r="1.5"/>
+    <path d="M12 7v5l-3 5"/>
+    <path d="M12 12l3 5"/>
+    <path d="M8 10h8"/>
+  </svg>
+</button>
+
+<script>
+/* ─── Accessibility Mode Toggle ─── */
+(function(){
+  var KEY    = 'click-a11y-mode';
+  var btn    = document.getElementById('a11y-toggle');
+  var htmlEl = document.documentElement;
+
+  function setMode(on){
+    if(on){
+      htmlEl.classList.add('a11y-mode');
+      btn.setAttribute('aria-pressed','true');
+      btn.setAttribute('aria-label','בטל מצב נגישות');
+      btn.title = 'בטל מצב נגישות';
+    } else {
+      htmlEl.classList.remove('a11y-mode');
+      btn.setAttribute('aria-pressed','false');
+      btn.setAttribute('aria-label','הפעל מצב נגישות');
+      btn.title = 'מצב נגישות';
+    }
+    localStorage.setItem(KEY, on ? 'on' : 'off');
+  }
+
+  /* Load saved preference */
+  if(localStorage.getItem(KEY) === 'on') setMode(true);
+
+  btn.addEventListener('click', function(){
+    setMode(!htmlEl.classList.contains('a11y-mode'));
+  });
+
+  /* Keyboard: Enter / Space already trigger click on <button> natively */
+})();
+</script>
 
 </body>
 </html>
