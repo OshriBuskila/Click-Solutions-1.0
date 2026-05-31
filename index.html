@@ -814,149 +814,88 @@
     .mq-dot--biz{background:rgba(255,160,80,.6)}
 
     /* ═══════════════════════════════════════
-       PROCESS
+       PROCESS (handoff v2 — cs namespace)
     ═══════════════════════════════════════ */
-    .process{background:var(--ink);padding:0 0 92px;border-top:1px solid rgba(196,241,44,.08);position:relative}
-    /* scroll progress bar */
-    .process-progress{
-      position:sticky;top:var(--nav-h);
-      height:2px;z-index:10;overflow:hidden;
-      background:rgba(255,255,255,.08);
+    /* ── .cs tokens & layout (scoped to the process section) ── */
+    .cs{
+      --cs-ink:#0A0A0A;--cs-panel-a:#141414;--cs-panel-b:#0d0d0d;
+      --cs-neon:#C4F12C;--cs-line:rgba(196,241,44,.16);--cs-hair:rgba(250,250,247,.10);
+      --cs-t1:#FAFAF7;--cs-t2:rgba(250,250,247,.62);--cs-t3:rgba(250,250,247,.40);
+      --cs-he:"Heebo",system-ui,sans-serif;--cs-en:"Space Grotesk",system-ui,sans-serif;
+      --cs-mono:"JetBrains Mono",ui-monospace,monospace;
+      --cs-ease:cubic-bezier(.22,1,.36,1);--cs-pop:cubic-bezier(.34,1.56,.64,1);
+      --cs-gap:24px;
+      background:var(--cs-ink);color:var(--cs-t1);font-family:var(--cs-he);
+      padding:clamp(56px,7vw,104px) clamp(20px,5vw,64px);
     }
-    .process-progress-fill{
-      height:100%;width:0%;
-      background:linear-gradient(90deg,var(--neon-h),var(--neon));
-      transition:width .1s linear;
+    .cs *{box-sizing:border-box}
+    .cs__inner{max-width:1100px;margin:0 auto}
+    .cs__label{font-family:var(--cs-mono);font-size:12px;color:var(--cs-neon);letter-spacing:.16em;text-transform:uppercase;margin:0}
+    .cs__title{font-family:var(--cs-he);font-weight:900;font-size:clamp(30px,4.4vw,46px);line-height:1.04;letter-spacing:-.035em;color:var(--cs-t1);margin:14px 0 0}
+    .cs__sub{font-size:clamp(15px,1.6vw,16px);line-height:1.6;color:var(--cs-t2);margin:16px 0 0;max-width:560px}
+    .cs__stage{position:relative;margin-top:clamp(36px,4vw,52px)}
+    .cs__rail{position:relative;height:38px;--cell:calc((100% - 2*var(--cs-gap))/3)}
+    .cs__track,.cs__fill{position:absolute;top:18px;height:2px;left:calc(var(--cell)/2);right:calc(var(--cell)/2)}
+    .cs__track{background:var(--cs-hair)}
+    .cs__fill{background:var(--cs-neon);transform:scaleX(0);transform-origin:right center;box-shadow:0 0 6px rgba(196,241,44,.55)}
+    .cs__node{position:absolute;top:18px;width:38px;height:38px;border-radius:50%;background:var(--cs-neon);display:grid;place-items:center;transform:translate(-50%,-50%) scale(0);opacity:0;box-shadow:0 0 0 5px rgba(196,241,44,.16),0 0 16px rgba(196,241,44,.6)}
+    .cs__node span{font-family:var(--cs-en);font-weight:700;font-size:15px;color:var(--cs-ink)}
+    .cs__node--1{left:calc(100% - var(--cell)/2)}
+    .cs__node--2{left:50%}
+    .cs__node--3{left:calc(var(--cell)/2)}
+    .cs__tick{position:absolute;top:36px;width:2px;height:20px;background:var(--cs-neon);transform:translateX(-50%) scaleY(0);transform-origin:top center;box-shadow:0 0 5px rgba(196,241,44,.5)}
+    .cs__tick--1{left:calc(100% - var(--cell)/2)}
+    .cs__tick--2{left:50%}
+    .cs__tick--3{left:calc(var(--cell)/2)}
+    .cs__steps{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--cs-gap);margin-top:18px;list-style:none;padding:0;margin-block-start:18px}
+    .cs__panel{position:relative;overflow:hidden;min-height:296px;background:linear-gradient(180deg,var(--cs-panel-a),var(--cs-panel-b));border:1px solid var(--cs-hair);padding:24px 22px;display:flex;flex-direction:column;opacity:0;transform:translateY(22px)}
+    .cs__ghost{position:absolute;inset-inline-start:10px;bottom:-32px;font-family:var(--cs-en);font-weight:700;font-size:122px;line-height:1;color:rgba(196,241,44,.05);letter-spacing:-.06em;pointer-events:none}
+    .cs__prow{display:flex;align-items:center;justify-content:space-between;position:relative}
+    .cs__pnum{font-family:var(--cs-mono);font-size:11px;color:var(--cs-neon);letter-spacing:.12em}
+    .cs__pdur{font-family:var(--cs-mono);font-size:10px;color:var(--cs-ink);background:var(--cs-neon);padding:3px 7px;letter-spacing:.04em}
+    .cs__ptitle{font-family:var(--cs-he);font-weight:800;font-size:20px;line-height:1.18;letter-spacing:-.025em;color:var(--cs-t1);margin:15px 0 0;position:relative}
+    .cs__pdesc{font-weight:400;font-size:13px;line-height:1.5;color:var(--cs-t2);margin:9px 0 0;position:relative}
+    .cs__meta{margin-top:auto;padding-top:14px;position:relative}
+    .cs__list{display:flex;flex-direction:column;gap:5px}
+    .cs__li{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--cs-t1)}
+    .cs__li b{color:var(--cs-neon);font-family:var(--cs-mono);font-size:11px;font-weight:500}
+    .cs__tags{display:flex;flex-wrap:wrap;gap:6px}
+    .cs__tag{font-family:var(--cs-mono);font-size:11.5px;color:var(--cs-t2);border:1px solid var(--cs-hair);padding:4px 9px;white-space:nowrap}
+    .cs__stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .cs__stat{border-top:1px solid var(--cs-line);padding-top:8px}
+    .cs__stat b{display:block;font-family:var(--cs-en);font-weight:700;font-size:19px;color:var(--cs-neon);line-height:1}
+    .cs__stat span{font-size:10.5px;color:var(--cs-t3);margin-top:4px;display:block}
+    /* animation */
+    @keyframes csFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    @keyframes csPop{from{transform:translate(-50%,-50%) scale(0);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+    @keyframes csTick{from{transform:translateX(-50%) scaleY(0)}to{transform:translateX(-50%) scaleY(1)}}
+    @keyframes csRise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+    .cs.is-in .cs__fill{animation:csFill 1.1s var(--cs-ease) forwards}
+    .cs.is-in .cs__node{animation:csPop .5s var(--cs-pop) both}
+    .cs.is-in .cs__node--1{animation-delay:.15s}
+    .cs.is-in .cs__node--2{animation-delay:.55s}
+    .cs.is-in .cs__node--3{animation-delay:.95s}
+    .cs.is-in .cs__tick{animation:csTick .35s var(--cs-ease) forwards}
+    .cs.is-in .cs__tick--1{animation-delay:.30s}
+    .cs.is-in .cs__tick--2{animation-delay:.70s}
+    .cs.is-in .cs__tick--3{animation-delay:1.10s}
+    .cs.is-in .cs__panel{animation:csRise .55s var(--cs-ease) both}
+    .cs.is-in .cs__panel--1{animation-delay:.45s}
+    .cs.is-in .cs__panel--2{animation-delay:.85s}
+    .cs.is-in .cs__panel--3{animation-delay:1.25s}
+    @media(max-width:760px){
+      .cs__rail{display:none}
+      .cs__steps{grid-template-columns:1fr;gap:14px;border-inline-start:2px solid var(--cs-line);padding-inline-start:22px;margin-inline-start:8px}
+      .cs__panel{min-height:0}
+      .cs__panel::before{content:"";position:absolute;inset-inline-start:-30px;top:30px;width:14px;height:14px;border-radius:50%;background:var(--cs-neon);box-shadow:0 0 0 5px rgba(196,241,44,.16)}
     }
-    .process-inner{padding:72px 0 0}
-    .process-grid{
-      display:grid;grid-template-columns:repeat(3,1fr);
-      position:relative;gap:0;
-      border:1.5px solid rgba(196,241,44,.14);overflow:hidden;
+    @media(prefers-reduced-motion:reduce){
+      .cs__fill{transform:scaleX(1)}
+      .cs__node{transform:translate(-50%,-50%) scale(1);opacity:1}
+      .cs__tick{transform:translateX(-50%) scaleY(1)}
+      .cs__panel{opacity:1;transform:none}
+      .cs.is-in *{animation:none!important}
     }
-    /* animated connector line */
-    @keyframes travelDot{
-      0%{left:0;opacity:0}
-      5%{opacity:1}
-      95%{opacity:1}
-      100%{left:100%;opacity:0}
-    }
-    .process-line{
-      position:absolute;top:50%;height:2px;
-      left:33.33%;right:33.33%;
-      background:linear-gradient(90deg,transparent,var(--neon) 20%,var(--neon) 80%,transparent);
-      transform:scaleX(0) translateY(-50%);transform-origin:left;
-      transition:transform 1.2s var(--ease);
-      z-index:1;overflow:visible;
-    }
-    .process-line.visible{transform:scaleX(1) translateY(-50%)}
-    .process-line::after{
-      content:'';
-      position:absolute;top:50%;
-      width:12px;height:12px;border-radius:50%;
-      background:var(--neon);
-      box-shadow:0 0 16px var(--neon),0 0 32px rgba(196,241,44,.5);
-      transform:translateY(-50%);
-      opacity:0;
-    }
-    .process-line.visible::after{
-      animation:travelDot 2.5s var(--ease) 1.3s infinite;
-    }
-    .process-step{
-      padding:30px 26px;background:#0A0A0A;
-      border-left:1.5px solid rgba(196,241,44,.1);
-      transition:background .3s,transform .3s;
-      position:relative;
-    }
-    .process-step:first-child{border-left:none}
-    .process-step:hover{background:#111;transform:translateY(-4px)}
-    .step-title{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em;color:var(--fg)}
-    .step-desc{font-size:13.5px;color:var(--fg2);line-height:1.7}
-
-    /* ── Process card visual panels ── */
-    .step-visual{
-      margin:-30px -26px 22px;
-      height:150px;overflow:hidden;position:relative;
-      background:#0F0F0F;
-      border-bottom:1px solid rgba(10,10,10,.08);
-    }
-    .step-visual::after{
-      content:'';position:absolute;bottom:0;left:0;right:0;height:22px;
-      background:linear-gradient(to bottom,transparent,#0F0F0F);
-      pointer-events:none;
-    }
-    /* ── Step 1: radar primitives ── */
-    .radar-ring{fill:none;stroke:rgba(250,250,247,.07);stroke-width:1}
-    .radar-cross{stroke:rgba(250,250,247,.04);stroke-width:1}
-    .radar-sweep{stroke:rgba(196,241,44,.65);stroke-width:1.5}
-    .radar-glow{fill:rgba(196,241,44,.15);animation:blipPulse 4s ease-in-out infinite}
-    .radar-core{fill:rgba(196,241,44,.8);animation:blipPulse 4s ease-in-out infinite}
-    .radar-lbl{font-family:'JetBrains Mono',monospace;font-size:6.5px;fill:rgba(196,241,44,.42);letter-spacing:.8px}
-    @keyframes blipPulse{0%,100%{opacity:.2}50%{opacity:1}}
-    /* ── Step 2: build log ── */
-    .step-visual--log{
-      padding:12px 16px;display:flex;flex-direction:column;
-      justify-content:center;direction:ltr;
-      font-family:var(--font-mo);font-size:9.5px;line-height:1.85;
-    }
-    .log-ln{
-      display:flex;align-items:center;gap:8px;
-      opacity:0;animation:logIn .35s ease-out forwards;
-    }
-    .log-ln:nth-child(1){animation-delay:.2s}
-    .log-ln:nth-child(2){animation-delay:.75s}
-    .log-ln:nth-child(3){animation-delay:1.3s}
-    .log-ln:nth-child(4){animation-delay:1.85s}
-    .log-ln:nth-child(5){animation-delay:2.4s}
-    @keyframes logIn{from{opacity:0;transform:translateX(-5px)}to{opacity:1;transform:translateX(0)}}
-    .log-p{color:rgba(196,241,44,.4);flex-shrink:0;font-size:8px}
-    .log-t{color:rgba(250,250,247,.58);flex:1}
-    .log-ok{color:var(--neon)}
-    .log-run{color:rgba(255,200,70,.85);animation:blink .9s step-end infinite}
-    .log-wait{color:rgba(250,250,247,.2)}
-    /* ── Step 3: line chart ── */
-    .chart-grid-ln{stroke:rgba(250,250,247,.05);stroke-width:1;fill:none}
-    .chart-area{fill:rgba(196,241,44,.07)}
-    .chart-line{
-      stroke:var(--neon);stroke-width:2;fill:none;
-      stroke-linecap:round;stroke-linejoin:round;
-      stroke-dasharray:240;stroke-dashoffset:240;
-      animation:chartDraw 1.8s var(--ease) .4s forwards;
-    }
-    @keyframes chartDraw{to{stroke-dashoffset:0}}
-    .chart-pt{fill:#0F0F0F;stroke:var(--neon);stroke-width:1.8;opacity:0;animation:ptShow .3s ease forwards}
-    .chart-pt:nth-child(1){animation-delay:.8s}
-    .chart-pt:nth-child(2){animation-delay:1.1s}
-    .chart-pt:nth-child(3){animation-delay:1.4s}
-    .chart-pt:nth-child(4){animation-delay:1.7s}
-    .chart-pt:nth-child(5){animation-delay:2.0s}
-    @keyframes ptShow{to{opacity:1}}
-    .chart-peak{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;fill:var(--neon);text-anchor:middle;opacity:0;animation:ptShow .4s ease forwards 2.3s}
-    .chart-ax-lbl{font-family:'JetBrains Mono',monospace;font-size:7px;fill:rgba(250,250,247,.25);text-anchor:middle}
-    /* ── Step sub-elements ── */
-    .step-list{
-      margin-top:14px;border-top:1px solid rgba(10,10,10,.07);padding-top:11px;
-      display:flex;flex-direction:column;gap:6px;
-    }
-    .step-item{display:flex;align-items:center;gap:8px;font-family:var(--font-mo);font-size:9.5px;color:var(--ink2)}
-    .step-dot{width:5px;height:5px;border-radius:50%;background:var(--neon);flex-shrink:0}
-    .step-chips{
-      margin-top:14px;border-top:1px solid rgba(10,10,10,.07);padding-top:11px;
-      display:flex;flex-wrap:wrap;gap:5px;direction:ltr;
-    }
-    .step-chip{
-      font-family:var(--font-mo);font-size:9px;letter-spacing:.5px;
-      border:1px solid rgba(10,10,10,.1);padding:4px 9px;
-      color:var(--ink3);transition:border-color .25s,color .25s;
-    }
-    .process-step:hover .step-chip{border-color:rgba(196,241,44,.4);color:var(--ink2)}
-    .step-metrics{
-      margin-top:14px;border-top:1px solid rgba(10,10,10,.07);padding-top:11px;
-      display:grid;grid-template-columns:repeat(3,1fr);gap:4px;direction:ltr;
-    }
-    .step-metric{display:flex;flex-direction:column;align-items:center;gap:2px}
-    .metric-val{font-family:var(--font-mo);font-size:13px;font-weight:700;color:var(--neon-h);letter-spacing:-.5px}
-    .metric-lbl{font-family:var(--font-mo);font-size:7.5px;color:var(--ink3);letter-spacing:.5px;text-transform:uppercase;text-align:center}
 
     /* ═══════════════════════════════════════
        WHY US (dark + glow cards)
@@ -2226,139 +2165,76 @@
 
 
 <!-- ═══════════════════════════════════════
-     PROCESS
+     PROCESS (handoff v2 — horizontal axis)
 ═══════════════════════════════════════ -->
-<section class="process" id="process">
-  <!-- sticky scroll progress bar -->
-  <div class="process-progress" id="processProgress" aria-hidden="true">
-    <div class="process-progress-fill" id="processProgressFill"></div>
-  </div>
+<section class="cs" id="process" aria-labelledby="cs-title">
+  <div class="cs__inner">
+    <header class="cs__head">
+      <p class="cs__label">// process · 3 steps</p>
+      <h2 class="cs__title" id="cs-title">הדרך לארגון חכם יותר:<br>שלושה שלבים ממוקדים.</h2>
+      <p class="cs__sub">תהליך שיטתי ומקצועי שלוקח אתכם משלב זיהוי הבעיה ועד לתוצאות בשטח.</p>
+    </header>
 
-  <div class="process-inner">
-  <div class="container">
-    <div class="sec-header reveal">
-      <span class="tag">// process &middot; 3 steps</span>
-      <h2 class="section-title section-title--light">הדרך לארגון חכם יותר:<br/>שלושה שלבים ממוקדים.</h2>
-      <p class="section-sub section-sub--light">תהליך שיטתי ומקצועי שלוקח אתכם משלב זיהוי הבעיה ועד לתוצאות בשטח.</p>
-    </div>
-
-    <div class="process-grid" id="processGrid">
-
-      <!-- ── Step 1: Radar / Diagnosis ── -->
-      <div class="process-step reveal">
-        <div class="step-visual" aria-hidden="true">
-          <svg viewBox="0 0 200 150" style="width:100%;height:100%;display:block">
-            <!-- concentric rings -->
-            <circle cx="100" cy="75" r="58" class="radar-ring"/>
-            <circle cx="100" cy="75" r="38" class="radar-ring"/>
-            <circle cx="100" cy="75" r="19" class="radar-ring"/>
-            <!-- crosshairs -->
-            <line x1="100" y1="17" x2="100" y2="133" class="radar-cross"/>
-            <line x1="42"  y1="75" x2="158" y2="75"  class="radar-cross"/>
-            <!-- rotating sweep arm -->
-            <line x1="100" y1="75" x2="157" y2="75" class="radar-sweep">
-              <animateTransform attributeName="transform" type="rotate" from="0 100 75" to="360 100 75" dur="4s" repeatCount="indefinite"/>
-            </line>
-            <!-- blips: glow + core + label -->
-            <circle cx="133" cy="47" r="9"   class="radar-glow" style="animation-delay:0s"/>
-            <circle cx="133" cy="47" r="3"   class="radar-core" style="animation-delay:0s"/>
-            <text   x="143"  y="44"           class="radar-lbl">CRM</text>
-            <circle cx="67"  cy="54" r="8"   class="radar-glow" style="animation-delay:.8s"/>
-            <circle cx="67"  cy="54" r="2.5" class="radar-core" style="animation-delay:.8s"/>
-            <text   x="50"   y="51"           class="radar-lbl">HR</text>
-            <circle cx="148" cy="98" r="8"   class="radar-glow" style="animation-delay:1.6s"/>
-            <circle cx="148" cy="98" r="3"   class="radar-core" style="animation-delay:1.6s"/>
-            <text   x="157"  y="95"           class="radar-lbl">OPS</text>
-            <circle cx="70"  cy="106" r="7"  class="radar-glow" style="animation-delay:2.4s"/>
-            <circle cx="70"  cy="106" r="2.5" class="radar-core" style="animation-delay:2.4s"/>
-            <text   x="52"   y="103"          class="radar-lbl">MKT</text>
-            <circle cx="120" cy="116" r="7"  class="radar-glow" style="animation-delay:3.2s"/>
-            <circle cx="120" cy="116" r="2.5" class="radar-core" style="animation-delay:3.2s"/>
-            <text   x="128"  y="113"          class="radar-lbl">FIN</text>
-          </svg>
-        </div>
-        <h3 class="step-title">אבחון, מיפוי ותכנון אסטרטגי</h3>
-        <p class="step-desc">
-          פגישת התנעה מקצועית להבנת "צווארי הבקבוק" של העסק. נגדיר יחד אילו מחלקות דורשות
-          הדרכה, היכן נדרשת אוטומציה, ואילו ממשקים יוכלו לשרת אתכם בצורה מיטבית.
-        </p>
-        <div class="step-list">
-          <div class="step-item"><span class="step-dot"></span>מיפוי צווארי בקבוק בתהליכים</div>
-          <div class="step-item"><span class="step-dot"></span>הגדרת יעדים ומדדי הצלחה</div>
-          <div class="step-item"><span class="step-dot"></span>בניית תוכנית עבודה מפורטת</div>
-        </div>
+    <div class="cs__stage">
+      <!-- connector rail: line + numbered milestone nodes + ticks -->
+      <div class="cs__rail" aria-hidden="true">
+        <div class="cs__track"></div>
+        <div class="cs__fill"></div>
+        <div class="cs__node cs__node--1"><span>01</span></div>
+        <div class="cs__node cs__node--2"><span>02</span></div>
+        <div class="cs__node cs__node--3"><span>03</span></div>
+        <div class="cs__tick cs__tick--1"></div>
+        <div class="cs__tick cs__tick--2"></div>
+        <div class="cs__tick cs__tick--3"></div>
       </div>
 
-      <!-- ── Step 2: Build Log / Implementation ── -->
-      <div class="process-step reveal" style="transition-delay:.12s">
-        <div class="step-visual step-visual--log" aria-hidden="true">
-          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Initializing workspace</span><span class="log-ok">✓</span></div>
-          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Connecting APIs &amp; CRM</span><span class="log-ok">✓</span></div>
-          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Deploying automations</span><span class="log-ok">✓</span></div>
-          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Training team modules</span><span class="log-run">▶</span></div>
-          <div class="log-ln"><span class="log-p">▸</span><span class="log-t">Going live...</span><span class="log-wait">·</span></div>
-        </div>
-        <h3 class="step-title">בנייה, פיתוח והטמעה</h3>
-        <p class="step-desc">
-          מעבר לביצוע בשטח. אנו מפתחים מערכות, מחברים אוטומציות, ומעבירים הכשרות לצוותים.
-          הכל מבוצע בצורה חלקה ומקצועית, תוך שמירה על רציפות תפקודית מלאה.
-        </p>
-        <div class="step-chips">
-          <span class="step-chip">n8n</span>
-          <span class="step-chip">Make</span>
-          <span class="step-chip">GPT-4o</span>
-          <span class="step-chip">Zapier</span>
-          <span class="step-chip">React</span>
-          <span class="step-chip">Node.js</span>
-        </div>
-      </div>
+      <!-- panels: 01 right → 03 left (RTL flow) -->
+      <ol class="cs__steps">
+        <li class="cs__panel cs__panel--1">
+          <span class="cs__ghost">01</span>
+          <div class="cs__prow"><span class="cs__pnum">// שלב 01</span><span class="cs__pdur">שבוע 1–2</span></div>
+          <h3 class="cs__ptitle">אבחון, מיפוי ותכנון אסטרטגי</h3>
+          <p class="cs__pdesc">פגישת התנעה מקצועית להבנת "צווארי הבקבוק" של העסק. נגדיר יחד אילו מחלקות דורשות הדרכה, היכן נדרשת אוטומציה, ואילו ממשקים יוכלו לשרת אתכם בצורה מיטבית.</p>
+          <div class="cs__meta">
+            <div class="cs__list">
+              <div class="cs__li"><b>▸</b>מיפוי צווארי בקבוק בתהליכים</div>
+              <div class="cs__li"><b>▸</b>הגדרת יעדים ומדדי הצלחה</div>
+              <div class="cs__li"><b>▸</b>בניית תוכנית עבודה מפורטת</div>
+            </div>
+          </div>
+        </li>
 
-      <!-- ── Step 3: Line Chart / Measurement ── -->
-      <div class="process-step reveal" style="transition-delay:.24s">
-        <div class="step-visual" aria-hidden="true">
-          <svg viewBox="0 0 200 150" style="width:100%;height:100%;display:block">
-            <!-- grid lines -->
-            <line x1="22" y1="22"  x2="22"  y2="118" class="chart-grid-ln"/>
-            <line x1="22" y1="118" x2="185" y2="118" class="chart-grid-ln"/>
-            <line x1="22" y1="88"  x2="185" y2="88"  class="chart-grid-ln" style="stroke-dasharray:4 4"/>
-            <line x1="22" y1="62"  x2="185" y2="62"  class="chart-grid-ln" style="stroke-dasharray:4 4"/>
-            <line x1="22" y1="36"  x2="185" y2="36"  class="chart-grid-ln" style="stroke-dasharray:4 4"/>
-            <!-- area under curve -->
-            <path d="M26,105 L66,87 L106,66 L146,44 L183,30 L183,118 L26,118 Z" class="chart-area"/>
-            <!-- main line -->
-            <path d="M26,105 L66,87 L106,66 L146,44 L183,30" class="chart-line"/>
-            <!-- data points -->
-            <circle cx="26"  cy="105" r="4" class="chart-pt"/>
-            <circle cx="66"  cy="87"  r="4" class="chart-pt"/>
-            <circle cx="106" cy="66"  r="4" class="chart-pt"/>
-            <circle cx="146" cy="44"  r="4" class="chart-pt"/>
-            <circle cx="183" cy="30"  r="4" class="chart-pt"/>
-            <!-- peak label -->
-            <text x="183" y="22" class="chart-peak">+3×</text>
-            <!-- month labels -->
-            <text x="26"  y="128" class="chart-ax-lbl">M1</text>
-            <text x="66"  y="128" class="chart-ax-lbl">M2</text>
-            <text x="106" y="128" class="chart-ax-lbl">M3</text>
-            <text x="146" y="128" class="chart-ax-lbl">M4</text>
-            <text x="183" y="128" class="chart-ax-lbl">M5</text>
-          </svg>
-        </div>
-        <h3 class="step-title">ליווי, מדידה ושותפות</h3>
-        <p class="step-desc">
-          לא מספקים מוצר ונעלמים. נקודת קשר מקצועית שמוודאת שהצוותים מיישמים,
-          האוטומציות מתפקדות, ומתאימה את המערכות לצמיחה העתידית של הארגון.
-        </p>
-        <div class="step-metrics">
-          <div class="step-metric"><span class="metric-val">12×</span><span class="metric-lbl">monthly<br/>reports</span></div>
-          <div class="step-metric"><span class="metric-val">24/7</span><span class="metric-lbl">live<br/>monitoring</span></div>
-          <div class="step-metric"><span class="metric-val">∞</span><span class="metric-lbl">endless<br/>iterations</span></div>
-        </div>
-      </div>
+        <li class="cs__panel cs__panel--2">
+          <span class="cs__ghost">02</span>
+          <div class="cs__prow"><span class="cs__pnum">// שלב 02</span><span class="cs__pdur">שבוע 3–6</span></div>
+          <h3 class="cs__ptitle">בנייה, פיתוח והטמעה</h3>
+          <p class="cs__pdesc">מעבר לביצוע בשטח. אנו מפתחים מערכות, מחברים אוטומציות, ומעבירים הכשרות לצוותים — הכל בצורה חלקה ומקצועית, תוך שמירה על רציפות תפקודית מלאה.</p>
+          <div class="cs__meta">
+            <div class="cs__tags">
+              <span class="cs__tag">n8n</span><span class="cs__tag">Make</span><span class="cs__tag">GPT-4o</span>
+              <span class="cs__tag">Zapier</span><span class="cs__tag">React</span><span class="cs__tag">Node.js</span>
+            </div>
+          </div>
+        </li>
 
+        <li class="cs__panel cs__panel--3">
+          <span class="cs__ghost">03</span>
+          <div class="cs__prow"><span class="cs__pnum">// שלב 03</span><span class="cs__pdur">שוטף</span></div>
+          <h3 class="cs__ptitle">ליווי, מדידה ושותפות</h3>
+          <p class="cs__pdesc">לא מספקים מוצר ונעלמים. נקודת קשר מקצועית שמוודאת שהצוותים מיישמים, האוטומציות מתפקדות, ומתאימה את המערכות לצמיחה העתידית של הארגון.</p>
+          <div class="cs__meta">
+            <div class="cs__stats">
+              <div class="cs__stat"><b>12×</b><span>דוחות חודשיים</span></div>
+              <div class="cs__stat"><b>24/7</b><span>ניטור חי</span></div>
+              <div class="cs__stat"><b>∞</b><span>איטרציות</span></div>
+            </div>
+          </div>
+        </li>
+      </ol>
     </div>
   </div>
-  </div><!-- /process-inner -->
 </section>
+
 
 
 <!-- ═══════════════════════════════════════
@@ -2894,41 +2770,18 @@ if(document.readyState === 'loading'){
   })();
 
 
-  /* ─── Process connector line ─── */
-  const pLine=document.getElementById('processLine');
-  const pGrid=document.getElementById('processGrid');
-  if(pLine && pGrid){
-    function checkProcessLine(){
-      const r=pGrid.getBoundingClientRect();
-      const vh=window.innerHeight||document.documentElement.clientHeight;
-      if(r.top < vh * 0.8){ pLine.classList.add('visible'); window.removeEventListener('scroll',checkProcessLine); }
-    }
-    window.addEventListener('scroll', checkProcessLine, {passive:true});
-    if('IntersectionObserver' in window){
-      const pObs=new IntersectionObserver(entries=>{
-        entries.forEach(e=>{ if(e.isIntersecting){ pLine.classList.add('visible'); pObs.unobserve(e.target); } });
-      },{threshold:.25});
-      pObs.observe(pGrid);
-    }
-    checkProcessLine();
-  }
-
-  /* ─── Process scroll progress bar ─── */
-  const procSection=document.getElementById('process');
-  const procFill=document.getElementById('processProgressFill');
-  if(procSection && procFill && !prefersReduced){
-    window.addEventListener('scroll',()=>{
-      const r=procSection.getBoundingClientRect();
-      const sectionH=procSection.offsetHeight;
-      const vh=window.innerHeight;
-      // how far we've scrolled INTO the section
-      const scrolled = -r.top;
-      const total = sectionH - vh;
-      if(total <= 0) return;
-      const pct = Math.min(Math.max(scrolled/total*100,0),100);
-      procFill.style.width = pct+'%';
-    },{passive:true});
-  }
+  /* ─── Process section: handoff v2 animation (is-in class) ─── */
+  (function(){
+    var cs = document.getElementById('process');
+    if(!cs) return;
+    if(!('IntersectionObserver' in window)){ cs.classList.add('is-in'); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ cs.classList.add('is-in'); io.disconnect(); }
+      });
+    },{ threshold: 0.35 });
+    io.observe(cs);
+  })();
 
   /* ─── Multi-Step Contact Form ─── */
   (function(){
