@@ -1304,22 +1304,21 @@
        MOBILE-ONLY FIXES (≤900px) — do NOT affect desktop
     ═══════════════════════════════════════ */
 
-    /* 1. Hero — show inline video below CTAs, hide background video */
-    .hero-vid-mob{display:none}
+    /* 1. Hero — fullbleed background video on mobile */
+    .hero-vid-mob{display:none!important} /* always hidden — bg video is used instead */
     @media(max-width:900px){
-      .hero-video-bg{display:none!important}
-      .hero-vid-mob{
-        display:block;
-        width:100vw;
-        margin-left:calc(50% - 50vw);
-        margin-right:calc(50% - 50vw);
-        aspect-ratio:16/9;
+      .hero-video-bg{
+        display:block!important;
+        position:absolute;
+        top:0;left:0;
+        width:100%!important;
+        height:100%!important;
+        min-width:unset;
         object-fit:cover;
-        border-radius:0;
-        margin-top:24px;
-        opacity:.9;
-        -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 10%,black 100%);
-        mask-image:linear-gradient(to bottom,transparent 0%,black 10%,black 100%);
+        opacity:.45;
+        -webkit-mask-image:none;
+        mask-image:none;
+        filter:saturate(1.2) brightness(.9);
       }
     }
 
