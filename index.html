@@ -1362,11 +1362,11 @@
         pointer-events:none;
         z-index:2;
       }
-      /* numbered circles — positioned on the line to the right of the panel */
+      /* numbered circles — centered on the border line */
       .cs__panel::before{
         content: attr(data-mob-num);
         position:absolute;
-        inset-inline-start:-54px;
+        inset-inline-start:-38px;
         top:16px;
         width:32px;height:32px;
         border-radius:50%;
@@ -2894,10 +2894,14 @@ if(document.readyState === 'loading'){
       /* fill percentage of the line */
       var pct = Math.min(Math.max((-stepsR.top + vh * 0.6) / stepsR.height * 100, 0), 100);
       steps.style.setProperty('--mob-line-fill', pct.toFixed(1) + '%');
-      /* trigger each panel's numbered dot when it scrolls 70% into view */
+      /* trigger each panel's numbered dot — add on scroll down, remove on scroll up */
       panels.forEach(function(p){
         var r = p.getBoundingClientRect();
-        if(r.top < vh * 0.72) p.classList.add('mob-dot-vis');
+        if(r.top < vh * 0.72){
+          p.classList.add('mob-dot-vis');
+        } else {
+          p.classList.remove('mob-dot-vis');
+        }
       });
     }
     window.addEventListener('scroll', updateMobLine, {passive:true});
