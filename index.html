@@ -1338,13 +1338,14 @@
       .why-feat--vis-first .wf-visual{order:2}
     }
 
-    /* 4. Process mobile — scroll-driven green fill on left line */
+    /* 4. Process mobile — scroll-driven green fill + numbered dots */
     @media(max-width:760px){
       .cs__steps{
         position:relative;
-        /* static track stays as background */
         border-inline-start:2px solid rgba(196,241,44,.12);
+        padding-inline-start:30px; /* more room for larger dot */
       }
+      /* fill overlay */
       .cs__steps::after{
         content:'';
         position:absolute;
@@ -1356,6 +1357,46 @@
         box-shadow:0 0 10px rgba(196,241,44,.6);
         transition:height .08s linear;
         pointer-events:none;
+      }
+      /* numbered circles via ::before + data-mob-num */
+      .cs__panel::before{
+        content: attr(data-mob-num);
+        position:absolute;
+        inset-inline-start:-46px;
+        top:20px;
+        width:32px;height:32px;
+        border-radius:50%;
+        background:rgba(196,241,44,.08);
+        border:2px solid rgba(196,241,44,.25);
+        color:var(--cs-neon);
+        font-family:var(--cs-en,'Space Grotesk',sans-serif);
+        font-weight:700;font-size:12px;
+        display:flex;align-items:center;justify-content:center;
+        box-shadow:none;
+        transform:scale(0);opacity:0;
+        transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s,background .3s,border-color .3s;
+      }
+      .cs__panel.mob-dot-vis::before{
+        transform:scale(1);opacity:1;
+        background:var(--cs-neon);
+        border-color:var(--cs-neon);
+        color:var(--cs-ink);
+        box-shadow:0 0 0 5px rgba(196,241,44,.16),0 0 16px rgba(196,241,44,.5);
+      }
+    }
+
+    /* Hero fullbleed video on mobile */
+    @media(max-width:900px){
+      .hero-vid-mob{
+        width:calc(100% + 2 * clamp(20px,4vw,56px));
+        margin-inline-start:calc(-1 * clamp(20px,4vw,56px));
+        aspect-ratio:16/9;
+        object-fit:cover;
+        border-radius:0;
+        margin-top:24px;
+        opacity:.9;
+        -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 100%);
+        mask-image:linear-gradient(to bottom,transparent 0%,black 12%,black 100%);
       }
     }
 
@@ -2253,7 +2294,7 @@
 
       <!-- panels: 01 right → 03 left (RTL flow) -->
       <ol class="cs__steps">
-        <li class="cs__panel cs__panel--1">
+        <li class="cs__panel cs__panel--1" data-mob-num="01">
           <span class="cs__ghost">01</span>
           <div class="cs__prow"><span class="cs__pnum">// שלב 01</span><span class="cs__pdur">שבוע 1–2</span></div>
           <h3 class="cs__ptitle">אבחון, מיפוי ותכנון אסטרטגי</h3>
@@ -2267,7 +2308,7 @@
           </div>
         </li>
 
-        <li class="cs__panel cs__panel--2">
+        <li class="cs__panel cs__panel--2" data-mob-num="02">
           <span class="cs__ghost">02</span>
           <div class="cs__prow"><span class="cs__pnum">// שלב 02</span><span class="cs__pdur">שבוע 3–6</span></div>
           <h3 class="cs__ptitle">בנייה, פיתוח והטמעה</h3>
@@ -2280,7 +2321,7 @@
           </div>
         </li>
 
-        <li class="cs__panel cs__panel--3">
+        <li class="cs__panel cs__panel--3" data-mob-num="03">
           <span class="cs__ghost">03</span>
           <div class="cs__prow"><span class="cs__pnum">// שלב 03</span><span class="cs__pdur">שוטף</span></div>
           <h3 class="cs__ptitle">ליווי, מדידה ושותפות</h3>
@@ -2833,17 +2874,23 @@ if(document.readyState === 'loading'){
   })();
 
 
-  /* ─── Process mobile — scroll-driven green line fill ─── */
+  /* ─── Process mobile — scroll-driven line fill + numbered dot pop-in ─── */
   (function(){
     var steps = document.querySelector('.cs__steps');
     if(!steps) return;
+    var panels = steps.querySelectorAll('.cs__panel');
     function updateMobLine(){
       if(window.innerWidth > 760) return;
-      var r = steps.getBoundingClientRect();
+      var stepsR = steps.getBoundingClientRect();
       var vh = window.innerHeight;
-      /* how far we've scrolled through the steps container */
-      var pct = Math.min(Math.max((-r.top + vh * 0.6) / r.height * 100, 0), 100);
+      /* fill percentage of the line */
+      var pct = Math.min(Math.max((-stepsR.top + vh * 0.6) / stepsR.height * 100, 0), 100);
       steps.style.setProperty('--mob-line-fill', pct.toFixed(1) + '%');
+      /* trigger each panel's numbered dot when it scrolls 70% into view */
+      panels.forEach(function(p){
+        var r = p.getBoundingClientRect();
+        if(r.top < vh * 0.72) p.classList.add('mob-dot-vis');
+      });
     }
     window.addEventListener('scroll', updateMobLine, {passive:true});
     window.addEventListener('resize', updateMobLine, {passive:true});
