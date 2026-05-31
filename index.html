@@ -458,18 +458,21 @@
       .hero-actions{display:none!important}
       /* hero height */
       .hero{min-height:92vh!important;height:92vh!important}
-      /* video pushed low — bottom will crop */
-      .hero-video-bg{object-position:center bottom;opacity:.95}
-      /* solid black until 68%, then short sharp fade into video */
-      .hero::before{
-        content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
-        background:linear-gradient(to bottom,
-          #0A0A0A 0%,
-          #0A0A0A 55%,
-          transparent 58%);
+      /* video physically starts at 50% — hero black bg covers the top half */
+      .hero-video-bg{
+        top:50%!important;
+        height:50%!important;
+        width:100%!important;
+        min-width:unset!important;
+        object-position:center top;
+        opacity:.95;
+        -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 8%);
+        mask-image:linear-gradient(to bottom,transparent 0%,black 8%);
+        filter:saturate(1.2) brightness(.9);
       }
+      /* no gradient overlay — hero bg black handles the top */
+      .hero::before{display:none}
       .hero-inner{z-index:3}
-      /* reset h1 — no card */
       .hero-h1{background:none;border-radius:0;padding:0;display:block;margin-bottom:0}
     }
 
