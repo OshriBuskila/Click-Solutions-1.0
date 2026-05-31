@@ -1237,22 +1237,22 @@
       animation:cfabPulse 2.6s ease-in-out infinite;
       overflow:hidden;
     }
-    /* phone icon — transparent PNG, dark icon on neon bg */
+    /* phone icon SVG */
     .cfab__icon{
-      width:84%;height:84%;
-      object-fit:contain;
+      width:68%;height:68%;
+      fill:#0A0A0A;stroke:#0A0A0A;
       transform:scaleX(-1);
-      transition:transform .35s var(--cs-pop,cubic-bezier(.34,1.56,.64,1)),filter .25s;
-      display:block;flex-shrink:0;
+      transition:transform .35s var(--cs-pop,cubic-bezier(.34,1.56,.64,1)),
+                 fill .25s, stroke .25s;
+      overflow:visible;
     }
     .cfab__toggle:hover{transform:scale(1.07)}
-    /* when open: dark bg, icon turns neon */
     .cfab.is-open .cfab__toggle{
       animation:none;background:#0A0A0A;
       box-shadow:0 4px 22px rgba(0,0,0,.5),0 0 0 1px rgba(196,241,44,.4);
     }
     .cfab.is-open .cfab__icon{
-      filter:invert(77%) sepia(68%) saturate(600%) hue-rotate(28deg) brightness(105%);
+      fill:var(--neon);stroke:var(--neon);
       transform:scaleX(-1) rotate(135deg);
     }
     @keyframes cfabPulse{
@@ -3430,9 +3430,16 @@ if(document.readyState === 'loading'){
     </svg>
   </a>
 
-  <!-- Trigger — exact icon file -->
+  <!-- Trigger -->
   <button class="cfab__toggle" id="cfabToggle" aria-label="צרו קשר" aria-expanded="false">
-    <img src="phone-icon.png" class="cfab__icon" alt="" aria-hidden="true">
+    <svg class="cfab__icon" viewBox="0 0 100 100" aria-hidden="true">
+      <!-- phone handset — thick rounded shape matching reference -->
+      <path d="M28 14c-4 0-7 3-7 7v4c0 2 1 3 3 4l8 3c1 1 2 0 3-1l4-5c7 3 13 9 16 16l-5 4c-1 1-2 2-1 3l3 8c1 2 2 3 4 3h4c4 0 7-3 7-7C67 36 52 14 28 14z"/>
+      <!-- inner arc -->
+      <path fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" d="M62 28 a18 18 0 0 1 0 26"/>
+      <!-- outer arc -->
+      <path fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" d="M70 20 a30 30 0 0 1 0 42"/>
+    </svg>
   </button>
 </div>
 
