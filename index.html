@@ -441,8 +441,9 @@
       margin-inline-end:auto; /* RTL: pushes content toward right edge */
     }
     @media(max-width:860px){
+      .mob-hide{display:none!important}
       .hero{align-items:flex-start}
-      .hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:8px 0 48px}
+      .hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:8px 0 0;min-height:calc(100vh - var(--nav-h));position:relative}
       .hero-content{width:100%;margin-inline-end:0;overflow:visible}
       /* dark backdrop only behind the subtitle paragraph */
       .hero-sub{
@@ -452,6 +453,14 @@
         border-radius:8px;
         padding:10px 14px;
         display:inline-block;
+      }
+      /* CTAs pinned to bottom of hero */
+      .hero-actions{
+        position:absolute;
+        bottom:32px;
+        right:0;left:0;
+        display:flex;gap:12px;
+        flex-wrap:wrap;
       }
     }
 
@@ -2075,7 +2084,7 @@
 
       <!-- text content — right column in RTL -->
       <div class="hero-content">
-        <p class="hero-eyebrow">// AI &middot; הדרכות &middot; אוטומציות &middot; פיתוח מערכות</p>
+        <p class="hero-eyebrow">// AI &middot; הדרכות &middot; אוטומציות &middot; פיתוח<span class="mob-hide"> מערכות</span></p>
 
         <h1 class="hero-h1" id="hero-h1">
           <span class="hero-word" data-delay="0.4">המנוע</span>&#32;
@@ -2091,7 +2100,7 @@
         </p>
 
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary btn-lg" style="padding:19px 38px;font-size:1.05rem;box-shadow:0 0 32px rgba(196,241,44,.35)">ליצירת קשר ←</a>
+          <a href="#contact" class="btn btn-primary btn-lg" style="padding:19px 38px;font-size:1.05rem;box-shadow:0 0 32px rgba(196,241,44,.35)">ליצירת קשר<span class="mob-hide"> ←</span></a>
           <a href="#services" class="btn btn-ghost-light btn-lg" style="opacity:.7">הפתרונות שלנו</a>
         </div>
         <!-- mobile-only hero video: appears below CTAs -->
