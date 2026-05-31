@@ -1299,6 +1299,72 @@
       .cfab{bottom:24px;right:24px}
     }
 
+    /* ── Call card modal (desktop phone option) ── */
+    .callcard{
+      position:fixed;inset:0;z-index:300;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(8,8,8,.72);
+      backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+      opacity:0;pointer-events:none;
+      transition:opacity .28s var(--ease);
+    }
+    .callcard.is-open{opacity:1;pointer-events:auto}
+    .callcard__box{
+      position:relative;
+      width:min(340px,90vw);
+      background:linear-gradient(180deg,#161616,#0d0d0d);
+      border:1px solid rgba(196,241,44,.2);
+      border-radius:20px;
+      padding:38px 30px 30px;
+      text-align:center;
+      box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 40px rgba(196,241,44,.08);
+      transform:translateY(18px) scale(.96);
+      transition:transform .35s var(--cs-pop,cubic-bezier(.34,1.56,.64,1));
+    }
+    .callcard.is-open .callcard__box{transform:translateY(0) scale(1)}
+    .callcard__close{
+      position:absolute;top:12px;left:14px;
+      width:32px;height:32px;border-radius:50%;
+      background:rgba(255,255,255,.06);border:none;
+      color:var(--fg2);font-size:22px;line-height:1;cursor:pointer;
+      transition:background .2s,color .2s;
+    }
+    .callcard__close:hover{background:rgba(255,255,255,.12);color:var(--fg)}
+    .callcard__avatar{
+      width:74px;height:74px;border-radius:50%;margin:0 auto 16px;
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--font-he);font-weight:800;font-size:30px;color:#0A0A0A;
+      background:var(--neon);
+      box-shadow:0 0 0 6px rgba(196,241,44,.12),0 6px 20px rgba(196,241,44,.3);
+    }
+    .callcard__name{font-family:var(--font-he);font-weight:800;font-size:22px;color:var(--fg);margin:0 0 4px}
+    .callcard__role{font-family:var(--font-mo);font-size:11px;letter-spacing:1px;color:var(--fg3);margin:0 0 20px;text-transform:uppercase}
+    .callcard__num{
+      display:block;
+      font-family:var(--font-en),monospace;font-weight:700;
+      font-size:30px;letter-spacing:1px;color:var(--neon-h);
+      text-decoration:none;margin-bottom:24px;
+      transition:color .2s;
+    }
+    .callcard__num:hover{color:var(--neon)}
+    .callcard__actions{display:flex;gap:10px}
+    .callcard__btn{
+      flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+      padding:13px 10px;border-radius:11px;
+      font-family:var(--font-he);font-weight:700;font-size:14px;
+      cursor:pointer;border:none;text-decoration:none;
+      transition:transform .15s,box-shadow .2s,background .2s;
+    }
+    .callcard__btn svg{width:18px;height:18px;flex-shrink:0}
+    .callcard__btn--call{background:var(--neon);color:#0A0A0A}
+    .callcard__btn--call svg{fill:#0A0A0A}
+    .callcard__btn--call:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(196,241,44,.4)}
+    .callcard__btn--copy{background:rgba(255,255,255,.06);color:var(--fg);border:1px solid rgba(255,255,255,.12)}
+    .callcard__btn--copy svg{fill:var(--fg2)}
+    .callcard__btn--copy:hover{background:rgba(255,255,255,.12)}
+    .callcard__btn--copy.copied{background:rgba(196,241,44,.15);color:var(--neon);border-color:rgba(196,241,44,.4)}
+    .callcard__btn--copy.copied svg{fill:var(--neon)}
+
     /* ═══════════════════════════════════════
        QUOTE CTA BAND
     ═══════════════════════════════════════ */
@@ -3414,8 +3480,8 @@ if(document.readyState === 'loading'){
     </svg>
   </a>
 
-  <!-- Phone -->
-  <a class="cfab__item cfab__item--tel"
+  <!-- Phone — desktop opens a call card, mobile dials directly -->
+  <a class="cfab__item cfab__item--tel" id="cfabTel"
      data-label="חייגו אלינו"
      href="tel:0505724571"
      aria-label="התקשרו אלינו" tabindex="-1">
@@ -3429,6 +3495,27 @@ if(document.readyState === 'loading'){
     <img src="phone-neon.png" class="cfab__icon cfab__icon--neon" alt="" aria-hidden="true">
     <img src="phone-dark.png" class="cfab__icon cfab__icon--dark" alt="" aria-hidden="true">
   </button>
+</div>
+
+<!-- Call card (desktop) -->
+<div id="callCard" class="callcard" aria-hidden="true">
+  <div class="callcard__box" role="dialog" aria-label="פרטי התקשרות" aria-modal="true">
+    <button class="callcard__close" id="callCardClose" aria-label="סגור">&times;</button>
+    <div class="callcard__avatar" aria-hidden="true">ב</div>
+    <p class="callcard__name">בראל הושמנד</p>
+    <p class="callcard__role">פיתוח עסקי · Click Solutions</p>
+    <a class="callcard__num" href="tel:0505724571" dir="ltr">050-572-4571</a>
+    <div class="callcard__actions">
+      <a class="callcard__btn callcard__btn--call" href="tel:0505724571">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.53 15.53 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.36 11.36 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.57 1 1 0 0 1-.24 1.02l-2.21 2.2z"/></svg>
+        חייגו עכשיו
+      </a>
+      <button class="callcard__btn callcard__btn--copy" id="callCardCopy">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg>
+        <span id="callCardCopyText">העתק מספר</span>
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- Accessibility Widget -->
@@ -3499,6 +3586,40 @@ if(document.readyState === 'loading'){
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape') setOpen(false);
   });
+
+  /* ── Phone: on desktop open call card instead of dialing ── */
+  var card = document.getElementById('callCard');
+  var tel = document.getElementById('cfabTel');
+  var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function openCard(){ if(card){ card.classList.add('is-open'); card.setAttribute('aria-hidden','false'); } }
+  function closeCard(){ if(card){ card.classList.remove('is-open'); card.setAttribute('aria-hidden','true'); } }
+  if(tel && card && isDesktop){
+    tel.addEventListener('click', function(e){
+      e.preventDefault();
+      setOpen(false);
+      openCard();
+    });
+    document.getElementById('callCardClose').addEventListener('click', closeCard);
+    card.addEventListener('click', function(e){ if(e.target === card) closeCard(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeCard(); });
+    /* copy number */
+    var copyBtn = document.getElementById('callCardCopy');
+    var copyTxt = document.getElementById('callCardCopyText');
+    copyBtn.addEventListener('click', function(){
+      var num = '050-572-4571';
+      function done(){
+        copyBtn.classList.add('copied');
+        copyTxt.textContent = 'הועתק!';
+        setTimeout(function(){ copyBtn.classList.remove('copied'); copyTxt.textContent='העתק מספר'; }, 1800);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(num).then(done).catch(done);
+      } else {
+        var t=document.createElement('textarea');t.value=num;document.body.appendChild(t);t.select();
+        try{document.execCommand('copy');}catch(_){}document.body.removeChild(t);done();
+      }
+    });
+  }
 })();
 </script>
 
