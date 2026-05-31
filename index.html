@@ -3336,34 +3336,6 @@ if(document.readyState === 'loading'){
     }, 3200);
   })();
 
-  /* ─── Contact speed-dial (FAB) ─── */
-  (function(){
-    const fab = document.getElementById('contact-fab');
-    const toggle = document.getElementById('cfabToggle');
-    if(!fab || !toggle) return;
-    const items = fab.querySelectorAll('.cfab__item');
-
-    function setOpen(open){
-      fab.classList.toggle('is-open', open);
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      items.forEach(a => a.setAttribute('tabindex', open ? '0' : '-1'));
-    }
-    toggle.addEventListener('click', e=>{
-      e.stopPropagation();
-      setOpen(!fab.classList.contains('is-open'));
-    });
-    /* close when an action is chosen */
-    items.forEach(a => a.addEventListener('click', ()=> setOpen(false)));
-    /* close on outside click */
-    document.addEventListener('click', e=>{
-      if(!fab.contains(e.target)) setOpen(false);
-    });
-    /* close on Escape */
-    document.addEventListener('keydown', e=>{
-      if(e.key === 'Escape') setOpen(false);
-    });
-  })();
-
   /* ─── Back to Top ─── */
   const btt = document.getElementById('back-to-top');
   if(btt){
@@ -3503,6 +3475,34 @@ if(document.readyState === 'loading'){
   });
 
   /* Keyboard: Enter / Space already trigger click on <button> natively */
+})();
+
+/* ─── Contact speed-dial (FAB) ─── */
+(function(){
+  var fab = document.getElementById('contact-fab');
+  var toggle = document.getElementById('cfabToggle');
+  if(!fab || !toggle) return;
+  var items = fab.querySelectorAll('.cfab__item');
+
+  function setOpen(open){
+    fab.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    items.forEach(function(a){ a.setAttribute('tabindex', open ? '0' : '-1'); });
+  }
+  toggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    setOpen(!fab.classList.contains('is-open'));
+  });
+  /* close when an action is chosen */
+  items.forEach(function(a){ a.addEventListener('click', function(){ setOpen(false); }); });
+  /* close on outside click */
+  document.addEventListener('click', function(e){
+    if(!fab.contains(e.target)) setOpen(false);
+  });
+  /* close on Escape */
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') setOpen(false);
+  });
 })();
 </script>
 
