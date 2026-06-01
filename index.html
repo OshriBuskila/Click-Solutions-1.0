@@ -3043,18 +3043,37 @@ if(document.readyState === 'loading'){
     }
   });
 
-  /* ─── Navbar state (light when over light sections) ─── */
+  /* ─── Navbar state: auto dark/light based on section background ─── */
   const navbar = document.getElementById('navbar');
-  const lightSections = ['services','process','why-us','contact'];
-  // Actually simplify: change based on scroll position
-  const heroBoundary = ()=> heroEl.offsetHeight;
-  function updateNav(){
-    const y=window.scrollY;
-    navbar.classList.toggle('scrolled', y>12);
-    // switch to light after hero
-    navbar.classList.toggle('light', y > heroBoundary()-80);
+  let _sectionMap = [];
+  function _buildMap(){
+    _sectionMap = [];
+    document.querySelectorAll('section, .logo-bar, footer').forEach(function(el){
+      const bg = window.getComputedStyle(el).backgroundColor;
+      const m  = bg.match(/[\d.]+/g);
+      let light = false;
+      if(m && !(m.length >= 4 && +m[3] < 0.5)){
+        /* luminance > 0.5 = light background → navbar switches to dark-on-light */
+        light = (0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2]) / 255 > 0.5;
+      }
+      _sectionMap.push({ top: el.getBoundingClientRect().top + window.scrollY, light: light });
+    });
+    _sectionMap.sort(function(a,b){ return a.top - b.top; });
   }
-  window.addEventListener('scroll', updateNav, {passive:true});
+  _buildMap();
+  window.addEventListener('resize', _buildMap, { passive: true });
+  function updateNav(){
+    const y = window.scrollY;
+    navbar.classList.toggle('scrolled', y > 12);
+    /* which section sits behind the navbar mid-point? */
+    const navMid = y + navbar.offsetHeight / 2;
+    let light = false;
+    for(let i = _sectionMap.length - 1; i >= 0; i--){
+      if(navMid >= _sectionMap[i].top){ light = _sectionMap[i].light; break; }
+    }
+    navbar.classList.toggle('light', light);
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
   updateNav();
 
   /* ─── Mobile menu ─── */
