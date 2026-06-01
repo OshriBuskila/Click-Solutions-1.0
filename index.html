@@ -159,7 +159,7 @@
     .logo{
       display:inline-flex;align-items:baseline;
       font-family:var(--font-en);font-weight:700;
-      font-size:18px;letter-spacing:-.05em;
+      font-size:22px;letter-spacing:-.05em;
       color:var(--fg);flex-shrink:0;
       transition:color .3s;
       direction:ltr; /* keep cursor on right side of English text */
@@ -201,12 +201,12 @@
       transform:translate(-50%,50%) scale(0);
       opacity:0;pointer-events:none;
     }
-    .logo--intro .lg-cl{animation:lgClIn 1.15s both}
-    .logo--intro .lg-ck{animation:lgCkIn 1.15s both}
-    .logo--intro .lg-stem{animation:lgStem 1.15s both}
-    .logo--intro .lg-dot{animation:lgDot 1.15s both}
-    .logo--intro .lg-i::after{animation:lgSpark 1.15s both}
-    .logo--intro .logo-cursor{animation:lgCursor 1.19s both, blink 1.1s step-start 1.19s infinite}
+    .logo--intro .lg-cl{animation:lgClIn 1.5s 2s both}
+    .logo--intro .lg-ck{animation:lgCkIn 1.5s 2s both}
+    .logo--intro .lg-stem{animation:lgStem 1.5s 2s both}
+    .logo--intro .lg-dot{animation:lgDot 1.5s 2s both}
+    .logo--intro .lg-i::after{animation:lgSpark 1.5s 2s both}
+    .logo--intro .logo-cursor{animation:lgCursor 1.54s 2s both, blink 1.1s step-start 3.54s infinite}
     @keyframes lgClIn{
       0%{opacity:0;transform:translateX(-2.6em);animation-timing-function:cubic-bezier(.14,.9,.28,1)}
       50%,100%{opacity:1;transform:translateX(0)}
