@@ -187,15 +187,15 @@
       background:currentColor;border-radius:.6px;
       will-change:transform,opacity;
     }
-    .lg-dot{
-      position:absolute;left:50%;bottom:.65em;    /* the brand's high "floating" i-dot, just above the ascender */
-      width:.135em;height:.135em;
+    .lg-dot{ /* matches the font's real i-dot: size, height and gap measured from the glyph */
+      position:absolute;left:50%;bottom:.555em;
+      width:.16em;height:.16em;
       transform:translateX(-50%);
-      background:var(--neon);border-radius:1px;
+      background:var(--neon);border-radius:.02em;
       will-change:transform,opacity;
     }
     .lg-i::after{ /* neon spark at the contact point */
-      content:'';position:absolute;left:50%;bottom:.58em;
+      content:'';position:absolute;left:50%;bottom:.5em;
       width:.62em;height:.62em;border-radius:50%;
       border:.09em solid var(--neon);
       transform:translate(-50%,50%) scale(0);
@@ -226,9 +226,9 @@
     @keyframes lgDot{
       0%{opacity:0;transform:translateX(2.6em) translateX(-50%) translateY(0);animation-timing-function:cubic-bezier(.14,.9,.28,1)}
       50%{opacity:1;transform:translateX(0) translateX(-50%) translateY(0);animation-timing-function:cubic-bezier(.5,0,.75,.3)}
-      58%{transform:translateX(0) translateX(-50%) translateY(.09em)}
-      65%{transform:translateX(0) translateX(-50%) translateY(.15em)}
-      83%{transform:translateX(0) translateX(-50%) translateY(-.05em)}
+      58%{transform:translateX(0) translateX(-50%) translateY(.05em)}
+      65%{transform:translateX(0) translateX(-50%) translateY(.08em)}
+      83%{transform:translateX(0) translateX(-50%) translateY(-.03em)}
       100%{transform:translateX(0) translateX(-50%) translateY(0)}
     }
     @keyframes lgSpark{
