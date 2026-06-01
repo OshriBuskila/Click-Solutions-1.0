@@ -182,20 +182,20 @@
     .lg-i{position:relative;display:inline-block;width:.27em;height:1em;vertical-align:baseline}
     .lg-stem{
       position:absolute;left:50%;bottom:0;        /* sit on the baseline, like cl/ck */
-      width:.115em;height:.52em;                  /* x-height: matches the body of the c */
+      width:.115em;height:.5em;                   /* x-height (matches the dotless-i stem of the font) */
       transform:translateX(-50%);transform-origin:50% 100%;
       background:currentColor;border-radius:.6px;
       will-change:transform,opacity;
     }
     .lg-dot{
-      position:absolute;left:50%;bottom:.6em;     /* dot top reaches the ascender line (l/k), not above */
+      position:absolute;left:50%;bottom:.65em;    /* the brand's high "floating" i-dot, just above the ascender */
       width:.135em;height:.135em;
       transform:translateX(-50%);
       background:var(--neon);border-radius:1px;
       will-change:transform,opacity;
     }
     .lg-i::after{ /* neon spark at the contact point */
-      content:'';position:absolute;left:50%;bottom:.55em;
+      content:'';position:absolute;left:50%;bottom:.58em;
       width:.62em;height:.62em;border-radius:50%;
       border:.09em solid var(--neon);
       transform:translate(-50%,50%) scale(0);
