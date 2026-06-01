@@ -188,8 +188,9 @@
       background:currentColor;border-radius:.6px;
       will-change:transform,opacity;
     }
-    .lg-dot{ /* round neon dot, raised slightly above the font default for presence (option B) */
-      position:absolute;left:.056em;bottom:.585em;
+    .lg-dot{ /* round neon dot. Sits clearly above the cap line so it survives
+                font-hinting at the small 22px navbar size (math-aligned reads as low there). */
+      position:absolute;left:.056em;bottom:.64em;
       width:.15em;height:.15em;
       background:var(--neon);border-radius:50%;
       will-change:transform,opacity;
