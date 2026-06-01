@@ -183,20 +183,19 @@
     .lg-i{position:relative;display:inline-block;width:.218em;height:1em;vertical-align:baseline}
     .lg-stem{
       position:absolute;left:.051em;bottom:0;      /* baseline-anchored, exact x from the font's i */
-      width:.16em;height:.5em;                     /* width + x-height taken from the real glyph */
+      width:.16em;height:.55em;                    /* x-height — matches the real glyph (was too short at .5) */
       transform-origin:50% 100%;
       background:currentColor;border-radius:.6px;
       will-change:transform,opacity;
     }
-    .lg-dot{ /* round neon dot. Sits clearly above the cap line so it survives
-                font-hinting at the small 22px navbar size (math-aligned reads as low there). */
-      position:absolute;left:.056em;bottom:.64em;
-      width:.15em;height:.15em;
+    .lg-dot{ /* round neon dot, calibrated to sit on the font's real i-dot above the stem */
+      position:absolute;left:.058em;bottom:.63em;
+      width:.145em;height:.145em;
       background:var(--neon);border-radius:50%;
       will-change:transform,opacity;
     }
     .lg-i::after{ /* neon spark at the contact point */
-      content:'';position:absolute;left:.131em;bottom:.5em;
+      content:'';position:absolute;left:.131em;bottom:.58em;
       width:.62em;height:.62em;border-radius:50%;
       border:.09em solid var(--neon);
       transform:translate(-50%,50%) scale(0);
